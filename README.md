@@ -47,7 +47,7 @@ This is where `tailwind_merge` comes in:
 # border rounded p-5
 ```
 
-tailwind-merge overrides conflicting classes and keeps everything else untouched. In the case of the `MySlightlyModifiedInput`, the input now only renders the classes `border rounded p-5`.
+tailwind-merge overrides conflicting classes and keeps everything else untouched. In the case of the your implementation of `ConfirmEmailComponent`, the input now only renders the classes `border rounded p-5`.
 
 ## Features
 
