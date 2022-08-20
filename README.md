@@ -73,7 +73,7 @@ tailwind-merge overrides conflicting classes and keeps everything else untouched
 ### Resolves non-trivial conflicts
 
 ```ruby
-twMe@merger.mergerge('inset-x-px -inset-1') # → '-inset-1'
+@merger.merge('inset-x-px -inset-1') # → '-inset-1'
 @merger.merge('bottom-auto inset-y-6') # → 'inset-y-6'
 @merger.merge('inline block') # → 'block'
 ```
