@@ -96,6 +96,7 @@ module TailwindMerge
       end.reverse.map { |parsed| parsed[:original_class_name] }.join(" ")
     end
 
+    SPLIT_MODIFIER_REGEX = /[:\[\]]/
     private def split_modifiers(class_name)
       modifiers = []
 
@@ -105,7 +106,7 @@ module TailwindMerge
       ss = StringScanner.new(class_name)
 
       until ss.eos?
-        portion = ss.scan_until(/[:\[\]]/)
+        portion = ss.scan_until(SPLIT_MODIFIER_REGEX)
 
         if portion.nil?
           ss.terminate
