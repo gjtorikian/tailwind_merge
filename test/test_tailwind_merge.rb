@@ -13,6 +13,7 @@ class TestTailwindMerge < Minitest::Test
 
   def test_it_basically_works
     assert_equal("mix-blend-multiply", @merger.merge("mix-blend-normal mix-blend-multiply"))
+    assert_equal("h-min", @merger.merge("h-10 h-min"))
     assert_equal("stroke-black stroke-1", @merger.merge("stroke-black stroke-1"))
     assert_equal("outline-black outline-1", @merger.merge("outline-black outline-1"))
     assert_equal("grayscale-[50%]", @merger.merge("grayscale-0 grayscale-[50%]"))
