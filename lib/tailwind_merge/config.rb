@@ -583,7 +583,7 @@ module TailwindMerge
         # Height
         # @see https://tailwindcss.com/docs/height
         ##
-        "h" => [{ "h" => SPACING_WITH_AUTO.call }],
+        "h" => [{ "h" => ["auto", "min", "max", "fit", SPACING] }],
         ##
         # Min-Height
         # @see https://tailwindcss.com/docs/min-height

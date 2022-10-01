@@ -63,7 +63,7 @@ module TailwindMerge
 
       prefixed_class_group_entries = get_prefixed_class_group_entries(
         config[:class_groups].map { |cg| [cg[0], cg[1]] },
-        prefix
+        prefix,
       )
 
       prefixed_class_group_entries.each do |(class_group_id, class_group)|
@@ -103,7 +103,7 @@ module TailwindMerge
               class_definition.call(@config),
               class_part_object,
               class_group_id,
-              theme
+              theme,
             )
             next
           end
@@ -121,7 +121,7 @@ module TailwindMerge
             class_group,
             get_class_part(class_part_object, key),
             class_group_id,
-            theme
+            theme,
           )
         end
       end
