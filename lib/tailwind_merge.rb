@@ -53,7 +53,7 @@ module TailwindMerge
       # @example 'md:!pr'
       class_groups_in_conflict = Set.new
 
-      classes.strip.split(SPLIT_CLASSES_REGEX).map do |original_class_name|
+      classes.strip.split(SPLIT_CLASSES_REGEX).uniq.map do |original_class_name|
         modifiers, has_important_modifier, base_class_name = split_modifiers(original_class_name)
 
         class_group_id = @class_utils.class_group_id(base_class_name)
