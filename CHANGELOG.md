@@ -1,5 +1,9 @@
 # Changelog
 
+## [v0.1.2](https://github.com/gjtorikian/tailwind_merge/tree/v0.1.2) (2022-10-11)
+
+[Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.1.1...v0.1.2)
+
 ## [v0.1.1](https://github.com/gjtorikian/tailwind_merge/tree/v0.1.1) (2022-10-11)
 
 [Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.1.0...v0.1.1)
