@@ -626,7 +626,7 @@ module TailwindMerge
               "bold",
               "extrabold",
               "black",
-              IS_ARBITRARY_WEIGHT,
+              IS_ARBITRARY_NUMBER,
             ],
           },
         ],
@@ -1545,7 +1545,7 @@ module TailwindMerge
         # Stroke Width
         # @see https://tailwindcss.com/docs/stroke-width
         ##
-        "stroke-w" => [{ "stroke" => [IS_LENGTH] }],
+        "stroke-w" => [{ "stroke" => [IS_LENGTH, IS_ARBITRARY_NUMBER] }],
         ##
         # Stroke
         # @see https://tailwindcss.com/docs/stroke

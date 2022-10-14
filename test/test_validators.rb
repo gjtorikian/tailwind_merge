@@ -129,17 +129,17 @@ class TestValidators < Minitest::Test
     refute(IS_ARBITRARY_URL.call("url(2px)"))
   end
 
-  def test_is_arbitrary_weight
-    assert(IS_ARBITRARY_WEIGHT.call("[number:black]"))
-    assert(IS_ARBITRARY_WEIGHT.call("[number:bla]"))
-    assert(IS_ARBITRARY_WEIGHT.call("[number:230]"))
-    assert(IS_ARBITRARY_WEIGHT.call("[450]"))
+  def test_is_arbitrary_number
+    assert(IS_ARBITRARY_NUMBER.call("[number:black]"))
+    assert(IS_ARBITRARY_NUMBER.call("[number:bla]"))
+    assert(IS_ARBITRARY_NUMBER.call("[number:230]"))
+    assert(IS_ARBITRARY_NUMBER.call("[450]"))
 
-    refute(IS_ARBITRARY_WEIGHT.call("[2px]"))
-    refute(IS_ARBITRARY_WEIGHT.call("[bla]"))
-    refute(IS_ARBITRARY_WEIGHT.call("[black]"))
-    refute(IS_ARBITRARY_WEIGHT.call("black"))
-    refute(IS_ARBITRARY_WEIGHT.call("450"))
+    refute(IS_ARBITRARY_NUMBER.call("[2px]"))
+    refute(IS_ARBITRARY_NUMBER.call("[bla]"))
+    refute(IS_ARBITRARY_NUMBER.call("[black]"))
+    refute(IS_ARBITRARY_NUMBER.call("black"))
+    refute(IS_ARBITRARY_NUMBER.call("450"))
   end
 
   def test_is_arbitrary_shadow

@@ -68,7 +68,7 @@ module TailwindMerge
       false
     }
 
-    IS_ARBITRARY_WEIGHT = ->(class_part) {
+    IS_ARBITRARY_NUMBER = ->(class_part) {
       if (match = ARBITRARY_VALUE_REGEX.match(class_part))
         return match[1].start_with?("number:") || numeric?(match[1])
       end
