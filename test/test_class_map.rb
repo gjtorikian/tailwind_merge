@@ -83,6 +83,7 @@ class TestClassMap < Minitest::Test
       "shrink" => ["shrink"],
       "order" => ["order"],
       "col" => ["col-end", "col-start", "col-start-end"],
+      "collapse" => ["visibility"],
       "row" => ["row-end", "row-start", "row-start-end"],
       "auto" => ["auto-cols", "auto-rows"],
       "gap" => ["gap", "gap-x", "gap-y"],
