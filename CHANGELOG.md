@@ -1,5 +1,17 @@
 # Changelog
 
+## [v0.3.0](https://github.com/gjtorikian/tailwind_merge/tree/v0.3.0) (2022-10-20)
+
+[Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.2.0...v0.3.0)
+
+**Merged pull requests:**
+
+- Support Tailwind 3.2 [\#4](https://github.com/gjtorikian/tailwind_merge/pull/4) ([gjtorikian](https://github.com/gjtorikian))
+
+## [v0.2.0](https://github.com/gjtorikian/tailwind_merge/tree/v0.2.0) (2022-10-14)
+
+[Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.1.3...v0.2.0)
+
 ## [v0.1.3](https://github.com/gjtorikian/tailwind_merge/tree/v0.1.3) (2022-10-11)
 
 [Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.1.2...v0.1.3)
