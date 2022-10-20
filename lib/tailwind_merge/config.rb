@@ -300,7 +300,7 @@ module TailwindMerge
         # Visibility
         # @see https://tailwindcss.com/docs/visibility
         ##
-        "visibility" => ["visible", "invisible"],
+        "visibility" => ["visible", "invisible", "collapse"],
         ##
         # Z-Index
         # @see https://tailwindcss.com/docs/z-index
@@ -431,7 +431,7 @@ module TailwindMerge
         # Align Content
         # @see https://tailwindcss.com/docs/align-content
         ##
-        "align-content" => [{ "content" => ALIGN.call }],
+        "align-content" => [{ content: [*ALIGN.call, "baseline"] }],
         ##
         # Align Items
         # @see https://tailwindcss.com/docs/align-items
@@ -446,12 +446,12 @@ module TailwindMerge
         # Place Content
         # @see https://tailwindcss.com/docs/place-content
         ##
-        "place-content" => [{ "place-content" => [*ALIGN.call, "stretch"] }],
+        "place-content" => [{ "place-content" => [*ALIGN.call, "baseline", "stretch"] }],
         ##
         # Place Items
         # @see https://tailwindcss.com/docs/place-items
         ##
-        "place-items" => [{ "place-items" => ["start", "end", "center", "stretch"] }],
+        "place-items" => [{ "place-items" => ["start", "end", "center", "baseline", "stretch"] }],
         ##
         # Place Self
         # @see https://tailwindcss.com/docs/place-self
@@ -793,7 +793,7 @@ module TailwindMerge
         # Word Break
         # @see https://tailwindcss.com/docs/word-break
         ##
-        "break" => [{ "break" => ["normal", "words", "all"] }],
+        "break" => [{ "break" => ["normal", "words", "all", "keep"] }],
         ##
         # Content
         # @see https://tailwindcss.com/docs/content
@@ -1034,7 +1034,7 @@ module TailwindMerge
         # Outline Style
         # @see https://tailwindcss.com/docs/outline-style
         ##
-        "outline-style" => [{ "outline" => ["", *LINE_STYLES.call, "hidden"] }],
+        "outline-style" => [{ "outline" => ["", *LINE_STYLES.call] }],
         ##
         # Outline Offset
         # @see https://tailwindcss.com/docs/outline-offset
@@ -1540,7 +1540,7 @@ module TailwindMerge
         # Fill
         # @see https://tailwindcss.com/docs/fill
         ##
-        "fill" => [{ "fill" => [COLORS] }],
+        "fill" => [{ "fill" => [COLORS, "none"] }],
         ##
         # Stroke Width
         # @see https://tailwindcss.com/docs/stroke-width
@@ -1550,7 +1550,7 @@ module TailwindMerge
         # Stroke
         # @see https://tailwindcss.com/docs/stroke
         ##
-        "stroke" => [{ "stroke" => [COLORS] }],
+        "stroke" => [{ "stroke" => [COLORS, "none"] }],
         # Accessibility
         ##
         # Screen Readers
