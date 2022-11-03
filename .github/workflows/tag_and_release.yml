@@ -23,7 +23,7 @@ jobs:
           ruby-version: 3.1
           bundler-cache: true
 
-      - name: Configure git
+      - name: Configure Git
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "Actions Auto Build"
@@ -40,13 +40,8 @@ jobs:
           git push origin --tags
 
       - name: Generate CHANGELOG.md
-        id: releasenotes
-        run: |
-          gh api repos/$GITHUB_REPOSITORY/releases/generate-notes \
-          -f tag_name="v${{ steps.version-label.outputs.version }}" \
-          -q .body > CHANGELOG.md
-          echo -e "\n\n" >> CHANGELOG.md
-          git log $(git describe --tags --abbrev=0)..HEAD --oneline >> CHANGELOG.md
+        id: changelog
+        run: script/generate_changelog
 
       - name: Commit & Push Changelog
         run: |
