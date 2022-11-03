@@ -23,29 +23,44 @@ jobs:
           ruby-version: 3.1
           bundler-cache: true
 
+      - name: Configure git
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "Actions Auto Build"
+
       - name: Get current version
         id: version-label
         run: |
           VERSION=$(grep VERSION lib/tailwind_merge/version.rb | head -n 1 | cut -d'"' -f2)
           echo "version=${VERSION}" >> $GITHUB_OUTPUT
 
-      # https://github.com/avakar/tag-and-release/pull/7
-      - uses: filfreire/tag-and-release@abaaad001eaf803fddce149bb0cc09aef080773f
-        with:
-          tag_name: ${{ steps.version-label.outputs.version }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create tag
+        run: |
+          git tag -a v${{ steps.version-label.outputs.version }} -m "Release v${{ steps.version-label.outputs.version }}"
+          git push origin --tags
 
-      - name: Generate changelog
-        run: script/generate_changelog
+      - name: Generate CHANGELOG.md
+        id: releasenotes
+        run: |
+          gh api repos/$GITHUB_REPOSITORY/releases/generate-notes \
+          -f tag_name="v${{ steps.version-label.outputs.version }}" \
+          -q .body > CHANGELOG.md
+          echo -e "\n\n" >> CHANGELOG.md
+          git log $(git describe --tags --abbrev=0)..HEAD --oneline >> CHANGELOG.md
 
       - name: Commit & Push Changelog
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "Actions Auto Build"
-          git add -f static
+          git add -f CHANGELOG.md
           git commit -m "docs: update changelog" || true
           git push
+
+      - name: Publish release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create v${{ steps.version-label.outputs.version }} --generate-notes
 
       - name: Publish to RubyGems
         run: |
