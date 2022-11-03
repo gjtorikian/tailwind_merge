@@ -10,6 +10,7 @@ class TestArbitraryValues < Minitest::Test
   def test_handles_simple_conflicts_with_arbitrary_values_correctly
     assert_equal("m-[10px]", @merger.merge("m-[2px] m-[10px]"))
     assert_equal("z-[99]", @merger.merge("z-20 z-[99]"))
+    assert_equal("m-[10dvh]", @merger.merge("m-[2px] m-[11svmin] m-[12in] m-[13lvi] m-[14vb] m-[15vmax] m-[16mm] m-[17%] m-[18em] m-[19px] m-[10dvh]"))
     assert_equal("m-[10rem]", @merger.merge("my-[2px] m-[10rem]"))
     assert_equal("cursor-[grab]", @merger.merge("cursor-pointer cursor-[grab]"))
     assert_equal("m-[calc(100%-var(--arbitrary))]", @merger.merge("m-[2px] m-[calc(100%-var(--arbitrary))]"))
