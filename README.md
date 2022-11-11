@@ -27,9 +27,7 @@ If you use Tailwind with a component-based UI renderer (like [ViewComponent](htt
 
 ```html
 <!-- app/components/confirm_email_component.html.erb -->
-<div class="border rounded px-2 py-1">
-  Please confirm your email address.
-</div>
+<div class="border rounded px-2 py-1">Please confirm your email address.</div>
 ```
 
 ```ruby
@@ -53,9 +51,9 @@ tailwind-merge overrides conflicting classes and keeps everything else untouched
 
 ### Optimized for speed
 
--   Results get cached by default, so you don't need to worry about wasteful re-renders. The library uses a thread-safe [LRU cache](<https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)>) which stores up to 500 different results. The cache size can be modified via config options.
--   Expensive computations happen upfront so that `merge` calls without a cache hit stay fast.
--   These computations are called lazily on the first call to `merge` to prevent it from impacting app startup performance if it isn't used initially.
+- Results get cached by default, so you don't need to worry about wasteful re-renders. The library uses a thread-safe [LRU cache](<https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)>) which stores up to 500 different results. The cache size can be modified via config options.
+- Expensive computations happen upfront so that `merge` calls without a cache hit stay fast.
+- These computations are called lazily on the first call to `merge` to prevent it from impacting app startup performance if it isn't used initially.
 
 ### Last conflicting class wins
 
@@ -150,10 +148,10 @@ If you're using a custom Tailwind config, you may need to configure tailwind-mer
 
 The default [`twMerge`](#twmerge) function is configured in a way that you can still use it if all the following points apply to your Tailwind config:
 
--   Only using color names which don't clash with other Tailwind class names
--   Only deviating by number values from number-based Tailwind classes
--   Only using font-family classes which don't clash with default font-weight classes
--   Sticking to default Tailwind config for everything else
+- Only using color names which don't clash with other Tailwind class names
+- Only deviating by number values from number-based Tailwind classes
+- Only using font-family classes which don't clash with default font-weight classes
+- Sticking to default Tailwind config for everything else
 
 If some of these points don't apply to you, you can test whether the merge still works as intended with your custom classes. Otherwise, you need create your own custom merge function by either extending the default tailwind-merge config or using a completely custom one.
 
@@ -165,9 +163,11 @@ The `tailwind_merge` config is an object with several keys:
 
 ```ruby
 tailwindMergeConfig = {
-    # ↓ Set how many values should be stored in cache.
+    # ↓ *Optional* Define how many values should be stored in cache.
     cache_size: 500,
-    # ↓ Optional prefix from Tailwind config
+    # ↓ *Optional* modifier separator from Tailwind config
+    separator: ':',
+    # ↓ *Optional* prefix from Tailwind config
     prefix: 'tw-',
     theme: {
         # Theme scales are defined here
@@ -283,17 +283,17 @@ If you modified one of these theme scales in your Tailwind config, you can add a
 
 Here's a brief summary for each validator:
 
--   `IS_LENGTH` checks whether a class part is a number (`3`, `1.5`), a fraction (`3/4`), a arbitrary length (`[3%]`, `[4px]`, `[length:var(--my-var)]`), or one of the strings `px`, `full` or `screen`.
--   `IS_ARBITRARY_LENGTH` checks for arbitrary length values (`[3%]`, `[4px]`, `[length:var(--my-var)]`).
--   `IS_INTEGER` checks for integer values (`3`) and arbitrary integer values (`[3]`).
--   `IS_ARBITRARY_VALUE` checks whether the class part is enclosed in brackets (`[something]`)
--   `IS_TSHIRT_SIZE`checks whether class part is a T-shirt size (`sm`, `xl`), optionally with a preceding number (`2xl`).
--   `IS_ARBITRARY_SIZE` checks whether class part is an arbitrary value which starts with `size:` (`[size:200px_100px]`) which is necessary for background-size classNames.
--   `IS_ARBITRARY_POSITION` checks whether class part is an arbitrary value which starts with `position:` (`[position:200px_100px]`) which is necessary for background-position classNames.
--   `IS_ARBITRARY_URL` checks whether class part is an arbitrary value which starts with `url:` or `url(` (`[url('/path-to-image.png')]`, `url:var(--maybe-a-url-at-runtime)]`) which is necessary for background-image classNames.
--   `IS_ARBITRARY_NUMBER` checks whether class part is an arbitrary value which starts with `number:` or is a number (`[number:var(--value)]`, `[450]`) which is necessary for font-weight classNames.
--   `IS_ARBITRARY_SHADOW` checks whether class part is an arbitrary value which starts with the same pattern as a shadow value (`[0_35px_60px_-15px_rgba(0,0,0,0.3)]`), namely with two lengths separated by a underscore.
--   `IS_ANY` always returns true. Be careful with this validator as it might match unwanted classes. I use it primarily to match colors or when it's certain there are no other class groups in a namespace.
+- `IS_LENGTH` checks whether a class part is a number (`3`, `1.5`), a fraction (`3/4`), a arbitrary length (`[3%]`, `[4px]`, `[length:var(--my-var)]`), or one of the strings `px`, `full` or `screen`.
+- `IS_ARBITRARY_LENGTH` checks for arbitrary length values (`[3%]`, `[4px]`, `[length:var(--my-var)]`).
+- `IS_INTEGER` checks for integer values (`3`) and arbitrary integer values (`[3]`).
+- `IS_ARBITRARY_VALUE` checks whether the class part is enclosed in brackets (`[something]`)
+- `IS_TSHIRT_SIZE`checks whether class part is a T-shirt size (`sm`, `xl`), optionally with a preceding number (`2xl`).
+- `IS_ARBITRARY_SIZE` checks whether class part is an arbitrary value which starts with `size:` (`[size:200px_100px]`) which is necessary for background-size classNames.
+- `IS_ARBITRARY_POSITION` checks whether class part is an arbitrary value which starts with `position:` (`[position:200px_100px]`) which is necessary for background-position classNames.
+- `IS_ARBITRARY_URL` checks whether class part is an arbitrary value which starts with `url:` or `url(` (`[url('/path-to-image.png')]`, `url:var(--maybe-a-url-at-runtime)]`) which is necessary for background-image classNames.
+- `IS_ARBITRARY_NUMBER` checks whether class part is an arbitrary value which starts with `number:` or is a number (`[number:var(--value)]`, `[450]`) which is necessary for font-weight classNames.
+- `IS_ARBITRARY_SHADOW` checks whether class part is an arbitrary value which starts with the same pattern as a shadow value (`[0_35px_60px_-15px_rgba(0,0,0,0.3)]`), namely with two lengths separated by a underscore.
+- `IS_ANY` always returns true. Be careful with this validator as it might match unwanted classes. I use it primarily to match colors or when it's certain there are no other class groups in a namespace.
 
 ## Contributing
 
