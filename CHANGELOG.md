@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.4.0](https://github.com/gjtorikian/tailwind_merge/tree/v0.4.0) (2022-11-11)
+
+[Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.3.1...v0.4.0)
+
+**Merged pull requests:**
+
+- Support custom seperators [\#5](https://github.com/gjtorikian/tailwind_merge/pull/5) ([gjtorikian](https://github.com/gjtorikian))
+
 ## [v0.3.1](https://github.com/gjtorikian/tailwind_merge/tree/v0.3.1) (2022-11-03)
 
 [Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.3.0...v0.3.1)
