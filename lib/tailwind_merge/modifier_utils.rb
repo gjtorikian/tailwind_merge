@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module TailwindMerge
   module ModifierUtils
     IMPORTANT_MODIFIER = "!"
 
     def split_modifiers(class_name, separator: nil)
-      separator = separator || ':'
+      separator ||= ":"
       separator_length = separator.length
 
       modifiers = []
