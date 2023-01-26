@@ -19,6 +19,7 @@ class TestValidators < Minitest::Test
     assert(IS_LENGTH.call("[481px]"))
     assert(IS_LENGTH.call("[19.1rem]"))
     assert(IS_LENGTH.call("[50vw]"))
+    assert(IS_LENGTH.call("[56vh]"))
     assert(IS_LENGTH.call("[length:var(--arbitrary)]"))
 
     refute(IS_LENGTH.call("1d5"))
@@ -33,6 +34,7 @@ class TestValidators < Minitest::Test
     assert(IS_ARBITRARY_LENGTH.call("[481px]"))
     assert(IS_ARBITRARY_LENGTH.call("[19.1rem]"))
     assert(IS_ARBITRARY_LENGTH.call("[50vw]"))
+    assert(IS_ARBITRARY_LENGTH.call("[56vh]"))
     assert(IS_ARBITRARY_LENGTH.call("[length:var(--arbitrary)]"))
 
     refute(IS_ARBITRARY_LENGTH.call("1"))
