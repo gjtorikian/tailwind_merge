@@ -89,6 +89,7 @@ class TestValidators < Minitest::Test
     assert(IS_TSHIRT_SIZE.call("lg"))
     assert(IS_TSHIRT_SIZE.call("xl"))
     assert(IS_TSHIRT_SIZE.call("2xl"))
+    assert(IS_TSHIRT_SIZE.call("2.5xl"))
     assert(IS_TSHIRT_SIZE.call("10xl"))
     assert(IS_TSHIRT_SIZE.call("2xs"))
     assert(IS_TSHIRT_SIZE.call("2lg"))
