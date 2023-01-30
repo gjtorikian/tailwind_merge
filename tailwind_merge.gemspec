@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.homepage = "https://www.github.com/gjtorikian/tailwind_merge"
   spec.license = "MIT"
 
-  spec.required_ruby_version = [">= 3.0", "< 4.0"]
+  spec.required_ruby_version = [">= 3.1", "< 4.0"]
 
   spec.metadata = {
     "funding_uri" => "https://github.com/sponsors/gjtorikian/",
@@ -34,11 +34,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency("lru_redux", "~> 1.1")
 
-  spec.add_development_dependency("amazing_print")
-  spec.add_development_dependency("debug") if "#{RbConfig::CONFIG["MAJOR"]}.#{RbConfig::CONFIG["MINOR"]}".to_f >= 3.1
   spec.add_development_dependency("minitest", "~> 5.6")
   spec.add_development_dependency("minitest-focus", "~> 1.1")
-  spec.add_development_dependency("rake")
-  spec.add_development_dependency("redcarpet")
-  spec.add_development_dependency("rubocop-standard")
 end
