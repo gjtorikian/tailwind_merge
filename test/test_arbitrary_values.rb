@@ -20,6 +20,9 @@ class TestArbitraryValues < Minitest::Test
   def test_handles_arbitrary_length_conflicts_with_labels_and_modifiers_correctly
     assert_equal("hover:m-[length:var(--c)]", @merger.merge("hover:m-[2px] hover:m-[length:var(--c)]"))
     assert_equal("focus:hover:m-[length:var(--c)]", @merger.merge("hover:focus:m-[2px] focus:hover:m-[length:var(--c)]"))
+    assert_equal("border-b border-[color:rgb(var(--color-gray-500-rgb)/50%))]", @merger.merge("border-b border-[color:rgb(var(--color-gray-500-rgb)/50%))]"))
+    assert_equal("border-[color:rgb(var(--color-gray-500-rgb)/50%))] border-b", @merger.merge("border-[color:rgb(var(--color-gray-500-rgb)/50%))] border-b"))
+    assert_equal("border-b border-some-coloooor", @merger.merge("border-b border-[color:rgb(var(--color-gray-500-rgb)/50%))] border-some-coloooor"))
   end
 
   def test_handles_complex_arbitrary_value_conflicts_correctly
