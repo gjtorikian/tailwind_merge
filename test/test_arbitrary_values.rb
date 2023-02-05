@@ -15,11 +15,17 @@ class TestArbitraryValues < Minitest::Test
     assert_equal("cursor-[grab]", @merger.merge("cursor-pointer cursor-[grab]"))
     assert_equal("m-[calc(100%-var(--arbitrary))]", @merger.merge("m-[2px] m-[calc(100%-var(--arbitrary))]"))
     assert_equal("m-[length:var(--mystery-var)]", @merger.merge("m-[2px] m-[length:var(--mystery-var)]"))
+    assert_equal("opacity-[0.025]", @merger.merge("opacity-10 opacity-[0.025]"))
+    assert_equal("scale-[1.7]", @merger.merge("scale-75 scale-[1.7]"))
+    assert_equal("brightness-[1.75]", @merger.merge("brightness-90 brightness-[1.75]"))
   end
 
   def test_handles_arbitrary_length_conflicts_with_labels_and_modifiers_correctly
     assert_equal("hover:m-[length:var(--c)]", @merger.merge("hover:m-[2px] hover:m-[length:var(--c)]"))
     assert_equal("focus:hover:m-[length:var(--c)]", @merger.merge("hover:focus:m-[2px] focus:hover:m-[length:var(--c)]"))
+    assert_equal("border-b border-[color:rgb(var(--color-gray-500-rgb)/50%))]", @merger.merge("border-b border-[color:rgb(var(--color-gray-500-rgb)/50%))]"))
+    assert_equal("border-[color:rgb(var(--color-gray-500-rgb)/50%))] border-b", @merger.merge("border-[color:rgb(var(--color-gray-500-rgb)/50%))] border-b"))
+    assert_equal("border-b border-some-coloooor", @merger.merge("border-b border-[color:rgb(var(--color-gray-500-rgb)/50%))] border-some-coloooor"))
   end
 
   def test_handles_complex_arbitrary_value_conflicts_correctly
