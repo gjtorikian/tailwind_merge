@@ -113,7 +113,7 @@ module TailwindMerge
         "colors" => [IS_ANY],
         "spacing" => [IS_LENGTH],
         "blur" => ["none", "", IS_TSHIRT_SIZE, IS_ARBITRARY_LENGTH],
-        "brightness" =>NUMBER.call,
+        "brightness" => NUMBER.call,
         "border-color" => [COLORS],
         "border-radius" => ["none", "", "full", IS_TSHIRT_SIZE, IS_ARBITRARY_LENGTH],
         "border-spacing" => [SPACING],

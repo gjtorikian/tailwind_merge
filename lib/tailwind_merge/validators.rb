@@ -9,7 +9,7 @@ module TailwindMerge
         match = ARBITRARY_VALUE_REGEX.match(class_part)
         return false unless match
 
-        return match[1] === label if match[1]
+        return match[1] == label if match[1]
 
         test_value.call(match[2])
       end
