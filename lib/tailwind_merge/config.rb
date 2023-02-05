@@ -64,7 +64,7 @@ module TailwindMerge
     OVERFLOW = -> { ["auto", "hidden", "clip", "visible", "scroll"] }
     SPACING_WITH_AUTO = -> { ["auto", SPACING] }
     LENGTH_WITH_EMPTY = -> { ["", IS_LENGTH] }
-    INTEGER_WITH_AUTO = -> { ["auto", IS_INTEGER] }
+    NUMBER_WITH_AUTO_AND_ARBITRARY = -> { ["auto", IS_NUMBER, IS_ARBITRARY_VALUE] }
     POSITIONS = -> {
       [
         "bottom",
@@ -103,6 +103,8 @@ module TailwindMerge
     ALIGN = -> { ["start", "end", "center", "between", "around", "evenly"] }
     ZERO_AND_EMPTY = -> { ["", "0", IS_ARBITRARY_VALUE] }
     BREAKS = -> { ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"] }
+    NUMBER = -> { [IS_NUMBER, IS_ARBITRARY_NUMBER] }
+    NUMBER_AND_ARBITRARY = -> { [IS_NUMBER, IS_ARBITRARY_VALUE] }
 
     DEFAULTS = {
       cache_size: 500,
@@ -111,25 +113,25 @@ module TailwindMerge
         "colors" => [IS_ANY],
         "spacing" => [IS_LENGTH],
         "blur" => ["none", "", IS_TSHIRT_SIZE, IS_ARBITRARY_LENGTH],
-        "brightness" => [IS_INTEGER],
+        "brightness" =>NUMBER.call,
         "border-color" => [COLORS],
         "border-radius" => ["none", "", "full", IS_TSHIRT_SIZE, IS_ARBITRARY_LENGTH],
         "border-spacing" => [SPACING],
         "border-width" => LENGTH_WITH_EMPTY.call,
-        "contrast" => [IS_INTEGER],
+        "contrast" => NUMBER.call,
         "grayscale" => ZERO_AND_EMPTY.call,
-        "hue-rotate" => [IS_INTEGER],
+        "hue-rotate" => NUMBER_AND_ARBITRARY.call,
         "invert" => ZERO_AND_EMPTY.call,
         "gap" => [SPACING],
         "gradient-color-stops" => [COLORS],
         "inset" => SPACING_WITH_AUTO.call,
         "margin" => SPACING_WITH_AUTO.call,
-        "opacity" => [IS_INTEGER],
+        "opacity" => NUMBER.call,
         "padding" => [SPACING],
-        "saturate" => [IS_INTEGER],
-        "scale" => [IS_INTEGER],
+        "saturate" => NUMBER.call,
+        "scale" => NUMBER.call,
         "sepia" => ZERO_AND_EMPTY.call,
-        "skew" => [IS_INTEGER, IS_ARBITRARY_VALUE],
+        "skew" => NUMBER_AND_ARBITRARY.call,
         "space" => [SPACING],
         "translate" => [SPACING],
       },
@@ -306,7 +308,7 @@ module TailwindMerge
         # Z-Index
         # @see https://tailwindcss.com/docs/z-index
         ##
-        "z" => [{ "z" => [IS_INTEGER] }],
+        "z" => [{ "z" => ["auto", IS_INTEGER] }],
         # Flexbox and Grid
         ##
         # Flex Basis
@@ -352,17 +354,17 @@ module TailwindMerge
         # Grid Column Start / End
         # @see https://tailwindcss.com/docs/grid-column
         ##
-        "col-start-end" => [{ "col" => ["auto", { "span" => [IS_INTEGER] }] }],
+        "col-start-end" => [{ "col" => ["auto", { "span" => [IS_INTEGER, IS_ARBITRARY_VALUE] }] }],
         ##
         # Grid Column Start
         # @see https://tailwindcss.com/docs/grid-column
         ##
-        "col-start" => [{ "col-start" => INTEGER_WITH_AUTO.call }],
+        "col-start" => [{ "col-start" => NUMBER_WITH_AUTO_AND_ARBITRARY.call }],
         ##
         # Grid Column End
         # @see https://tailwindcss.com/docs/grid-column
         ##
-        "col-end" => [{ "col-end" => INTEGER_WITH_AUTO.call }],
+        "col-end" => [{ "col-end" => NUMBER_WITH_AUTO_AND_ARBITRARY.call }],
         ##
         # Grid Template Rows
         # @see https://tailwindcss.com/docs/grid-template-rows
@@ -377,12 +379,12 @@ module TailwindMerge
         # Grid Row Start
         # @see https://tailwindcss.com/docs/grid-row
         ##
-        "row-start" => [{ "row-start" => INTEGER_WITH_AUTO.call }],
+        "row-start" => [{ "row-start" => NUMBER_WITH_AUTO_AND_ARBITRARY.call }],
         ##
         # Grid Row End
         # @see https://tailwindcss.com/docs/grid-row
         ##
-        "row-end" => [{ "row-end" => INTEGER_WITH_AUTO.call }],
+        "row-end" => [{ "row-end" => NUMBER_WITH_AUTO_AND_ARBITRARY.call }],
         ##
         # Grid Auto Flow
         # @see https://tailwindcss.com/docs/grid-auto-flow
@@ -1259,7 +1261,7 @@ module TailwindMerge
         # Transition Duration
         # @see https://tailwindcss.com/docs/transition-duration
         ##
-        "duration" => [{ "duration" => [IS_INTEGER] }],
+        "duration" => [{ "duration" => [NUMBER_AND_ARBITRARY] }],
         ##
         # Transition Timing Function
         # @see https://tailwindcss.com/docs/transition-timing-function
@@ -1269,7 +1271,7 @@ module TailwindMerge
         # Transition Delay
         # @see https://tailwindcss.com/docs/transition-delay
         ##
-        "delay" => [{ "delay" => [IS_INTEGER] }],
+        "delay" => [{ "delay" => [NUMBER_AND_ARBITRARY] }],
         ##
         # Animation
         # @see https://tailwindcss.com/docs/animation

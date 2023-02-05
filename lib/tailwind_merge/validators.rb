@@ -32,71 +32,75 @@ module TailwindMerge
     # Shadow always begins with x and y offset separated by underscore
     SHADOW_REGEX = /^-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/
 
-    value_length = ->(value) {
+    is_length_only = ->(value) {
       LENGTH_UNIT_REGEX.match?(value)
     }
 
-    value_never = ->(_) { false }
+    is_never = ->(_) { false }
 
-    value_url = ->(value) {
+    is_url = ->(value) {
       value.start_with?("url(")
     }
 
-    value_number = ->(value) {
+    is_number = ->(value) {
       numeric?(value)
     }
 
-    value_integer = ->(value) {
+    is_integer_only = ->(value) {
       integer?(value)
     }
 
-    value_shadow = ->(value) {
+    is_shadow = ->(value) {
       SHADOW_REGEX.match?(value)
     }
 
-    IS_LENGTH = ->(class_part) {
-      numeric?(class_part) || \
-        STRING_LENGTHS.include?(class_part) || \
-        FRACTION_REGEX.match?(class_part) || \
-        IS_ARBITRARY_LENGTH.call(class_part)
+    IS_LENGTH = ->(value) {
+      numeric?(value) || \
+        STRING_LENGTHS.include?(value) || \
+        FRACTION_REGEX.match?(value) || \
+        IS_ARBITRARY_LENGTH.call(value)
     }
 
-    IS_ARBITRARY_LENGTH = ->(class_part) {
-      arbitrary_value?(class_part, "length", value_length)
+    IS_ARBITRARY_LENGTH = ->(value) {
+      arbitrary_value?(value, "length", is_length_only)
     }
 
-    IS_ARBITRARY_SIZE = ->(class_part) {
-      arbitrary_value?(class_part, "size", value_never)
+    IS_ARBITRARY_SIZE = ->(value) {
+      arbitrary_value?(value, "size", is_never)
     }
 
-    IS_ARBITRARY_POSITION = ->(class_part) {
-      arbitrary_value?(class_part, "position", value_never)
+    IS_ARBITRARY_POSITION = ->(value) {
+      arbitrary_value?(value, "position", is_never)
     }
 
-    IS_ARBITRARY_URL = ->(class_part) {
-      arbitrary_value?(class_part, "url", value_url)
+    IS_ARBITRARY_URL = ->(value) {
+      arbitrary_value?(value, "url", is_url)
     }
 
-    IS_ARBITRARY_NUMBER = ->(class_part) {
-      arbitrary_value?(class_part, "number", value_number)
+    IS_ARBITRARY_NUMBER = ->(value) {
+      arbitrary_value?(value, "number", is_number)
     }
 
-    IS_INTEGER = ->(class_part) {
-      integer?(class_part) || arbitrary_value?(class_part, "number", value_integer)
+    IS_NUMBER = ->(value) {
+      is_number.call(value)
     }
 
-    IS_ARBITRARY_VALUE = ->(class_part) {
-      ARBITRARY_VALUE_REGEX.match(class_part)
+    IS_INTEGER = ->(value) {
+      is_integer_only.call(value) || arbitrary_value?(value, "number", is_integer_only)
+    }
+
+    IS_ARBITRARY_VALUE = ->(value) {
+      ARBITRARY_VALUE_REGEX.match(value)
     }
 
     IS_ANY = ->(_) { return true }
 
-    IS_TSHIRT_SIZE = ->(class_part) {
-      TSHIRT_UNIT_REGEX.match?(class_part)
+    IS_TSHIRT_SIZE = ->(value) {
+      TSHIRT_UNIT_REGEX.match?(value)
     }
 
-    IS_ARBITRARY_SHADOW = ->(class_part) {
-      arbitrary_value?(class_part, "", value_shadow)
+    IS_ARBITRARY_SHADOW = ->(value) {
+      arbitrary_value?(value, "", is_shadow)
     }
   end
 end

@@ -15,6 +15,9 @@ class TestArbitraryValues < Minitest::Test
     assert_equal("cursor-[grab]", @merger.merge("cursor-pointer cursor-[grab]"))
     assert_equal("m-[calc(100%-var(--arbitrary))]", @merger.merge("m-[2px] m-[calc(100%-var(--arbitrary))]"))
     assert_equal("m-[length:var(--mystery-var)]", @merger.merge("m-[2px] m-[length:var(--mystery-var)]"))
+    assert_equal("opacity-[0.025]", @merger.merge("opacity-10 opacity-[0.025]"))
+    assert_equal("scale-[1.7]", @merger.merge("scale-75 scale-[1.7]"))
+    assert_equal("brightness-[1.75]", @merger.merge("brightness-90 brightness-[1.75]"))
   end
 
   def test_handles_arbitrary_length_conflicts_with_labels_and_modifiers_correctly
