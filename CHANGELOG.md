@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.5.1](https://github.com/gjtorikian/tailwind_merge/tree/v0.5.1) (2023-02-05)
+
+[Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.5.0...v0.5.1)
+
+**Merged pull requests:**
+
+- Fix arbitrary value merging [\#7](https://github.com/gjtorikian/tailwind_merge/pull/7) ([gjtorikian](https://github.com/gjtorikian))
+
 ## [v0.5.0](https://github.com/gjtorikian/tailwind_merge/tree/v0.5.0) (2023-01-30)
 
 [Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.4.1...v0.5.0)
