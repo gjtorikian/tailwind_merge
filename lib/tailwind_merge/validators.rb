@@ -27,7 +27,7 @@ module TailwindMerge
 
     ARBITRARY_VALUE_REGEX = /^\[(?:([a-z-]+):)?(.+)\]$/i
     FRACTION_REGEX = %r{^\d+/\d+$}
-    LENGTH_UNIT_REGEX = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh)/
+    LENGTH_UNIT_REGEX = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))/
     TSHIRT_UNIT_REGEX = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/
     # Shadow always begins with x and y offset separated by underscore
     SHADOW_REGEX = /^-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/
