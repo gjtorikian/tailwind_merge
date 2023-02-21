@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.5.2](https://github.com/gjtorikian/tailwind_merge/tree/v0.5.2) (2023-02-21)
+
+[Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.5.1...v0.5.2)
+
+**Merged pull requests:**
+
+- support for container query length units [\#8](https://github.com/gjtorikian/tailwind_merge/pull/8) ([gjtorikian](https://github.com/gjtorikian))
+
 ## [v0.5.1](https://github.com/gjtorikian/tailwind_merge/tree/v0.5.1) (2023-02-05)
 
 [Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.5.0...v0.5.1)
