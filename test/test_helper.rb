@@ -6,6 +6,3 @@ require "tailwind_merge"
 require "minitest/autorun"
 require "minitest/focus"
 require "minitest/pride"
-
-require "amazing_print"
-require "debug"

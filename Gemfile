@@ -15,5 +15,5 @@ gem "github_changelog_generator", "~> 1.16"
 
 gem "rubocop-standard"
 
-gem "amazing_print"
-gem "debug"
+gem "amazing_print", require: false
+gem "debug", require: false
