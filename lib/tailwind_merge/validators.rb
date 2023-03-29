@@ -85,6 +85,10 @@ module TailwindMerge
       is_number.call(value)
     }
 
+    IS_PERCENT = ->(value) {
+      value.end_with?("%") && is_number.call(value[0..-2])
+    }
+
     IS_INTEGER = ->(value) {
       is_integer_only.call(value) || arbitrary_value?(value, "number", is_integer_only)
     }
