@@ -158,4 +158,14 @@ class TestValidators < Minitest::Test
     refute(IS_ARBITRARY_SHADOW.call("[#00f]"))
     refute(IS_ARBITRARY_SHADOW.call("[something-else]"))
   end
+
+  def test_is_percent
+    assert(IS_PERCENT.call("1%"))
+    assert(IS_PERCENT.call("100.001%"))
+    assert(IS_PERCENT.call(".01%"))
+    assert(IS_PERCENT.call("0%"))
+
+    refute(IS_PERCENT.call("0"))
+    refute(IS_PERCENT.call("one%"))
+  end
 end

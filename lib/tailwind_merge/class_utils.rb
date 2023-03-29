@@ -39,10 +39,12 @@ module TailwindMerge
       class_rest = class_parts.join(CLASS_PART_SEPARATOR)
 
       result = class_part_object[:validators].find do |v|
-        if from_theme?(v[:validator])
-          v[:validator].call(@config)
+        validator = v[:validator]
+
+        if from_theme?(validator)
+          validator.call(@config)
         else
-          v[:validator].call(class_rest)
+          validator.call(class_rest)
         end
       end
 

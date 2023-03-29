@@ -22,6 +22,7 @@ module TailwindMerge
     INVERT = ->(config) { FROM_THEME.call(config, "invert") }
     GAP = ->(config) { FROM_THEME.call(config, "gap") }
     GRADIENT_COLOR_STOPS = ->(config) { FROM_THEME.call(config, "gradient-color-stops") }
+    GRADIENT_COLOR_STOP_POSITIONS = ->(config) { FROM_THEME.call(config, "gradient-color-stop-positions") }
     INSET = ->(config) { FROM_THEME.call(config, "inset") }
     MARGIN = ->(config) { FROM_THEME.call(config, "margin") }
     OPACITY = ->(config) { FROM_THEME.call(config, "opacity") }
@@ -48,6 +49,7 @@ module TailwindMerge
       INVERT.object_id,
       GAP.object_id,
       GRADIENT_COLOR_STOPS.object_id,
+      GRADIENT_COLOR_STOP_POSITIONS.object_id,
       INSET.object_id,
       MARGIN.object_id,
       OPACITY.object_id,
@@ -100,7 +102,7 @@ module TailwindMerge
         "plus-lighter",
       ]
     }
-    ALIGN = -> { ["start", "end", "center", "between", "around", "evenly"] }
+    ALIGN = -> { ["start", "end", "center", "between", "around", "evenly", "stretch"] }
     ZERO_AND_EMPTY = -> { ["", "0", IS_ARBITRARY_VALUE] }
     BREAKS = -> { ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"] }
     NUMBER = -> { [IS_NUMBER, IS_ARBITRARY_NUMBER] }
@@ -124,6 +126,7 @@ module TailwindMerge
         "invert" => ZERO_AND_EMPTY.call,
         "gap" => [SPACING],
         "gradient-color-stops" => [COLORS],
+        "gradient-color-stop-positions" => [IS_PERCENT, IS_ARBITRARY_LENGTH],
         "inset" => SPACING_WITH_AUTO.call,
         "margin" => SPACING_WITH_AUTO.call,
         "opacity" => NUMBER.call,
@@ -135,7 +138,7 @@ module TailwindMerge
         "space" => [SPACING],
         "translate" => [SPACING],
       },
-      class_groups: {
+      class_groups: { # rubocop:disable Metrics/CollectionLiteralLength
         # Layout
         ##
         # Aspect Ratio
@@ -279,6 +282,16 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/top-right-bottom-left
         ##
         "inset-y" => [{ "inset-y" => [INSET] }],
+        #
+        # Start
+        # @see https://tailwindcss.com/docs/top-right-bottom-left
+        #
+        "start" => [{ "start" => [INSET] }],
+        #
+        # End
+        # @see https://tailwindcss.com/docs/top-right-bottom-left
+        #
+        "end" => [{ "end" => [INSET] }],
         ##
         # Top
         # @see https://tailwindcss.com/docs/top-right-bottom-left
@@ -419,7 +432,7 @@ module TailwindMerge
         # Justify Content
         # @see https://tailwindcss.com/docs/justify-content
         ##
-        "justify-content" => [{ "justify" => ALIGN.call }],
+        "justify-content" => [{ "justify" => ["normal", *ALIGN.call] }],
         ##
         # Justify Items
         # @see https://tailwindcss.com/docs/justify-items
@@ -434,7 +447,7 @@ module TailwindMerge
         # Align Content
         # @see https://tailwindcss.com/docs/align-content
         ##
-        "align-content" => [{ content: [*ALIGN.call, "baseline"] }],
+        "align-content" => [{ "content" => ["normal", *ALIGN.call, "baseline"] }],
         ##
         # Align Items
         # @see https://tailwindcss.com/docs/align-items
@@ -449,7 +462,7 @@ module TailwindMerge
         # Place Content
         # @see https://tailwindcss.com/docs/place-content
         ##
-        "place-content" => [{ "place-content" => [*ALIGN.call, "baseline", "stretch"] }],
+        "place-content" => [{ "place-content" => [*ALIGN.call, "baseline"] }],
         ##
         # Place Items
         # @see https://tailwindcss.com/docs/place-items
@@ -476,6 +489,16 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/padding
         ##
         "py" => [{ "py" => [PADDING] }],
+        #
+        # Padding Start
+        # @see https://tailwindcss.com/docs/padding
+        #
+        "ps" => [{ "ps" => [PADDING] }],
+        #
+        # Padding End
+        # @see https://tailwindcss.com/docs/padding
+        #
+        "pe" => [{ "pe" => [PADDING] }],
         ##
         # Padding Top
         # @see https://tailwindcss.com/docs/padding
@@ -511,6 +534,16 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/margin
         ##
         "my" => [{ "my" => [MARGIN] }],
+        #
+        # Margin Start
+        # @see https://tailwindcss.com/docs/margin
+        #
+        "ms" => [{ "ms" => [MARGIN] }],
+        #
+        # Margin End
+        # @see https://tailwindcss.com/docs/margin
+        #
+        "me" => [{ "me" => [MARGIN] }],
         ##
         # Margin Top
         # @see https://tailwindcss.com/docs/margin
@@ -683,8 +716,13 @@ module TailwindMerge
               "widest",
               IS_ARBITRARY_LENGTH,
             ],
-          },
+          }, # rubocop:enable Metrics/CollectionLiteralLength
         ],
+        #
+        # Line Clamp
+        # @see https://tailwindcss.com/docs/line-clamp
+        #
+        "line-clamp" => [{ "line-clamp" => ["none", IS_NUMBER, IS_ARBITRARY_NUMBER] }],
         ##
         # Line Height
         # @see https://tailwindcss.com/docs/line-height
@@ -692,6 +730,11 @@ module TailwindMerge
         "leading" => [
           { "leading" => ["none", "tight", "snug", "normal", "relaxed", "loose", IS_LENGTH] },
         ],
+        #
+        # List Style Image
+        # @see https://tailwindcss.com/docs/list-style-image
+        #
+        "list-image" => [{ "list-image" => ["none", IS_ARBITRARY_VALUE] }],
         ##
         # List Style Type
         # @see https://tailwindcss.com/docs/list-style-type
@@ -791,12 +834,17 @@ module TailwindMerge
         # Whitespace
         # @see https://tailwindcss.com/docs/whitespace
         ##
-        "whitespace" => [{ "whitespace" => ["normal", "nowrap", "pre", "pre-line", "pre-wrap"] }],
+        "whitespace" => [{ "whitespace" => ["normal", "nowrap", "pre", "pre-line", "pre-wrap", "break-spaces"] }],
         ##
         # Word Break
         # @see https://tailwindcss.com/docs/word-break
         ##
         "break" => [{ "break" => ["normal", "words", "all", "keep"] }],
+        #
+        # Hyphens
+        # @see https://tailwindcss.com/docs/hyphens
+        #
+        "hyphens" => [{ "hyphens" => ["none", "manual", "auto"] }],
         ##
         # Content
         # @see https://tailwindcss.com/docs/content
@@ -857,6 +905,21 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/background-color
         ##
         "bg-color" => [{ "bg" => [COLORS] }],
+        #
+        # Gradient Color Stops From Position
+        # @see https://tailwindcss.com/docs/gradient-color-stops
+        #
+        "gradient-from-pos" => [{ "from" => [GRADIENT_COLOR_STOP_POSITIONS] }],
+        #
+        # Gradient Color Stops Via Position
+        # @see https://tailwindcss.com/docs/gradient-color-stops
+        #
+        "gradient-via-pos" => [{ "via" => [GRADIENT_COLOR_STOP_POSITIONS] }],
+        #
+        # Gradient Color Stops To Position
+        # @see https://tailwindcss.com/docs/gradient-color-stops
+        #
+        "gradient-to-pos" => [{ "to" => [GRADIENT_COLOR_STOP_POSITIONS] }],
         ##
         # Gradient Color Stops From
         # @see https://tailwindcss.com/docs/gradient-color-stops
@@ -878,6 +941,16 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/border-radius
         ##
         "rounded" => [{ "rounded" => [BORDER_RADIUS] }],
+        #
+        # Border Radius Start
+        # @see https://tailwindcss.com/docs/border-radius
+        #
+        "rounded-s" => [{ "rounded-s" => [BORDER_RADIUS] }],
+        #
+        # Border Radius End
+        # @see https://tailwindcss.com/docs/border-radius
+        #
+        "rounded-e" => [{ "rounded-e" => [BORDER_RADIUS] }],
         ##
         # Border Radius Top
         # @see https://tailwindcss.com/docs/border-radius
@@ -898,6 +971,26 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/border-radius
         ##
         "rounded-l" => [{ "rounded-l" => [BORDER_RADIUS] }],
+        #
+        # Border Radius Start Start
+        # @see https://tailwindcss.com/docs/border-radius
+        #
+        "rounded-ss" => [{ "rounded-ss" => [BORDER_RADIUS] }],
+        #
+        # Border Radius Start End
+        # @see https://tailwindcss.com/docs/border-radius
+        #
+        "rounded-se" => [{ "rounded-se" => [BORDER_RADIUS] }],
+        #
+        # Border Radius End End
+        # @see https://tailwindcss.com/docs/border-radius
+        #
+        "rounded-ee" => [{ "rounded-ee" => [BORDER_RADIUS] }],
+        #
+        # Border Radius End Start
+        # @see https://tailwindcss.com/docs/border-radius
+        #
+        "rounded-es" => [{ "rounded-es" => [BORDER_RADIUS] }],
         ##
         # Border Radius Top Left
         # @see https://tailwindcss.com/docs/border-radius
@@ -933,6 +1026,16 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/border-width
         ##
         "border-w-y" => [{ "border-y" => [BORDER_WIDTH] }],
+        #
+        # Border Width Start
+        # @see https://tailwindcss.com/docs/border-width
+        #
+        "border-w-s" => [{ "border-s" => [BORDER_WIDTH] }],
+        #
+        # Border Width End
+        # @see https://tailwindcss.com/docs/border-width
+        #
+        "border-w-e" => [{ "border-e" => [BORDER_WIDTH] }],
         ##
         # Border Width Top
         # @see https://tailwindcss.com/docs/border-width
@@ -1238,6 +1341,11 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/table-layout
         ##
         "table-layout" => [{ "table" => ["auto", "fixed"] }],
+        #
+        # Caption Side
+        # @see https://tailwindcss.com/docs/caption-side
+        #
+        "caption" => [{ "caption" => ["top", "bottom"] }],
         # Transitions and Animation
         ##
         # Tranisition Property
@@ -1261,7 +1369,7 @@ module TailwindMerge
         # Transition Duration
         # @see https://tailwindcss.com/docs/transition-duration
         ##
-        "duration" => [{ "duration" => [NUMBER_AND_ARBITRARY] }],
+        "duration" => [{ "duration" => NUMBER_AND_ARBITRARY.call }],
         ##
         # Transition Timing Function
         # @see https://tailwindcss.com/docs/transition-timing-function
@@ -1271,7 +1379,7 @@ module TailwindMerge
         # Transition Delay
         # @see https://tailwindcss.com/docs/transition-delay
         ##
-        "delay" => [{ "delay" => [NUMBER_AND_ARBITRARY] }],
+        "delay" => [{ "delay" => NUMBER_AND_ARBITRARY.call }],
         ##
         # Animation
         # @see https://tailwindcss.com/docs/animation
@@ -1436,6 +1544,16 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/scroll-margin
         ##
         "scroll-my" => [{ "scroll-my" => [SPACING] }],
+        #
+        # Scroll Margin Start
+        # @see https://tailwindcss.com/docs/scroll-margin
+        #
+        "scroll-ms" => [{ "scroll-ms" => [SPACING] }],
+        #
+        # Scroll Margin End
+        # @see https://tailwindcss.com/docs/scroll-margin
+        #
+        "scroll-me" => [{ "scroll-me" => [SPACING] }],
         ##
         # Scroll Margin Top
         # @see https://tailwindcss.com/docs/scroll-margin
@@ -1471,6 +1589,16 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/scroll-padding
         ##
         "scroll-py" => [{ "scroll-py" => [SPACING] }],
+        #
+        # Scroll Padding Start
+        # @see https://tailwindcss.com/docs/scroll-padding
+        #
+        "scroll-ps" => [{ "scroll-ps" => [SPACING] }],
+        #
+        # Scroll Padding End
+        # @see https://tailwindcss.com/docs/scroll-padding
+        #
+        "scroll-pe" => [{ "scroll-pe" => [SPACING] }],
         ##
         # Scroll Padding Top
         # @see https://tailwindcss.com/docs/scroll-padding
@@ -1564,15 +1692,15 @@ module TailwindMerge
       conflicting_class_groups: {
         "overflow" => ["overflow-x", "overflow-y"],
         "overscroll" => ["overscroll-x", "overscroll-y"],
-        "inset" => ["inset-x", "inset-y", "top", "right", "bottom", "left"],
+        "inset" => ["inset-x", "inset-y", "start", "end", "top", "right", "bottom", "left"],
         "inset-x" => ["right", "left"],
         "inset-y" => ["top", "bottom"],
         "flex" => ["basis", "grow", "shrink"],
         "gap" => ["gap-x", "gap-y"],
-        "p" => ["px", "py", "pt", "pr", "pb", "pl"],
+        "p" => ["px", "py", "ps", "pe", "pt", "pr", "pb", "pl"],
         "px" => ["pr", "pl"],
         "py" => ["pt", "pb"],
-        "m" => ["mx", "my", "mt", "mr", "mb", "ml"],
+        "m" => ["mx", "my", "ms", "me", "mt", "mr", "mb", "ml"],
         "mx" => ["mr", "ml"],
         "my" => ["mt", "mb"],
         "font-size" => ["leading"],
@@ -1589,21 +1717,36 @@ module TailwindMerge
         "fvn-spacing" => ["fvn-normal"],
         "fvn-fraction" => ["fvn-normal"],
         "rounded" => [
+          "rounded-s",
+          "rounded-e",
           "rounded-t",
           "rounded-r",
           "rounded-b",
           "rounded-l",
+          "rounded-ss",
+          "rounded-se",
+          "rounded-ee",
+          "rounded-es",
           "rounded-tl",
           "rounded-tr",
           "rounded-br",
           "rounded-bl",
         ],
+        "rounded-s" => ["rounded-ss", "rounded-es"],
+        "rounded-e" => ["rounded-se", "rounded-ee"],
         "rounded-t" => ["rounded-tl", "rounded-tr"],
         "rounded-r" => ["rounded-tr", "rounded-br"],
         "rounded-b" => ["rounded-br", "rounded-bl"],
         "rounded-l" => ["rounded-tl", "rounded-bl"],
         "border-spacing" => ["border-spacing-x", "border-spacing-y"],
-        "border-w" => ["border-w-t", "border-w-r", "border-w-b", "border-w-l"],
+        "border-w" => [
+          "border-w-s",
+          "border-w-e",
+          "border-w-t",
+          "border-w-r",
+          "border-w-b",
+          "border-w-l",
+        ],
         "border-w-x" => ["border-w-r", "border-w-l"],
         "border-w-y" => ["border-w-t", "border-w-b"],
         "border-color" => [
@@ -1617,6 +1760,8 @@ module TailwindMerge
         "scroll-m" => [
           "scroll-mx",
           "scroll-my",
+          "scroll-ms",
+          "scroll-me",
           "scroll-mt",
           "scroll-mr",
           "scroll-mb",
@@ -1627,6 +1772,8 @@ module TailwindMerge
         "scroll-p" => [
           "scroll-px",
           "scroll-py",
+          "scroll-ps",
+          "scroll-pe",
           "scroll-pt",
           "scroll-pr",
           "scroll-pb",
