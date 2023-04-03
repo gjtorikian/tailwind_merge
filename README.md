@@ -122,6 +122,12 @@ Similarly to arbitrary properties, `tailwind_merge` does not resolve conflicts b
 @merger.merge('!right-2 !-inset-x-1') # → '!-inset-x-1'
 ```
 
+## Supports postfix modifiers
+
+ ```ts
+ twMerge('text-sm leading-6 text-lg/7') // → 'text-lg/7'
+ ```
+
 ### Preserves non-Tailwind classes
 
 ```ruby

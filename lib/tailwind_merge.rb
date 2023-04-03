@@ -49,11 +49,31 @@ module TailwindMerge
       class_groups_in_conflict = Set.new
 
       classes.strip.split(SPLIT_CLASSES_REGEX).map do |original_class_name|
-        modifiers, has_important_modifier, base_class_name = split_modifiers(original_class_name, separator: @config[:separator])
+        modifiers, has_important_modifier, base_class_name, maybe_postfix_modifier_position = split_modifiers(original_class_name, separator: @config[:separator])
 
-        class_group_id = @class_utils.class_group_id(base_class_name)
+        actual_base_class_name = maybe_postfix_modifier_position ? base_class_name[0...maybe_postfix_modifier_position] : base_class_name
+        class_group_id = @class_utils.class_group_id(actual_base_class_name)
 
         unless class_group_id
+          unless maybe_postfix_modifier_position
+            next {
+              is_tailwind_class: false,
+              original_class_name: original_class_name,
+            }
+          end
+
+          class_group_id = @class_utils.class_group_id(base_class_name)
+
+          unless class_group_id
+            next {
+              isTailwindClass: false,
+              original_class_name: original_class_name,
+            }
+
+          end
+
+          has_postfix_modifier = false
+
           next {
             is_tailwind_class: false,
             original_class_name: original_class_name,
@@ -69,6 +89,7 @@ module TailwindMerge
           modifier_id: modifier_id,
           class_group_id: class_group_id,
           original_class_name: original_class_name,
+          has_postfix_modifier: has_postfix_modifier,
         }
       end.reverse # Last class in conflict wins, so filter conflicting classes in reverse order.
         .select do |parsed|
@@ -76,6 +97,7 @@ module TailwindMerge
 
         modifier_id = parsed[:modifier_id]
         class_group_id = parsed[:class_group_id]
+        has_postfix_modifier = parsed[:has_postfix_modifier]
 
         class_id = "#{modifier_id}#{class_group_id}"
 
@@ -83,7 +105,7 @@ module TailwindMerge
 
         class_groups_in_conflict.add(class_id)
 
-        @class_utils.get_conflicting_class_group_ids(class_group_id).each do |group|
+        @class_utils.get_conflicting_class_group_ids(class_group_id, has_postfix_modifier).each do |group|
           class_groups_in_conflict.add("#{modifier_id}#{group}")
         end
 

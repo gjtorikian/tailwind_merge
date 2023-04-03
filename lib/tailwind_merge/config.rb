@@ -1782,6 +1782,9 @@ module TailwindMerge
         "scroll-px" => ["scroll-pr", "scroll-pl"],
         "scroll-py" => ["scroll-pt", "scroll-pb"],
       },
+      conflicting_class_group_modifiers: {
+        "font-size": ["leading"],
+      },
     }.freeze
 
     def merge_configs(extension_config)
