@@ -51,8 +51,14 @@ module TailwindMerge
       result.nil? ? result : result[:class_group_id]
     end
 
-    def get_conflicting_class_group_ids(class_group_id)
-      @config[:conflicting_class_groups][class_group_id] || []
+    def get_conflicting_class_group_ids(class_group_id, has_postfix_modifier)
+      conflicts = @config[:conflicting_class_groups][class_group_id] || []
+
+      if has_postfix_modifier && @config[:conflicting_class_group_modifiers][class_group_id]
+        return [...conflicts, ...@config[:conflicting_class_group_modifiers][class_group_id]]
+      end
+
+      conflicts
     end
 
     private def create_class_map(config)

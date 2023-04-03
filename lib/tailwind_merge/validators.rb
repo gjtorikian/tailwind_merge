@@ -55,9 +55,9 @@ module TailwindMerge
     }
 
     IS_LENGTH = ->(value) {
-      numeric?(value) || \
-        STRING_LENGTHS.include?(value) || \
-        FRACTION_REGEX.match?(value) || \
+      numeric?(value) ||
+        STRING_LENGTHS.include?(value) ||
+        FRACTION_REGEX.match?(value) ||
         IS_ARBITRARY_LENGTH.call(value)
     }
 
