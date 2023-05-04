@@ -23,7 +23,7 @@ TailwindMerge::Merger.new.merge("px-2 py-1 bg-red hover:bg-dark-red p-3 bg-[#B91
 
 ## What's it for?
 
-If you use Tailwind with a component-based UI renderer (like [ViewComponent](https://viewcomponent.org) or [Ariadne](https://github.com/yettoapp/ariadne/tree/main/ruby/ariadne_view_components)), you're probably familiar with the situation that you want to change some styles of an existing component:
+If you use Tailwind with a component-based UI renderer (like [ViewComponent](https://viewcomponent.org) or [Ariadne](https://github.com/yettoapp/ariadne)), you're probably familiar with the situation that you want to change some styles of an existing component:
 
 ```html
 <!-- app/components/confirm_email_component.html.erb -->
@@ -45,7 +45,7 @@ This is where `tailwind_merge` comes in:
 # border rounded p-5
 ```
 
-tailwind-merge overrides conflicting classes and keeps everything else untouched. In the case of the your implementation of `ConfirmEmailComponent`, the input now only renders the classes `border rounded p-5`.
+tailwind-merge overrides conflicting classes and keeps everything else untouched. In the case of the implementation of `ConfirmEmailComponent`, the input now only renders the classes `border rounded p-5`.
 
 ## Features
 
@@ -124,9 +124,9 @@ Similarly to arbitrary properties, `tailwind_merge` does not resolve conflicts b
 
 ## Supports postfix modifiers
 
- ```ts
- twMerge('text-sm leading-6 text-lg/7') // → 'text-lg/7'
- ```
+```ts
+twMerge("text-sm leading-6 text-lg/7"); // → 'text-lg/7'
+```
 
 ### Preserves non-Tailwind classes
 
