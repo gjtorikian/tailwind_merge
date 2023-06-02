@@ -49,11 +49,9 @@ tailwind-merge overrides conflicting classes and keeps everything else untouched
 
 ## Features
 
-### Optimized for speed
+### Merging behavior
 
-- Results get cached by default, so you don't need to worry about wasteful re-renders. The library uses a thread-safe [LRU cache](<https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)>) which stores up to 500 different results. The cache size can be modified via config options.
-- Expensive computations happen upfront so that `merge` calls without a cache hit stay fast.
-- These computations are called lazily on the first call to `merge` to prevent it from impacting app startup performance if it isn't used initially.
+`tailwind_merge` is designed to be predictable and intuitive. It follows a set of rules to determine which class "wins" when there are conflicts. Here is a brief overview of the conflict resolutions which `tailwind_merge` can do.
 
 ### Last conflicting class wins
 
@@ -84,6 +82,8 @@ tailwind-merge overrides conflicting classes and keeps everything else untouched
 @merger.merge('hover:focus:p-2 focus:hover:p-4') # → 'focus:hover:p-4'
 ```
 
+The order of standard modifiers does not matter for tailwind-merge.
+
 ### Supports arbitrary values
 
 ```ruby
@@ -101,7 +101,8 @@ tailwind-merge overrides conflicting classes and keeps everything else untouched
 @merger.merge('[padding:1rem] p-8') # → '[padding:1rem] p-8'
 ```
 
-Watch out when mixing arbitrary properties which could be expressed as Tailwind classes. `tailwind_merge` does not resolve conflicts between arbitrary properties and their matching Tailwind classes.
+> **Warning**
+> Watch out for using arbitrary properties which could be expressed as Tailwind classes. `tailwind_merge` does not resolve conflicts between arbitrary properties and their matching Tailwind classes to keep the bundle size small.
 
 ### Supports arbitrary variants
 
@@ -113,7 +114,9 @@ Watch out when mixing arbitrary properties which could be expressed as Tailwind 
 @merger.merge('[&:focus]:ring focus:ring-4') # → '[&:focus]:ring focus:ring-4'
 ```
 
-Similarly to arbitrary properties, `tailwind_merge` does not resolve conflicts between arbitrary variants and their matching predefined modifiers.
+> **Warning**
+> Similarly to arbitrary properties, `tailwind_merge` does not resolve conflicts between arbitrary variants and their matching predefined modifiers for bundle size reasons.
+> The order of standard modifiers before and after an arbitrary variant in isolation (all modifiers before are one group, all modifiers after are another group) does not matter for `tailwind_merge`. However, it _does_ matter whether a standard modifier is before or after an arbitrary variant both for Tailwind CSS and `tailwind_merge` because the resulting CSS selectors are different.
 
 ### Supports important modifier
 
@@ -148,7 +151,7 @@ If you're using Tailwind CSS without any extra configs, you can use it right awa
 merger = TailwindMerge::Merger.new
 ```
 
-## Usage with custom Tailwind config
+### Usage with custom Tailwind config
 
 If you're using a custom Tailwind config, you may need to configure tailwind-merge as well to merge classes properly.
 
@@ -303,6 +306,22 @@ Here's a brief summary for each validator:
 - `IS_ARBITRARY_SHADOW` checks whether class part is an arbitrary value which starts with the same pattern as a shadow value (`[0_35px_60px_-15px_rgba(0,0,0,0.3)]`), namely with two lengths separated by a underscore.
 - `IS_ANY` always returns true. Be careful with this validator as it might match unwanted classes. I use it primarily to match colors or when it's certain there are no other class groups in a namespace.
 
+## Performance
+
+### Results are cached
+
+Results are cached by default, so you don't need to worry about wasteful re-renders. The library uses a computationally lightweight [LRU cache](<https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)>) which stores up to 500 different results by default. The cache is applied after all arguments are joined together to a single string. This means that if you call `merge` repeatedly with different arguments that result in the same string when joined, the cache will be hit.
+
+The cache size can be modified or opted out of by setting the `cache_size` config variable.
+
+### Data structures are reused between calls
+
+Expensive computations happen upfront so that `merge` calls without a cache hit stay fast.
+
+### Lazy initialization
+
+The initial computations are called lazily on the first call to `merge` to prevent it from impacting startup performance if it isn't used initially.
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/gjtorikian/tailwind_merge.
@@ -310,3 +329,7 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/gjtori
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+
+## Acknowledgements
+
+This gem is pretty much just a port of https://github.com/dcastil/tailwind-merge. Thank them, not me!

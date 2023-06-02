@@ -10,20 +10,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: true
-      matrix:
-        ruby-version:
-          - 3.1
-          - 3.2
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Ruby ${{ matrix.ruby-version }}
-        uses: ruby/setup-ruby@v1
+      - name: Set up Ruby
+        uses: yettoapp/actions/setup-languages@main
         with:
-          ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true
+          ruby: true
 
       - name: Run tests
         run: bundle exec rake test
