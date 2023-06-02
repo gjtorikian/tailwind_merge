@@ -19,6 +19,11 @@ class TestArbitraryValues < Minitest::Test
     assert_equal("opacity-[0.025]", @merger.merge("opacity-10 opacity-[0.025]"))
     assert_equal("scale-[1.7]", @merger.merge("scale-75 scale-[1.7]"))
     assert_equal("brightness-[1.75]", @merger.merge("brightness-90 brightness-[1.75]"))
+
+    # Handling of value `0`
+    assert_equal("min-h-[0]", @merger.merge("min-h-[0.5px] min-h-[0]"))
+    assert_equal("text-[0.5px] text-[color:0]", @merger.merge("text-[0.5px] text-[color:0]"))
+    assert_equal("text-[0.5px] text-[--my-0]", @merger.merge("text-[0.5px] text-[--my-0]"))
   end
 
   def test_handles_arbitrary_length_conflicts_with_labels_and_modifiers_correctly
