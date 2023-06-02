@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module TailwindMerge
-  VERSION = "0.7.1.1"
+  VERSION = "0.7.1.2"
 end
