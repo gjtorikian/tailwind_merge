@@ -1,5 +1,14 @@
 # Changelog
 
+## [v0.7.1](https://github.com/gjtorikian/tailwind_merge/tree/v0.7.1) (2023-06-02)
+
+[Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.7.0...v0.7.1)
+
+**Merged pull requests:**
+
+- Port updates [\#12](https://github.com/gjtorikian/tailwind_merge/pull/12) ([gjtorikian](https://github.com/gjtorikian))
+- Add Ruby 3.2 to CI. Minor additional cleanup. [\#11](https://github.com/gjtorikian/tailwind_merge/pull/11) ([petergoldstein](https://github.com/petergoldstein))
+
 ## [v0.7.0](https://github.com/gjtorikian/tailwind_merge/tree/v0.7.0) (2023-04-03)
 
 [Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.6.0...v0.7.0)
