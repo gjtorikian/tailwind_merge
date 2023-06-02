@@ -1,7 +1,7 @@
 name: Tests
 
 on:
-  pull_request:
+  pull_request_target:
 
 permissions:
   contents: read
@@ -10,20 +10,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
-    strategy:
-      fail-fast: true
-      matrix:
-        ruby-version:
-          - 3.1.0
-
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Ruby ${{ matrix.ruby-version }}
-        uses: ruby/setup-ruby@v1
+      - name: Set up Ruby
+        uses: yettoapp/actions/setup-languages@main
         with:
-          ruby-version: ${{ matrix.ruby-version }}
-          bundler-cache: true
+          ruby: true
 
       - name: Install dependencies
         run: bundle install
