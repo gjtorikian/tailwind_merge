@@ -9,6 +9,7 @@ class TestClassGroupConflicts < Minitest::Test
 
   def test_merge_classes_from_same_group_correctly
     assert_equal("overflow-x-hidden", @merger.merge("overflow-x-auto overflow-x-hidden"))
+    assert_equal("basis-auto", @merger.merge("basis-full basis-auto"))
     assert_equal("w-fit", @merger.merge("w-full w-fit"))
     assert_equal("overflow-x-scroll", @merger.merge("overflow-x-auto overflow-x-hidden overflow-x-scroll"))
     assert_equal("hover:overflow-x-hidden overflow-x-scroll", @merger.merge("overflow-x-auto hover:overflow-x-hidden overflow-x-scroll"))

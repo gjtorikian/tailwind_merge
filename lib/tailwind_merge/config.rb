@@ -327,7 +327,7 @@ module TailwindMerge
         # Flex Basis
         # @see https://tailwindcss.com/docs/flex-basis
         ##
-        "basis" => [{ "basis" => [SPACING] }],
+        "basis" => [{ "basis" => SPACING_WITH_AUTO.call }],
         ##
         # Flex Direction
         # @see https://tailwindcss.com/docs/flex-direction
