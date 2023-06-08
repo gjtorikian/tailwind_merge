@@ -1,5 +1,13 @@
 # Changelog
 
+## [v0.7.2](https://github.com/gjtorikian/tailwind_merge/tree/v0.7.2) (2023-06-08)
+
+[Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.7.1.2...v0.7.2)
+
+**Merged pull requests:**
+
+- Fix basis-auto and basis-full not being merged correctly [\#13](https://github.com/gjtorikian/tailwind_merge/pull/13) ([gjtorikian](https://github.com/gjtorikian))
+
 ## [v0.7.1.2](https://github.com/gjtorikian/tailwind_merge/tree/v0.7.1.2) (2023-06-02)
 
 [Full Changelog](https://github.com/gjtorikian/tailwind_merge/compare/v0.7.1.1...v0.7.1.2)
