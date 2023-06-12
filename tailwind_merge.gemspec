@@ -31,6 +31,7 @@ Gem::Specification.new do |spec|
   spec.bindir = "exe"
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
+  spec.extensions = ["ext/tailwind_merge/Cargo.toml"]
 
   spec.add_dependency("lru_redux", "~> 1.1")
 

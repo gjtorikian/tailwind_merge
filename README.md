@@ -4,6 +4,15 @@ Utility function to efficiently merge [Tailwind CSS](https://tailwindcss.com/) c
 
 Supports Tailwind v3.0 up to v3.2.
 
+## (WIP) Rust extension
+
+The Rust extension can be built with `rake compile`
+
+The default rake task (started with `rake default` or simply `rake`) builds and then runs the tests.
+
+The current setup is that the Rust methods are called unless `USE_RUBY` env var is set, in which case it falls back to the
+existing Ruby implementation. This is so you can test the Rust implementation against the Ruby tests.
+
 ## Installation
 
 Install the gem and add it to your application's Gemfile by executing:

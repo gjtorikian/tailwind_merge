@@ -18,3 +18,14 @@ GEMSPEC = Bundler.load_gemspec("tailwind_merge.gemspec")
 gem_path = Gem::PackageTask.new(GEMSPEC).define
 desc "Package the ruby gem"
 task "package" => [gem_path]
+
+require "rb_sys/extensiontask"
+
+desc "Compile the Rust extension"
+task build: :compile
+
+RbSys::ExtensionTask.new("tailwind_merge") do |ext|
+  ext.lib_dir = "lib/tailwind_merge"
+end
+
+task default: [:compile, :test, :rubocop]

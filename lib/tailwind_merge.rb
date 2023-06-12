@@ -114,3 +114,5 @@ module TailwindMerge
     end
   end
 end
+
+require_relative "tailwind_merge/tailwind_merge" unless ENV.fetch("USE_RUBY", false)

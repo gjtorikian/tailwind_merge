@@ -17,7 +17,6 @@ Gemfile.lock
 out/
 sample.rb
 run_sample.rb
-src/
 docs/
 
 # YARD artifacts
@@ -28,3 +27,12 @@ _yardoc
 .idea
 .byebug_history
 .vscode
+
+# Rust
+Cargo.lock
+*.bundle
+*.so
+*.o
+*.a
+mkmf.log
+target/

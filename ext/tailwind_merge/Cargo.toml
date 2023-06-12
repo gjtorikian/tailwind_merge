@@ -1,0 +1,13 @@
+[package]
+name = "tailwind_merge"
+version = "0.1.0"
+edition = "2021"
+authors = ["Stephen Ierodiaconou <stevegeek@gmail.com>"]
+license = "MIT"
+publish = false
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+magnus = { version = "0.5" }
