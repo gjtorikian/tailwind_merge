@@ -38,4 +38,15 @@ class TestArbitraryValues < Minitest::Test
     assert_equal("grid-rows-2", @merger.merge("grid-rows-[1fr,auto] grid-rows-2"))
     assert_equal("grid-rows-3", @merger.merge("grid-rows-[repeat(20,minmax(0,1fr))] grid-rows-3"))
   end
+
+  def test_handles_ambiguous_arbitrary_values_correctly
+    assert_equal("mt-[calc(theme(fontSize.4xl)/1.125)]", @merger.merge("mt-2 mt-[calc(theme(fontSize.4xl)/1.125)]"))
+    assert_equal("p-[calc(theme(fontSize.4xl)/1.125)_10px]", @merger.merge("p-2 p-[calc(theme(fontSize.4xl)/1.125)_10px]"))
+    assert_equal("mt-[length:theme(someScale.someValue)]", @merger.merge("mt-2 mt-[length:theme(someScale.someValue)]"))
+
+    assert_equal("mt-[theme(someScale.someValue)]", @merger.merge("mt-2 mt-[theme(someScale.someValue)]"))
+
+    assert_equal("text-[length:theme(someScale.someValue)]", @merger.merge("text-2xl text-[length:theme(someScale.someValue)]"))
+    assert_equal("text-[calc(theme(fontSize.4xl)/1.125)]", @merger.merge("text-2xl text-[calc(theme(fontSize.4xl)/1.125)]"))
+  end
 end
