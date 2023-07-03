@@ -14,6 +14,7 @@ class TestClassGroupConflicts < Minitest::Test
     assert_equal("overflow-x-scroll", @merger.merge("overflow-x-auto overflow-x-hidden overflow-x-scroll"))
     assert_equal("hover:overflow-x-hidden overflow-x-scroll", @merger.merge("overflow-x-auto hover:overflow-x-hidden overflow-x-scroll"))
     assert_equal("hover:overflow-x-auto overflow-x-scroll", @merger.merge("overflow-x-auto hover:overflow-x-hidden hover:overflow-x-auto overflow-x-scroll"))
+    assert_equal("col-span-full", @merger.merge("col-span-1 col-span-full"))
   end
 
   def test_merges_classes_from_font_variant_numeric_section_correctly

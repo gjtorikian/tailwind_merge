@@ -368,7 +368,8 @@ module TailwindMerge
         # Grid Column Start / End
         # @see https://tailwindcss.com/docs/grid-column
         ##
-        "col-start-end" => [{ "col" => ["auto", { "span" => [IS_INTEGER, IS_ARBITRARY_VALUE] }] }],
+        "col-start-end" => [{ "col" => ["auto", { "span" => ["full", IS_INTEGER] }, IS_ARBITRARY_VALUE] }],
+
         ##
         # Grid Column Start
         # @see https://tailwindcss.com/docs/grid-column
