@@ -11,8 +11,6 @@ gem "minitest", "~> 5.0"
 
 gem "rubocop", "~> 1.21"
 
-gem "github_changelog_generator", "~> 1.16"
-
 gem "rubocop-standard"
 
 gem "amazing_print", require: false
