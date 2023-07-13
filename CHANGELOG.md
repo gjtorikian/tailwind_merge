@@ -1,3 +1,7 @@
+## [v0.7.4] - 03-07-2023
+null
+## [v0.7.3] - 26-06-2023
+null
 # Changelog
 
 ## [v0.7.2](https://github.com/gjtorikian/tailwind_merge/tree/v0.7.2) (2023-06-08)

@@ -64,7 +64,8 @@ module TailwindMerge
 
     OVERSCROLL = -> { ["auto", "contain", "none"] }
     OVERFLOW = -> { ["auto", "hidden", "clip", "visible", "scroll"] }
-    SPACING_WITH_AUTO = -> { ["auto", SPACING] }
+    SPACING_WITH_AUTO_AND_ARBITRARY = -> { ["auto", IS_ARBITRARY_VALUE, SPACING] }
+    SPACING_WITH_ARBITRARY = -> { [IS_ARBITRARY_VALUE, SPACING] }
     LENGTH_WITH_EMPTY = -> { ["", IS_LENGTH] }
     NUMBER_WITH_AUTO_AND_ARBITRARY = -> { ["auto", IS_NUMBER, IS_ARBITRARY_VALUE] }
     POSITIONS = -> {
@@ -114,29 +115,29 @@ module TailwindMerge
       theme: {
         "colors" => [IS_ANY],
         "spacing" => [IS_LENGTH],
-        "blur" => ["none", "", IS_TSHIRT_SIZE, IS_ARBITRARY_LENGTH],
+        "blur" => ["none", "", IS_TSHIRT_SIZE, IS_ARBITRARY_VALUE],
         "brightness" => NUMBER.call,
         "border-color" => [COLORS],
-        "border-radius" => ["none", "", "full", IS_TSHIRT_SIZE, IS_ARBITRARY_LENGTH],
-        "border-spacing" => [SPACING],
+        "border-radius" => ["none", "", "full", IS_TSHIRT_SIZE, IS_ARBITRARY_VALUE],
+        "border-spacing" => SPACING_WITH_ARBITRARY.call,
         "border-width" => LENGTH_WITH_EMPTY.call,
         "contrast" => NUMBER.call,
         "grayscale" => ZERO_AND_EMPTY.call,
         "hue-rotate" => NUMBER_AND_ARBITRARY.call,
         "invert" => ZERO_AND_EMPTY.call,
-        "gap" => [SPACING],
+        "gap" => SPACING_WITH_ARBITRARY.call,
         "gradient-color-stops" => [COLORS],
         "gradient-color-stop-positions" => [IS_PERCENT, IS_ARBITRARY_LENGTH],
-        "inset" => SPACING_WITH_AUTO.call,
-        "margin" => SPACING_WITH_AUTO.call,
+        "inset" => SPACING_WITH_AUTO_AND_ARBITRARY.call,
+        "margin" => SPACING_WITH_AUTO_AND_ARBITRARY.call,
         "opacity" => NUMBER.call,
-        "padding" => [SPACING],
+        "padding" => SPACING_WITH_ARBITRARY.call,
         "saturate" => NUMBER.call,
         "scale" => NUMBER.call,
         "sepia" => ZERO_AND_EMPTY.call,
         "skew" => NUMBER_AND_ARBITRARY.call,
-        "space" => [SPACING],
-        "translate" => [SPACING],
+        "space" => SPACING_WITH_ARBITRARY.call,
+        "translate" => SPACING_WITH_ARBITRARY.call,
       },
       class_groups: { # rubocop:disable Metrics/CollectionLiteralLength
         # Layout
@@ -327,7 +328,7 @@ module TailwindMerge
         # Flex Basis
         # @see https://tailwindcss.com/docs/flex-basis
         ##
-        "basis" => [{ "basis" => SPACING_WITH_AUTO.call }],
+        "basis" => [{ "basis" => SPACING_WITH_AUTO_AND_ARBITRARY.call }],
         ##
         # Flex Direction
         # @see https://tailwindcss.com/docs/flex-direction
@@ -367,7 +368,8 @@ module TailwindMerge
         # Grid Column Start / End
         # @see https://tailwindcss.com/docs/grid-column
         ##
-        "col-start-end" => [{ "col" => ["auto", { "span" => [IS_INTEGER, IS_ARBITRARY_VALUE] }] }],
+        "col-start-end" => [{ "col" => ["auto", { "span" => ["full", IS_INTEGER] }, IS_ARBITRARY_VALUE] }],
+
         ##
         # Grid Column Start
         # @see https://tailwindcss.com/docs/grid-column
@@ -589,12 +591,12 @@ module TailwindMerge
         # Width
         # @see https://tailwindcss.com/docs/width
         ##
-        "w" => [{ "w" => ["auto", "min", "max", "fit", SPACING] }],
+        "w" => [{ "w" => ["auto", "min", "max", "fit", IS_ARBITRARY_VALUE, SPACING] }],
         ##
         # Min-Width
         # @see https://tailwindcss.com/docs/min-width
         ##
-        "min-w" => [{ "min-w" => ["min", "max", "fit", IS_LENGTH] }],
+        "min-w" => [{ "min-w" => ["min", "max", "fit", IS_ARBITRARY_VALUE, IS_LENGTH] }],
         ##
         # Max-Width
         # @see https://tailwindcss.com/docs/max-width
@@ -611,7 +613,7 @@ module TailwindMerge
               "prose",
               { "screen" => [IS_TSHIRT_SIZE] },
               IS_TSHIRT_SIZE,
-              IS_ARBITRARY_LENGTH,
+              IS_ARBITRARY_VALUE,
             ],
           },
         ],
@@ -619,17 +621,17 @@ module TailwindMerge
         # Height
         # @see https://tailwindcss.com/docs/height
         ##
-        "h" => [{ "h" => ["auto", "min", "max", "fit", SPACING] }],
+        "h" => [{ "h" => [IS_ARBITRARY_VALUE, SPACING, "auto", "min", "max", "fit"] }],
         ##
         # Min-Height
         # @see https://tailwindcss.com/docs/min-height
         ##
-        "min-h" => [{ "min-h" => ["min", "max", "fit", IS_LENGTH] }],
+        "min-h" => [{ "min-h" => ["min", "max", "fit", IS_ARBITRARY_VALUE, IS_LENGTH] }],
         ##
         # Max-Height
         # @see https://tailwindcss.com/docs/max-height
         ##
-        "max-h" => [{ "max-h" => [SPACING, "min", "max", "fit"] }],
+        "max-h" => [{ "max-h" => [IS_ARBITRARY_VALUE, SPACING, "min", "max", "fit"] }],
         # Typography
         ##
         # Font Size
@@ -714,7 +716,7 @@ module TailwindMerge
               "wide",
               "wider",
               "widest",
-              IS_ARBITRARY_LENGTH,
+              IS_ARBITRARY_VALUE,
             ],
           }, # rubocop:enable Metrics/CollectionLiteralLength
         ],
@@ -728,7 +730,7 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/line-height
         ##
         "leading" => [
-          { "leading" => ["none", "tight", "snug", "normal", "relaxed", "loose", IS_LENGTH] },
+          { "leading" => ["none", "tight", "snug", "normal", "relaxed", "loose", IS_ARBITRARY_VALUE, IS_LENGTH] },
         ],
         #
         # List Style Image
@@ -790,7 +792,7 @@ module TailwindMerge
         # Text Underline Offset
         # @see https://tailwindcss.com/docs/text-underline-offset
         ##
-        "underline-offset" => [{ "underline-offset" => ["auto", IS_LENGTH] }],
+        "underline-offset" => [{ "underline-offset" => ["auto", IS_ARBITRARY_VALUE, IS_LENGTH] }],
         ##
         # Text Decoration Color
         # @see https://tailwindcss.com/docs/text-decoration-color
@@ -810,7 +812,7 @@ module TailwindMerge
         # Text Indent
         # @see https://tailwindcss.com/docs/text-indent
         ##
-        "indent" => [{ "indent" => [SPACING] }],
+        "indent" => [{ "indent" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Vertical Alignment
         # @see https://tailwindcss.com/docs/vertical-align
@@ -826,7 +828,7 @@ module TailwindMerge
               "text-bottom",
               "sub",
               "super",
-              IS_ARBITRARY_LENGTH,
+              IS_ARBITRARY_VALUE,
             ],
           },
         ],
@@ -1145,7 +1147,7 @@ module TailwindMerge
         # Outline Offset
         # @see https://tailwindcss.com/docs/outline-offset
         ##
-        "outline-offset" => [{ "outline-offset" => [IS_LENGTH] }],
+        "outline-offset" => [{ "outline-offset" => [IS_ARBITRARY_VALUE, IS_LENGTH] }],
         ##
         # Outline Width
         # @see https://tailwindcss.com/docs/outline-width
@@ -1533,92 +1535,92 @@ module TailwindMerge
         # Scroll Margin
         # @see https://tailwindcss.com/docs/scroll-margin
         ##
-        "scroll-m" => [{ "scroll-m" => [SPACING] }],
+        "scroll-m" => [{ "scroll-m" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Scroll Margin X
         # @see https://tailwindcss.com/docs/scroll-margin
         ##
-        "scroll-mx" => [{ "scroll-mx" => [SPACING] }],
+        "scroll-mx" => [{ "scroll-mx" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Scroll Margin Y
         # @see https://tailwindcss.com/docs/scroll-margin
         ##
-        "scroll-my" => [{ "scroll-my" => [SPACING] }],
+        "scroll-my" => [{ "scroll-my" => SPACING_WITH_ARBITRARY.call }],
         #
         # Scroll Margin Start
         # @see https://tailwindcss.com/docs/scroll-margin
         #
-        "scroll-ms" => [{ "scroll-ms" => [SPACING] }],
+        "scroll-ms" => [{ "scroll-ms" => SPACING_WITH_ARBITRARY.call }],
         #
         # Scroll Margin End
         # @see https://tailwindcss.com/docs/scroll-margin
         #
-        "scroll-me" => [{ "scroll-me" => [SPACING] }],
+        "scroll-me" => [{ "scroll-me" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Scroll Margin Top
         # @see https://tailwindcss.com/docs/scroll-margin
         ##
-        "scroll-mt" => [{ "scroll-mt" => [SPACING] }],
+        "scroll-mt" => [{ "scroll-mt" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Scroll Margin Right
         # @see https://tailwindcss.com/docs/scroll-margin
         ##
-        "scroll-mr" => [{ "scroll-mr" => [SPACING] }],
+        "scroll-mr" => [{ "scroll-mr" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Scroll Margin Bottom
         # @see https://tailwindcss.com/docs/scroll-margin
         ##
-        "scroll-mb" => [{ "scroll-mb" => [SPACING] }],
+        "scroll-mb" => [{ "scroll-mb" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Scroll Margin Left
         # @see https://tailwindcss.com/docs/scroll-margin
         ##
-        "scroll-ml" => [{ "scroll-ml" => [SPACING] }],
+        "scroll-ml" => [{ "scroll-ml" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Scroll Padding
         # @see https://tailwindcss.com/docs/scroll-padding
         ##
-        "scroll-p" => [{ "scroll-p" => [SPACING] }],
+        "scroll-p" => [{ "scroll-p" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Scroll Padding X
         # @see https://tailwindcss.com/docs/scroll-padding
         ##
-        "scroll-px" => [{ "scroll-px" => [SPACING] }],
+        "scroll-px" => [{ "scroll-px" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Scroll Padding Y
         # @see https://tailwindcss.com/docs/scroll-padding
         ##
-        "scroll-py" => [{ "scroll-py" => [SPACING] }],
+        "scroll-py" => [{ "scroll-py" => SPACING_WITH_ARBITRARY.call }],
         #
         # Scroll Padding Start
         # @see https://tailwindcss.com/docs/scroll-padding
         #
-        "scroll-ps" => [{ "scroll-ps" => [SPACING] }],
+        "scroll-ps" => [{ "scroll-ps" => SPACING_WITH_ARBITRARY.call }],
         #
         # Scroll Padding End
         # @see https://tailwindcss.com/docs/scroll-padding
         #
-        "scroll-pe" => [{ "scroll-pe" => [SPACING] }],
+        "scroll-pe" => [{ "scroll-pe" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Scroll Padding Top
         # @see https://tailwindcss.com/docs/scroll-padding
         ##
-        "scroll-pt" => [{ "scroll-pt" => [SPACING] }],
+        "scroll-pt" => [{ "scroll-pt" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Scroll Padding Right
         # @see https://tailwindcss.com/docs/scroll-padding
         ##
-        "scroll-pr" => [{ "scroll-pr" => [SPACING] }],
+        "scroll-pr" => [{ "scroll-pr" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Scroll Padding Bottom
         # @see https://tailwindcss.com/docs/scroll-padding
         ##
-        "scroll-pb" => [{ "scroll-pb" => [SPACING] }],
+        "scroll-pb" => [{ "scroll-pb" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Scroll Padding Left
         # @see https://tailwindcss.com/docs/scroll-padding
         ##
-        "scroll-pl" => [{ "scroll-pl" => [SPACING] }],
+        "scroll-pl" => [{ "scroll-pl" => SPACING_WITH_ARBITRARY.call }],
         ##
         # Scroll Snap Align
         # @see https://tailwindcss.com/docs/scroll-snap-align

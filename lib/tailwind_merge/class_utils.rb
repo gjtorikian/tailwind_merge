@@ -34,7 +34,7 @@ module TailwindMerge
 
       return class_group_from_next_class_part if class_group_from_next_class_part
 
-      return nil if class_part_object[:validators].empty?
+      return if class_part_object[:validators].empty?
 
       class_rest = class_parts.join(CLASS_PART_SEPARATOR)
 
