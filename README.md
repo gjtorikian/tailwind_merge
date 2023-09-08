@@ -34,15 +34,15 @@ If you use Tailwind with a component-based UI renderer (like [ViewComponent](htt
 <%= render(ConfirmEmailComponent.new(class: "p-5")) %>
 ```
 
-When the `ConfirmEmailComponent` is rendered, an input with the className `border rounded px-2 py-1` gets created. But because of the way the [CSS cascade](https://developer.mozilla.org/en-US/docs/Web/CSS/Cascade) works, the styles of the `p-5` class are ignored. The order of the classes in the `class` string doesn't matter at all and the only way to apply the `p-3` styles is to remove both `px-2` and `py-1`.
+When the `ConfirmEmailComponent` is rendered, an input with the className `border rounded px-2 py-1` gets created. But because of the way the [CSS cascade](https://developer.mozilla.org/en-US/docs/Web/CSS/Cascade) works, the styles of the `p-5` class are ignored. The order of the classes in the `class` string doesn't matter at all and the only way to apply the `p-5` style is to remove both `px-2` and `py-1`.
 
 This is where `tailwind_merge` comes in:
 
 ```ruby
 
 @merger = TailwindMerge::Merger.new
-@merger.merge("border rounded px-2 py-1 px-5")
-# border rounded p-5
+@merger.merge("border rounded px-2 py-1 p-5")
+# → "border rounded p-5"
 ```
 
 tailwind-merge overrides conflicting classes and keeps everything else untouched. In the case of the implementation of `ConfirmEmailComponent`, the input now only renders the classes `border rounded p-5`.
