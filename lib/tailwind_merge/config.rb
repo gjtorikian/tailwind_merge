@@ -898,7 +898,7 @@ module TailwindMerge
             "bg" => [
               "none",
               { "gradient-to" => ["t", "tr", "r", "br", "b", "bl", "l", "tl"] },
-              IS_ARBITRARY_URL,
+              IS_ARBITRARY_IMAGE,
             ],
           },
         ],
