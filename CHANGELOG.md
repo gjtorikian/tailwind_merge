@@ -1,3 +1,5 @@
+## [v0.8.1] - 19-09-2023
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v0.8.0...v0.8.1
 ## [v0.8.0] - 19-09-2023
 ## What's Changed
 * Add clarifications to README by @borama in https://github.com/gjtorikian/tailwind_merge/pull/17
