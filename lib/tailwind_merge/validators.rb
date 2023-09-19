@@ -9,7 +9,9 @@ module TailwindMerge
         match = ARBITRARY_VALUE_REGEX.match(class_part)
         return false unless match
 
-        return match[1] == label if match[1]
+        unless match[1].nil?
+          return label.is_a?(Set) ? label.include?(match[1]) : label == match[1]
+        end
 
         test_value.call(match[2])
       end
@@ -31,16 +33,16 @@ module TailwindMerge
     TSHIRT_UNIT_REGEX = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/
     # Shadow always begins with x and y offset separated by underscore
     SHADOW_REGEX = /^-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/
+    IMAGE_REGEX = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/
+
+    SIZE_LABELS = Set.new(["length", "size", "percentage"]).freeze
+    IMAGE_LABELS = Set.new(["image", "url"]).freeze
 
     is_length_only = ->(value) {
       LENGTH_UNIT_REGEX.match?(value)
     }
 
     is_never = ->(_) { false }
-
-    is_url = ->(value) {
-      value.start_with?("url(")
-    }
 
     is_number = ->(value) {
       numeric?(value)
@@ -52,6 +54,10 @@ module TailwindMerge
 
     is_shadow = ->(value) {
       SHADOW_REGEX.match?(value)
+    }
+
+    is_image = ->(value) {
+      IMAGE_REGEX.match?(value)
     }
 
     IS_LENGTH = ->(value) {
@@ -66,15 +72,15 @@ module TailwindMerge
     }
 
     IS_ARBITRARY_SIZE = ->(value) {
-      arbitrary_value?(value, "size", is_never)
+      arbitrary_value?(value, SIZE_LABELS, is_never)
     }
 
     IS_ARBITRARY_POSITION = ->(value) {
       arbitrary_value?(value, "position", is_never)
     }
 
-    IS_ARBITRARY_URL = ->(value) {
-      arbitrary_value?(value, "url", is_url)
+    IS_ARBITRARY_IMAGE = ->(value) {
+      arbitrary_value?(value, IMAGE_LABELS, is_image)
     }
 
     IS_ARBITRARY_NUMBER = ->(value) {

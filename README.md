@@ -108,8 +108,7 @@ The order of standard modifiers does not matter for tailwind-merge.
 @merger.merge('[padding:1rem] p-8') # → '[padding:1rem] p-8'
 ```
 
-> **Warning**
-> `tailwind_merge` does not resolve conflicts between arbitrary properties and their matching Tailwind classes to keep the bundle size small.
+> **Warning** > `tailwind_merge` does not resolve conflicts between arbitrary properties and their matching Tailwind classes to keep the bundle size small.
 
 ### Supports arbitrary variants
 
@@ -314,7 +313,7 @@ Here's a brief summary for each validator:
 - `IS_TSHIRT_SIZE`checks whether class part is a T-shirt size (`sm`, `xl`), optionally with a preceding number (`2xl`).
 - `IS_ARBITRARY_SIZE` checks whether class part is an arbitrary value which starts with `size:` (`[size:200px_100px]`) which is necessary for background-size classNames.
 - `IS_ARBITRARY_POSITION` checks whether class part is an arbitrary value which starts with `position:` (`[position:200px_100px]`) which is necessary for background-position classNames.
-- `IS_ARBITRARY_URL` checks whether class part is an arbitrary value which starts with `url:` or `url(` (`[url('/path-to-image.png')]`, `url:var(--maybe-a-url-at-runtime)]`) which is necessary for background-image classNames.
+- `IS_ARBITRARY_IMAGE` checks whether class part is an arbitrary value which is an iamge, e.g. by starting with `image:`, `url:`, `linear-gradient(` or `url(` (`[url('/path-to-image.png')]`, `image:var(--maybe-an-image-at-runtime)]`) which is necessary for background-image classNames.
 - `IS_ARBITRARY_NUMBER` checks whether class part is an arbitrary value which starts with `number:` or is a number (`[number:var(--value)]`, `[450]`) which is necessary for font-weight classNames.
 - `IS_ARBITRARY_SHADOW` checks whether class part is an arbitrary value which starts with the same pattern as a shadow value (`[0_35px_60px_-15px_rgba(0,0,0,0.3)]`), namely with two lengths separated by a underscore.
 - `IS_ANY` always returns true. Be careful with this validator as it might match unwanted classes. I use it primarily to match colors or when it's certain there are no other class groups in a namespace.

@@ -106,6 +106,8 @@ class TestValidators < Minitest::Test
   def test_is_arbitrary_size
     assert(IS_ARBITRARY_SIZE.call("[size:2px]"))
     assert(IS_ARBITRARY_SIZE.call("[size:bla]"))
+    assert(IS_ARBITRARY_SIZE.call("[length:bla]"))
+    assert(IS_ARBITRARY_SIZE.call("[percentage:bla]"))
 
     refute(IS_ARBITRARY_SIZE.call("[2px]"))
     refute(IS_ARBITRARY_SIZE.call("[bla]"))
@@ -121,15 +123,18 @@ class TestValidators < Minitest::Test
     refute(IS_ARBITRARY_POSITION.call("position:2px"))
   end
 
-  def test_is_arbitrary_url
-    assert(IS_ARBITRARY_URL.call("[url:var(--my-url)]"))
-    assert(IS_ARBITRARY_URL.call("[url(something)]"))
-    assert(IS_ARBITRARY_URL.call("[url:bla]"))
+  def test_is_arbitrary_iamge
+    assert(IS_ARBITRARY_IMAGE.call("[url:var(--my-url)]"))
+    assert(IS_ARBITRARY_IMAGE.call("[url(something)]"))
+    assert(IS_ARBITRARY_IMAGE.call("[url:bla]"))
+    assert(IS_ARBITRARY_IMAGE.call("[image:bla]"))
+    assert(IS_ARBITRARY_IMAGE.call("[linear-gradient(something)]"))
+    assert(IS_ARBITRARY_IMAGE.call("[repeating-conic-gradient(something)]"))
 
-    refute(IS_ARBITRARY_URL.call("[var(--my-url)]"))
-    refute(IS_ARBITRARY_URL.call("[bla]"))
-    refute(IS_ARBITRARY_URL.call("url:2px"))
-    refute(IS_ARBITRARY_URL.call("url(2px)"))
+    refute(IS_ARBITRARY_IMAGE.call("[var(--my-url)]"))
+    refute(IS_ARBITRARY_IMAGE.call("[bla]"))
+    refute(IS_ARBITRARY_IMAGE.call("url:2px"))
+    refute(IS_ARBITRARY_IMAGE.call("url(2px)"))
   end
 
   def test_is_arbitrary_number

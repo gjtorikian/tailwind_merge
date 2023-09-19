@@ -48,5 +48,8 @@ class TestArbitraryValues < Minitest::Test
 
     assert_equal("text-[length:theme(someScale.someValue)]", @merger.merge("text-2xl text-[length:theme(someScale.someValue)]"))
     assert_equal("text-[calc(theme(fontSize.4xl)/1.125)]", @merger.merge("text-2xl text-[calc(theme(fontSize.4xl)/1.125)]"))
+
+    assert_equal("bg-[length:200px_100px]", @merger.merge("bg-cover bg-[percentage:30%] bg-[length:200px_100px]"))
+    assert_equal("bg-gradient-to-r", @merger.merge("bg-none bg-[url(.)] bg-[image:.] bg-[url:.] bg-[linear-gradient(.)] bg-gradient-to-r"))
   end
 end
