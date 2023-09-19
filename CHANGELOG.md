@@ -1,3 +1,15 @@
+## [v0.8.0] - 19-09-2023
+## What's Changed
+* Add clarifications to README by @borama in https://github.com/gjtorikian/tailwind_merge/pull/17
+* Bump actions/checkout from 3 to 4 by @dependabot in https://github.com/gjtorikian/tailwind_merge/pull/18
+* Update What's it for example in README by @borama in https://github.com/gjtorikian/tailwind_merge/pull/19
+* Swap to using IMAGE, not URL by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/20
+
+## New Contributors
+* @borama made their first contribution in https://github.com/gjtorikian/tailwind_merge/pull/17
+* @dependabot made their first contribution in https://github.com/gjtorikian/tailwind_merge/pull/18
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v0.7.4...v0.8.0
 ## [v0.7.4] - 03-07-2023
 null
 ## [v0.7.3] - 26-06-2023
