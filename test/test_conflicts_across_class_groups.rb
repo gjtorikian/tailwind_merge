@@ -25,4 +25,14 @@ class TestConflictsAcrossClassGroups < Minitest::Test
     assert_equal("shadow ring", @merger.merge("shadow ring"))
     assert_equal("shadow-md ring-2", @merger.merge("shadow-md ring-2"))
   end
+
+  def test_touch_classes_do_create_conflicts_correctly
+    assert_equal("touch-pan-right", @merger.merge("touch-pan-x touch-pan-right"))
+    assert_equal("touch-pan-x", @merger.merge("touch-none touch-pan-x"))
+    assert_equal("touch-none", @merger.merge("touch-pan-x touch-none"))
+    assert_equal("touch-pan-x touch-pan-y touch-pinch-zoom", @merger.merge("touch-pan-x touch-pan-y touch-pinch-zoom"))
+    assert_equal("touch-pan-x touch-pan-y touch-pinch-zoom", @merger.merge("touch-manipulation touch-pan-x touch-pan-y touch-pinch-zoom"))
+
+    assert_equal("touch-auto", @merger.merge("touch-pan-x touch-pan-y touch-pinch-zoom touch-auto"))
+  end
 end

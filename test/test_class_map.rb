@@ -283,7 +283,7 @@ class TestClassMap < Minitest::Test
         "text" => ["font-size", "text-alignment", "text-color", "text-opacity", "text-overflow"],
         "to" => ["gradient-to", "gradient-to-pos"],
         "top" => ["top"],
-        "touch" => ["touch"],
+        "touch" => ["touch", "touch-pz", "touch-x", "touch-y"],
         "tracking" => ["tracking"],
         "transform" => ["transform"],
         "transition" => ["transition"],
