@@ -63,12 +63,35 @@ module TailwindMerge
     IS_LENGTH = ->(value) {
       numeric?(value) ||
         STRING_LENGTHS.include?(value) ||
-        FRACTION_REGEX.match?(value) ||
-        IS_ARBITRARY_LENGTH.call(value)
+        FRACTION_REGEX.match?(value)
     }
 
     IS_ARBITRARY_LENGTH = ->(value) {
       arbitrary_value?(value, "length", is_length_only)
+    }
+
+    IS_ARBITRARY_NUMBER = ->(value) {
+      arbitrary_value?(value, "number", is_number)
+    }
+
+    IS_NUMBER = ->(value) {
+      is_number.call(value)
+    }
+
+    IS_INTEGER = ->(value) {
+      is_integer_only.call(value)
+    }
+
+    IS_PERCENT = ->(value) {
+      value.end_with?("%") && is_number.call(value[0..-2])
+    }
+
+    IS_ARBITRARY_VALUE = ->(value) {
+      ARBITRARY_VALUE_REGEX.match(value)
+    }
+
+    IS_TSHIRT_SIZE = ->(value) {
+      TSHIRT_UNIT_REGEX.match?(value)
     }
 
     IS_ARBITRARY_SIZE = ->(value) {
@@ -83,34 +106,10 @@ module TailwindMerge
       arbitrary_value?(value, IMAGE_LABELS, is_image)
     }
 
-    IS_ARBITRARY_NUMBER = ->(value) {
-      arbitrary_value?(value, "number", is_number)
-    }
-
-    IS_NUMBER = ->(value) {
-      is_number.call(value)
-    }
-
-    IS_PERCENT = ->(value) {
-      value.end_with?("%") && is_number.call(value[0..-2])
-    }
-
-    IS_INTEGER = ->(value) {
-      is_integer_only.call(value) || arbitrary_value?(value, "number", is_integer_only)
-    }
-
-    IS_ARBITRARY_VALUE = ->(value) {
-      ARBITRARY_VALUE_REGEX.match(value)
-    }
-
-    IS_ANY = ->(_) { return true }
-
-    IS_TSHIRT_SIZE = ->(value) {
-      TSHIRT_UNIT_REGEX.match?(value)
-    }
-
     IS_ARBITRARY_SHADOW = ->(value) {
       arbitrary_value?(value, "", is_shadow)
     }
+
+    IS_ANY = ->(_) { return true }
   end
 end

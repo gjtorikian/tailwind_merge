@@ -66,7 +66,7 @@ module TailwindMerge
     OVERFLOW = -> { ["auto", "hidden", "clip", "visible", "scroll"] }
     SPACING_WITH_AUTO_AND_ARBITRARY = -> { ["auto", IS_ARBITRARY_VALUE, SPACING] }
     SPACING_WITH_ARBITRARY = -> { [IS_ARBITRARY_VALUE, SPACING] }
-    LENGTH_WITH_EMPTY = -> { ["", IS_LENGTH] }
+    LENGTH_WITH_EMPTY_AND_ARBITRARY = -> { ["", IS_LENGTH, IS_ARBITRARY_LENGTH] }
     NUMBER_WITH_AUTO_AND_ARBITRARY = -> { ["auto", IS_NUMBER, IS_ARBITRARY_VALUE] }
     POSITIONS = -> {
       [
@@ -114,13 +114,13 @@ module TailwindMerge
       separator: ":",
       theme: {
         "colors" => [IS_ANY],
-        "spacing" => [IS_LENGTH],
+        "spacing" => [IS_LENGTH, IS_ARBITRARY_LENGTH],
         "blur" => ["none", "", IS_TSHIRT_SIZE, IS_ARBITRARY_VALUE],
         "brightness" => NUMBER.call,
         "border-color" => [COLORS],
         "border-radius" => ["none", "", "full", IS_TSHIRT_SIZE, IS_ARBITRARY_VALUE],
         "border-spacing" => SPACING_WITH_ARBITRARY.call,
-        "border-width" => LENGTH_WITH_EMPTY.call,
+        "border-width" => LENGTH_WITH_EMPTY_AND_ARBITRARY.call,
         "contrast" => NUMBER.call,
         "grayscale" => ZERO_AND_EMPTY.call,
         "hue-rotate" => NUMBER_AND_ARBITRARY.call,
@@ -322,7 +322,7 @@ module TailwindMerge
         # Z-Index
         # @see https://tailwindcss.com/docs/z-index
         ##
-        "z" => [{ "z" => ["auto", IS_INTEGER] }],
+        "z" => [{ "z" => ["auto", IS_INTEGER, IS_ARBITRARY_VALUE] }],
         # Flexbox and Grid
         ##
         # Flex Basis
@@ -358,7 +358,7 @@ module TailwindMerge
         # Order
         # @see https://tailwindcss.com/docs/order
         ##
-        "order" => [{ "order" => ["first", "last", "none", IS_INTEGER] }],
+        "order" => [{ "order" => ["first", "last", "none", IS_INTEGER, IS_ARBITRARY_VALUE] }],
         ##
         # Grid Template Columns
         # @see https://tailwindcss.com/docs/grid-template-columns
@@ -368,7 +368,7 @@ module TailwindMerge
         # Grid Column Start / End
         # @see https://tailwindcss.com/docs/grid-column
         ##
-        "col-start-end" => [{ "col" => ["auto", { "span" => ["full", IS_INTEGER] }, IS_ARBITRARY_VALUE] }],
+        "col-start-end" => [{ "col" => ["auto", { "span" => ["full", IS_INTEGER, IS_ARBITRARY_VALUE] }, IS_ARBITRARY_VALUE] }],
 
         ##
         # Grid Column Start
@@ -389,7 +389,7 @@ module TailwindMerge
         # Grid Row Start / End
         # @see https://tailwindcss.com/docs/grid-row
         ##
-        "row-start-end" => [{ "row" => ["auto", { "span" => [IS_INTEGER] }] }],
+        "row-start-end" => [{ "row" => ["auto", { "span" => [IS_INTEGER, IS_ARBITRARY_VALUE] }, IS_ARBITRARY_VALUE] }],
         ##
         # Grid Row Start
         # @see https://tailwindcss.com/docs/grid-row
@@ -626,7 +626,7 @@ module TailwindMerge
         # Min-Height
         # @see https://tailwindcss.com/docs/min-height
         ##
-        "min-h" => [{ "min-h" => ["min", "max", "fit", IS_ARBITRARY_VALUE, IS_LENGTH] }],
+        "min-h" => [{ "min-h" => ["min", "max", "fit", IS_LENGTH, IS_ARBITRARY_VALUE] }],
         ##
         # Max-Height
         # @see https://tailwindcss.com/docs/max-height
@@ -730,7 +730,7 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/line-height
         ##
         "leading" => [
-          { "leading" => ["none", "tight", "snug", "normal", "relaxed", "loose", IS_ARBITRARY_VALUE, IS_LENGTH] },
+          { "leading" => ["none", "tight", "snug", "normal", "relaxed", "loose", IS_LENGTH, IS_ARBITRARY_VALUE] },
         ],
         #
         # List Style Image
@@ -787,12 +787,12 @@ module TailwindMerge
         # Text Decoration Thickness
         # @see https://tailwindcss.com/docs/text-decoration-thickness
         ##
-        "text-decoration-thickness" => [{ "decoration" => ["auto", "from-font", IS_LENGTH] }],
+        "text-decoration-thickness" => [{ "decoration" => ["auto", "from-font", IS_LENGTH, IS_ARBITRARY_LENGTH] }],
         ##
         # Text Underline Offset
         # @see https://tailwindcss.com/docs/text-underline-offset
         ##
-        "underline-offset" => [{ "underline-offset" => ["auto", IS_ARBITRARY_VALUE, IS_LENGTH] }],
+        "underline-offset" => [{ "underline-offset" => ["auto", IS_LENGTH, IS_ARBITRARY_VALUE] }],
         ##
         # Text Decoration Color
         # @see https://tailwindcss.com/docs/text-decoration-color
@@ -1147,12 +1147,12 @@ module TailwindMerge
         # Outline Offset
         # @see https://tailwindcss.com/docs/outline-offset
         ##
-        "outline-offset" => [{ "outline-offset" => [IS_ARBITRARY_VALUE, IS_LENGTH] }],
+        "outline-offset" => [{ "outline-offset" => [IS_LENGTH, IS_ARBITRARY_VALUE] }],
         ##
         # Outline Width
         # @see https://tailwindcss.com/docs/outline-width
         ##
-        "outline-w" => [{ "outline" => [IS_LENGTH] }],
+        "outline-w" => [{ "outline" => [IS_LENGTH, IS_ARBITRARY_LENGTH] }],
         ##
         # Outline Color
         # @see https://tailwindcss.com/docs/outline-color
@@ -1162,7 +1162,7 @@ module TailwindMerge
         # Ring Width
         # @see https://tailwindcss.com/docs/ring-width
         ##
-        "ring-w" => [{ "ring" => LENGTH_WITH_EMPTY.call }],
+        "ring-w" => [{ "ring" => LENGTH_WITH_EMPTY_AND_ARBITRARY.call }],
         ##
         # Ring Width Inset
         # @see https://tailwindcss.com/docs/ring-width
@@ -1182,7 +1182,7 @@ module TailwindMerge
         # Ring Offset Width
         # @see https://tailwindcss.com/docs/ring-offset-width
         ##
-        "ring-offset-w" => [{ "ring-offset" => [IS_LENGTH] }],
+        "ring-offset-w" => [{ "ring-offset" => [IS_LENGTH, IS_ARBITRARY_LENGTH] }],
         ##
         # Ring Offset Color
         # @see https://tailwindcss.com/docs/ring-offset-color
@@ -1695,7 +1695,7 @@ module TailwindMerge
         # Stroke Width
         # @see https://tailwindcss.com/docs/stroke-width
         ##
-        "stroke-w" => [{ "stroke" => [IS_LENGTH, IS_ARBITRARY_NUMBER] }],
+        "stroke-w" => [{ "stroke" => [IS_LENGTH, IS_ARBITRARY_LENGTH, IS_ARBITRARY_NUMBER] }],
         ##
         # Stroke
         # @see https://tailwindcss.com/docs/stroke
