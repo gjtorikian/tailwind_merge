@@ -51,7 +51,7 @@ tailwind-merge overrides conflicting classes and keeps everything else untouched
 
 ### Merging behavior
 
-`tailwind_merge` is designed to be predictable and intuitive. It follows a set of rules to determine which class "wins" when there are conflicts. Here is a brief overview of the conflict resolutions which `tailwind_merge` can do.
+`tailwind_merge` is built to be intuitive. It follows a set of rules to determine which class wins when there are conflicts. Here is a brief overview of its conflict resolution.
 
 ### Last conflicting class wins
 
@@ -305,9 +305,9 @@ If you modified one of these theme scales in your Tailwind config, you can add a
 
 Here's a brief summary for each validator:
 
-- `IS_LENGTH` checks whether a class part is a number (`3`, `1.5`), a fraction (`3/4`), a arbitrary length (`[3%]`, `[4px]`, `[length:var(--my-var)]`), or one of the strings `px`, `full` or `screen`.
+- `IS_LENGTH` checks whether a class part is a number (`3`, `1.5`), a fraction (`3/4`), or one of the strings `px`, `full` or `screen`.
 - `IS_ARBITRARY_LENGTH` checks for arbitrary length values (`[3%]`, `[4px]`, `[length:var(--my-var)]`).
-- `IS_INTEGER` checks for integer values (`3`) and arbitrary integer values (`[3]`).
+- `IS_INTEGER` checks for integer values (`3`).
 - `IS_PERCENT` checks for percent values (`12.5%`) which is used for color stop positions.
 - `IS_ARBITRARY_VALUE` checks whether the class part is enclosed in brackets (`[something]`)
 - `IS_TSHIRT_SIZE`checks whether class part is a T-shirt size (`sm`, `xl`), optionally with a preceding number (`2xl`).
