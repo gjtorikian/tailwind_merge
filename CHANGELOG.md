@@ -1,3 +1,9 @@
+## [v0.9.1] - 20-11-2023
+## What's Changed
+* Fix display removal when preceding line-clamp by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/22
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v0.9.0...v0.9.1
 ## [v0.9.0] - 04-11-2023
 ## What's Changed
 * Updates by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/21
