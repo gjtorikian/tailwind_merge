@@ -34,5 +34,8 @@ class TestConflictsAcrossClassGroups < Minitest::Test
     assert_equal("touch-pan-x touch-pan-y touch-pinch-zoom", @merger.merge("touch-manipulation touch-pan-x touch-pan-y touch-pinch-zoom"))
 
     assert_equal("touch-auto", @merger.merge("touch-pan-x touch-pan-y touch-pinch-zoom touch-auto"))
+
+    assert_equal("line-clamp-1", @merger.merge("overflow-auto inline line-clamp-1"))
+    assert_equal("line-clamp-1 overflow-auto inline", @merger.merge("line-clamp-1 overflow-auto inline"))
   end
 end
