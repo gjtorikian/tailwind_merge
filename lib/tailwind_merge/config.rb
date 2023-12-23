@@ -212,12 +212,12 @@ module TailwindMerge
         # Floats
         # @see https://tailwindcss.com/docs/float
         ##
-        "float" => [{ "float" => ["right", "left", "none"] }],
+        "float" => [{ "float" => ["right", "left", "none", "start", "end"] }],
         ##
         # Clear
         # @see https://tailwindcss.com/docs/clear
         ##
-        "clear" => [{ "clear" => ["left", "right", "both", "none"] }],
+        "clear" => [{ "clear" => ["left", "right", "both", "none", "start", "end"] }],
         ##
         # Isolation
         # @see https://tailwindcss.com/docs/isolation
@@ -591,12 +591,24 @@ module TailwindMerge
         # Width
         # @see https://tailwindcss.com/docs/width
         ##
-        "w" => [{ "w" => ["auto", "min", "max", "fit", IS_ARBITRARY_VALUE, SPACING] }],
+        "w" => [{
+          "w" => [
+            "auto",
+            "min",
+            "max",
+            "fit",
+            "svw",
+            "lvw",
+            "dvw",
+            IS_ARBITRARY_VALUE,
+            SPACING,
+          ],
+        }],
         ##
         # Min-Width
         # @see https://tailwindcss.com/docs/min-width
         ##
-        "min-w" => [{ "min-w" => ["min", "max", "fit", IS_ARBITRARY_VALUE, IS_LENGTH] }],
+        "min-w" => [{ "min-w" => [IS_ARBITRARY_VALUE, SPACING, "min", "max", "fit"] }],
         ##
         # Max-Width
         # @see https://tailwindcss.com/docs/max-width
@@ -604,7 +616,8 @@ module TailwindMerge
         "max-w" => [
           {
             "max-w" => [
-              "0",
+              IS_ARBITRARY_VALUE,
+              SPACING,
               "none",
               "full",
               "min",
@@ -613,7 +626,6 @@ module TailwindMerge
               "prose",
               { "screen" => [IS_TSHIRT_SIZE] },
               IS_TSHIRT_SIZE,
-              IS_ARBITRARY_VALUE,
             ],
           },
         ],
@@ -621,17 +633,22 @@ module TailwindMerge
         # Height
         # @see https://tailwindcss.com/docs/height
         ##
-        "h" => [{ "h" => [IS_ARBITRARY_VALUE, SPACING, "auto", "min", "max", "fit"] }],
+        "h" => [{ "h" => [IS_ARBITRARY_VALUE, SPACING, "auto", "min", "max", "fit", "svh", "lvh", "dvh"] }],
         ##
         # Min-Height
         # @see https://tailwindcss.com/docs/min-height
         ##
-        "min-h" => [{ "min-h" => ["min", "max", "fit", IS_LENGTH, IS_ARBITRARY_VALUE] }],
+        "min-h" => [{ "min-h" => [IS_ARBITRARY_VALUE, SPACING, "min", "max", "fit", "svh", "lvh", "dvh"] }],
         ##
         # Max-Height
         # @see https://tailwindcss.com/docs/max-height
         ##
-        "max-h" => [{ "max-h" => [IS_ARBITRARY_VALUE, SPACING, "min", "max", "fit"] }],
+        "max-h" => [{ "max-h" => [IS_ARBITRARY_VALUE, SPACING, "min", "max", "fit", "svh", "lvh", "dvh"] }],
+        ##
+        # Size
+        # @see https://tailwindcss.com/docs/size
+        ##
+        "size" => [{ "size" => [IS_ARBITRARY_VALUE, SPACING, "auto", "min", "max", "fit"] }],
         # Typography
         ##
         # Font Size
@@ -808,6 +825,11 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/text-overflow
         ##
         "text-overflow" => ["truncate", "text-ellipsis", "text-clip"],
+        ##
+        # Text Wrap
+        # @see https://tailwindcss.com/docs/text-wrap
+        ##
+        "text-wrap" => [{ "text" => ["wrap", "nowrap", "balance", "pretty"] }],
         ##
         # Text Indent
         # @see https://tailwindcss.com/docs/text-indent
@@ -1463,7 +1485,7 @@ module TailwindMerge
         # Appearance
         # @see https://tailwindcss.com/docs/appearance
         ##
-        "appearance" => ["appearance-none"],
+        "appearance" => [{ "appearance" => ["none", "auto"] }],
         ##
         # Cursor
         # @see https://tailwindcss.com/docs/cursor
@@ -1707,6 +1729,11 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/screen-readers
         ##
         "sr" => ["sr-only", "not-sr-only"],
+        ##
+        # Forced Color Adjust
+        # @see https://tailwindcss.com/docs/forced-color-adjust
+        ##
+        "forced-color-adjust" => [{ "forced-color-adjust": ["auto", "none"] }],
       },
       conflicting_class_groups: {
         "overflow" => ["overflow-x", "overflow-y"],
@@ -1722,6 +1749,7 @@ module TailwindMerge
         "m" => ["mx", "my", "ms", "me", "mt", "mr", "mb", "ml"],
         "mx" => ["mr", "ml"],
         "my" => ["mt", "mb"],
+        "size" => ["w", "h"],
         "font-size" => ["leading"],
         "fvn-normal" => [
           "fvn-ordinal",

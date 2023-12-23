@@ -110,6 +110,6 @@ module TailwindMerge
       arbitrary_value?(value, "", is_shadow)
     }
 
-    IS_ANY = ->(_) { return true }
+    IS_ANY = ->(_) { true }
   end
 end
