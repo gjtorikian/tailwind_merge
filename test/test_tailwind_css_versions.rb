@@ -32,4 +32,23 @@ class TestTailwindCSSVersions < Minitest::Test
     assert_equal("content-stretch", @merger.merge("content-normal content-center content-stretch"))
     assert_equal("whitespace-break-spaces", @merger.merge("whitespace-nowrap whitespace-break-spaces"))
   end
+
+  def test_tailwind_3_4_features
+    assert_equal("h-dvh w-dvw", @merger.merge("h-svh h-dvh w-svw w-dvw"))
+
+    assert_equal("has-[[data-potato]]:p-2 group-has-[:checked]:flex", @merger.merge("has-[[data-potato]]:p-1 has-[[data-potato]]:p-2 group-has-[:checked]:grid group-has-[:checked]:flex"))
+
+    assert_equal("text-pretty", @merger.merge("text-wrap text-pretty"))
+    assert_equal("size-10 w-12", @merger.merge("w-5 h-3 size-10 w-12"))
+
+    assert_equal("grid-cols-subgrid grid-rows-subgrid", @merger.merge("grid-cols-2 grid-cols-subgrid grid-rows-5 grid-rows-subgrid"))
+
+    assert_equal("min-w-px max-w-px", @merger.merge("min-w-0 min-w-50 min-w-px max-w-0 max-w-50 max-w-px"))
+
+    assert_equal("forced-color-adjust-auto", @merger.merge("forced-color-adjust-none forced-color-adjust-auto"))
+
+    assert_equal("appearance-auto", @merger.merge("appearance-none appearance-auto"))
+    assert_equal("float-end clear-end", @merger.merge("float-start float-end clear-start clear-end"))
+    assert_equal("*:p-20 hover:*:p-20", @merger.merge("*:p-10 *:p-20 hover:*:p-10 hover:*:p-20"))
+  end
 end
