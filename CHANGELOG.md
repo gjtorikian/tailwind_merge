@@ -1,3 +1,9 @@
+## [v0.10.1] - 30-01-2024
+## What's Changed
+* Fix stroke-color being incorrectly detected as stroke-width by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/24
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v0.10.0...v0.10.1
 ## [v0.10.0] - 23-12-2023
 ## What's Changed
 * Support Tailwind 3.4 by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/23
