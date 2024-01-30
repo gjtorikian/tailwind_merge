@@ -31,6 +31,7 @@ module TailwindMerge
     FRACTION_REGEX = %r{^\d+/\d+$}
     LENGTH_UNIT_REGEX = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/
     TSHIRT_UNIT_REGEX = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/
+    COLOR_FUNCTION_REGEX = /^(rgba?|hsla?|hwb|(ok)?(lab|lch))\(.+\)$/
     # Shadow always begins with x and y offset separated by underscore
     SHADOW_REGEX = /^-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/
     IMAGE_REGEX = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/
@@ -39,7 +40,10 @@ module TailwindMerge
     IMAGE_LABELS = Set.new(["image", "url"]).freeze
 
     is_length_only = ->(value) {
-      LENGTH_UNIT_REGEX.match?(value)
+      # `colorFunctionRegex` check is necessary because color functions can have percentages in them which which would be incorrectly classified as lengths.
+      # For example, `hsl(0 0% 0%)` would be classified as a length without this check.
+      # I could also use lookbehind assertion in `lengthUnitRegex` but that isn't supported widely enough.
+      LENGTH_UNIT_REGEX.match?(value) && !COLOR_FUNCTION_REGEX.match?(value)
     }
 
     is_never = ->(_) { false }
