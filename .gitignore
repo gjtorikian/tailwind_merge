@@ -1,30 +1,56 @@
-*.gem
+*.so
 *.rbc
-.bundle
-.config
-coverage
-InstalledFiles
-lib/bundler/man
-pkg
-rdoc
-spec/reports
-test/tmp
-test/version_tmp
-tmp
-vendor/cache
-
+*.bundle
+/.bundle
+/.config
+/coverage/
+/.idea
+/InstalledFiles
+/pkg/
+/spec/reports/
+/test/version_tmp/
+tmp/
+/vendor/gems
+/vendor/cache
 Gemfile.lock
-out/
-sample.rb
-run_sample.rb
-src/
-docs/
+*.log
+ports/
+target/
+/gems/
 
-# YARD artifacts
-.yardoc
-_yardoc
+## Specific to RubyMotion:
+.dat*
+.repl_history
+build/
 
-.DS_Store
-.idea
-.byebug_history
-.vscode
+## Documentation cache and generated files:
+/.yardoc/
+/_yardoc/
+/docs/
+/rdoc/
+
+## Environment normalisation:
+/lib/bundler/man/
+
+# for a library or gem, you might want to ignore these files since the code is
+# intended to run in multiple environments; otherwise, check them in:
+# as rbenv
+.ruby-version
+.ruby-gemset
+# or ASDF-VM
+.tool-versions
+
+# unless supporting rvm < 1.11.0 or doing something fancy, ignore this:
+.rvmrc
+
+*.orig
+
+# Vagrant
+/.vagrant/
+
+actual.txt
+test.txt
+test/progit
+test/benchmark/large.md
+
+*.orig
