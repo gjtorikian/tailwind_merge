@@ -14,7 +14,16 @@ require "rubocop/rake_task"
 
 RuboCop::RakeTask.new
 
+require "rb_sys/extensiontask"
+
+task build: :compile
+
 GEMSPEC = Bundler.load_gemspec("tailwind_merge.gemspec")
+
+RbSys::ExtensionTask.new("tailwind_merge", GEMSPEC) do |ext|
+  ext.lib_dir = "lib/tailwind_merge"
+end
+
 gem_path = Gem::PackageTask.new(GEMSPEC).define
 desc "Package the ruby gem"
 task "package" => [gem_path]

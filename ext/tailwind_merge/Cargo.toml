@@ -1,0 +1,15 @@
+[package]
+name = "tailwind_merge"
+version = "0.1.0"
+edition = "2021"
+authors = ["Garen J. Torikian <gjtorikian@users.noreply.github.com>"]
+license = "MIT"
+publish = false
+
+[lib]
+name = "tailwind_merge"
+crate-type = ["cdylib"]
+
+[dependencies]
+magnus = { version = "0.6.2" }
+tailwind_fuse = { version = "0.1.0" }

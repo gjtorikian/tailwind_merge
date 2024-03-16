@@ -8,6 +8,7 @@ end
 require "lru_redux"
 
 require_relative "tailwind_merge/version"
+require_relative "tailwind_merge/extension"
 require_relative "tailwind_merge/validators"
 require_relative "tailwind_merge/config"
 require_relative "tailwind_merge/class_utils"
@@ -35,9 +36,12 @@ module TailwindMerge
     end
 
     def merge(classes)
-      @cache.getset(classes) do
-        merge_class_list(classes)
-      end
+      split_classes = classes.split(" ")
+      class_two = split_classes.pop
+      TailwindMerge.merge(split_classes.join(" "), class_two)
+      # @cache.getset(classes) do
+      #   merge_class_list(classes)
+      # end
     end
 
     private def merge_class_list(classes)
