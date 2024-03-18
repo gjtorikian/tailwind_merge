@@ -1,3 +1,9 @@
+## [v0.10.2] - 18-03-2024
+## What's Changed
+* Support shadow with  by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/25
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v0.10.1...v0.10.2
 ## [v0.10.1] - 30-01-2024
 ## What's Changed
 * Fix stroke-color being incorrectly detected as stroke-width by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/24
