@@ -150,6 +150,7 @@ class TestValidators < Minitest::Test
 
   def test_is_arbitrary_shadow
     assert(IS_ARBITRARY_SHADOW.call("[0_35px_60px_-15px_rgba(0,0,0,0.3)]"))
+    assert(IS_ARBITRARY_SHADOW.call("[inset_0_1px_0,inset_0_-1px_0]"))
     assert(IS_ARBITRARY_SHADOW.call("[0_0_#00f]"))
     assert(IS_ARBITRARY_SHADOW.call("[.5rem_0_rgba(5,5,5,5)]"))
     assert(IS_ARBITRARY_SHADOW.call("[-.5rem_0_#123456]"))
