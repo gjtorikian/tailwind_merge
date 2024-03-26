@@ -35,6 +35,10 @@ module TailwindMerge
     end
 
     def merge(classes)
+      if classes.is_a?(Array)
+        classes = classes.compact.join(" ")
+      end
+
       @cache.getset(classes) do
         merge_class_list(classes)
       end
