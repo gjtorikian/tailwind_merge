@@ -14,10 +14,21 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
     $ gem install tailwind_merge
 
+To use it, pass in a single string:
+
 ```ruby
 require "tailwind_merge"
 
 TailwindMerge::Merger.new.merge("px-2 py-1 bg-red hover:bg-dark-red p-3 bg-[#B91C1C]")
+# → 'hover:bg-dark-red p-3 bg-[#B91C1C]'
+```
+
+Or, an array of strings:
+
+```ruby
+require "tailwind_merge"
+
+TailwindMerge::Merger.new.merge(["px-2 py-1", "bg-red hover:bg-dark-red", "p-3 bg-[#B91C1C]"])
 # → 'hover:bg-dark-red p-3 bg-[#B91C1C]'
 ```
 
