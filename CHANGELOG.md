@@ -1,3 +1,9 @@
+## [v0.11.0] - 26-03-2024
+## What's Changed
+* Support accepting an array of strings by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/26
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v0.10.2...v0.11.0
 ## [v0.10.2] - 18-03-2024
 ## What's Changed
 * Support shadow with  by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/25
