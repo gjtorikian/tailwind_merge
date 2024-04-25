@@ -100,7 +100,6 @@ module TailwindMerge
         "saturation",
         "color",
         "luminosity",
-        "plus-lighter",
       ]
     }
     ALIGN = -> { ["start", "end", "center", "between", "around", "evenly", "stretch"] }
@@ -1230,7 +1229,7 @@ module TailwindMerge
         # Mix Blend Mode
         # @see https://tailwindcss.com/docs/mix-blend-mode
         ##
-        "mix-blend" => [{ "mix-blend" => BLEND_MODES.call }],
+        "mix-blend" => [{ "mix-blend" => BLEND_MODES.call.push("plus-lighter", "plus-darker") }],
         ##
         # Background Blend Mode
         # @see https://tailwindcss.com/docs/background-blend-mode
