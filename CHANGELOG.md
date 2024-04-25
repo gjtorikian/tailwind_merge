@@ -1,3 +1,9 @@
+## [v0.12.0] - 25-04-2024
+## What's Changed
+* Add support for mix-blend-plus-darker utility by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/27
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v0.11.0...v0.12.0
 ## [v0.11.0] - 26-03-2024
 ## What's Changed
 * Support accepting an array of strings by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/26
