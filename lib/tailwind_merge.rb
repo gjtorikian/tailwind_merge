@@ -31,6 +31,7 @@ module TailwindMerge
         TailwindMerge::Config::DEFAULTS.merge(config)
       end
 
+      TailwindMerge.define_merge_options(separator: @config[:separator], prefix: @config[:prefix])
       @class_utils = TailwindMerge::ClassUtils.new(@config)
       @cache = LruRedux::Cache.new(@config[:cache_size])
     end
