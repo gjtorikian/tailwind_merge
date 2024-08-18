@@ -20,6 +20,8 @@ class TestArbitraryProperties < Minitest::Test
     assert_equal("focus:hover:[paint-order:normal]", @merger.merge("hover:focus:[paint-order:markers] focus:hover:[paint-order:normal]"))
 
     assert_equal("[paint-order:normal] [--my-var:2rem] lg:[--my-var:4px]", @merger.merge("[paint-order:markers] [paint-order:normal] [--my-var:2rem] lg:[--my-var:4px]"))
+
+    assert_equal("bg-[#B91C1C] bg-opacity-[48%]", @merger.merge("bg-[#B91C1C] bg-opacity-[0.56] bg-opacity-[48%]"))
   end
 
   def test_handles_complex_arbitrary_property_conflicts_correctly

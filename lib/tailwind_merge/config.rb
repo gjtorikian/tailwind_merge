@@ -105,7 +105,6 @@ module TailwindMerge
     ALIGN = -> { ["start", "end", "center", "between", "around", "evenly", "stretch"] }
     ZERO_AND_EMPTY = -> { ["", "0", IS_ARBITRARY_VALUE] }
     BREAKS = -> { ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"] }
-    NUMBER = -> { [IS_NUMBER, IS_ARBITRARY_NUMBER] }
     NUMBER_AND_ARBITRARY = -> { [IS_NUMBER, IS_ARBITRARY_VALUE] }
 
     DEFAULTS = {
@@ -115,12 +114,12 @@ module TailwindMerge
         "colors" => [IS_ANY],
         "spacing" => [IS_LENGTH, IS_ARBITRARY_LENGTH],
         "blur" => ["none", "", IS_TSHIRT_SIZE, IS_ARBITRARY_VALUE],
-        "brightness" => NUMBER.call,
+        "brightness" => NUMBER_AND_ARBITRARY.call,
         "border-color" => [COLORS],
         "border-radius" => ["none", "", "full", IS_TSHIRT_SIZE, IS_ARBITRARY_VALUE],
         "border-spacing" => SPACING_WITH_ARBITRARY.call,
         "border-width" => LENGTH_WITH_EMPTY_AND_ARBITRARY.call,
-        "contrast" => NUMBER.call,
+        "contrast" => NUMBER_AND_ARBITRARY.call,
         "grayscale" => ZERO_AND_EMPTY.call,
         "hue-rotate" => NUMBER_AND_ARBITRARY.call,
         "invert" => ZERO_AND_EMPTY.call,
@@ -129,10 +128,10 @@ module TailwindMerge
         "gradient-color-stop-positions" => [IS_PERCENT, IS_ARBITRARY_LENGTH],
         "inset" => SPACING_WITH_AUTO_AND_ARBITRARY.call,
         "margin" => SPACING_WITH_AUTO_AND_ARBITRARY.call,
-        "opacity" => NUMBER.call,
+        "opacity" => NUMBER_AND_ARBITRARY.call,
         "padding" => SPACING_WITH_ARBITRARY.call,
-        "saturate" => NUMBER.call,
-        "scale" => NUMBER.call,
+        "saturate" => NUMBER_AND_ARBITRARY.call,
+        "scale" => NUMBER_AND_ARBITRARY.call,
         "sepia" => ZERO_AND_EMPTY.call,
         "skew" => NUMBER_AND_ARBITRARY.call,
         "space" => SPACING_WITH_ARBITRARY.call,
