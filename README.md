@@ -310,7 +310,18 @@ In the Tailwind config you can modify theme scales. `tailwind_merge` follows the
 - `space`
 - `translate`
 
-If you modified one of these theme scales in your Tailwind config, you can add all your keys right here and tailwind-merge will take care of the rest. If you modified other theme scales, you need to figure out the class group to modify in the [default config](#getdefaultconfig).
+If you modified one of these theme scales in your Tailwind config, you can add all your keys right here and tailwind-merge will take care of the rest. For example, to add custom spaces and margin, you would provide the following `theme`:
+
+```ruby
+merger = TailwindMerge::Merger.new(config: {
+    theme: {
+    "spacing" => ["my-space"],
+    "margin" => ["my-margin"],
+    },
+})
+```
+
+If you modified other theme scales, you need to figure out the class group to modify in the [default config](#getdefaultconfig).
 
 ### Validators
 
