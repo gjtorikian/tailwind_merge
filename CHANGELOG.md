@@ -1,3 +1,9 @@
+# [v0.13.0] - 29-08-2024
+## What's Changed
+* Add theme support by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/32
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v0.12.2...v0.13.0
 # [v0.12.2] - 18-08-2024
 ## What's Changed
 * remove spurious debug statement by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/28
