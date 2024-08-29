@@ -4,8 +4,8 @@ module TailwindMerge
   module Config
     include Validators
 
-    FROM_THEME = ->(config, theme) {
-      config.fetch(:theme, {}).fetch(theme, nil)
+    FROM_THEME = ->(config, key) {
+      config[:theme].fetch(key, nil)
     }
 
     COLORS = ->(config) { FROM_THEME.call(config, "colors") }
@@ -1840,10 +1840,13 @@ module TailwindMerge
     def merge_configs(extension_config)
       config = TailwindMerge::Config::DEFAULTS
       [:theme].each do |type|
-        extension_config.fetch(type, {}).each_pair do |key, value|
-          config[type][value] = ->(config) { FROM_THEME.call(config, key) }
+        extension_config.fetch(type, {}).each_pair do |key, scales|
+          config[type][key] << ->(klass) {
+            scales.include?(klass)
+          }
         end
       end
+
       config
     end
   end
