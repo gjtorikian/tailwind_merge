@@ -1,3 +1,9 @@
+# [v0.13.1] - 03-10-2024
+## What's Changed
+* Add missing logical border color properties by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/34
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v0.13.0...v0.13.1
 # [v0.13.0] - 29-08-2024
 ## What's Changed
 * Add theme support by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/32
