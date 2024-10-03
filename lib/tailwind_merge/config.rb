@@ -1134,6 +1134,16 @@ module TailwindMerge
         ##
         "border-color-y" => [{ "border-y" => [BORDER_COLOR] }],
         ##
+        # Border Color S
+        # @see https://tailwindcss.com/docs/border-color
+        ##
+        "border-color-s" => [{ "border-s" => [BORDER_COLOR] }],
+        ##
+        # Border Color E
+        # @see https://tailwindcss.com/docs/border-color
+        ##
+        "border-color-e" => [{ "border-e" => [BORDER_COLOR] }],
+        ##
         # Border Color Top
         # @see https://tailwindcss.com/docs/border-color
         ##
@@ -1796,6 +1806,8 @@ module TailwindMerge
         "border-w-x" => ["border-w-r", "border-w-l"],
         "border-w-y" => ["border-w-t", "border-w-b"],
         "border-color" => [
+          "border-color-s",
+          "border-color-e",
           "border-color-t",
           "border-color-r",
           "border-color-b",
