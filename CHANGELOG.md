@@ -1,3 +1,9 @@
+# [v0.13.2] - 18-10-2024
+## What's Changed
+* Remove erroneous debug statement by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/36
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v0.13.1...v0.13.2
 # [v0.13.1] - 03-10-2024
 ## What's Changed
 * Add missing logical border color properties by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/34
