@@ -1,13 +1,5 @@
 # frozen_string_literal: true
 
-if ENV.fetch("DEBUG", false)
-  require "debug"
-  begin
-    require "amazing_print"
-  rescue LoadError # rubocop:disable Lint/SuppressedException
-  end
-end
-
 require "lru_redux"
 
 require_relative "tailwind_merge/version"
