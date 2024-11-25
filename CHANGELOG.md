@@ -1,3 +1,9 @@
+# [v0.13.3] - 25-11-2024
+## What's Changed
+* [skip test] Release v0.13.2 by @github-actions in https://github.com/gjtorikian/tailwind_merge/pull/37
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v0.13.2...v0.13.3
 # [v0.13.2] - 18-10-2024
 ## What's Changed
 * Remove erroneous debug statement by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/36
