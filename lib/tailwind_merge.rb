@@ -35,7 +35,7 @@ module TailwindMerge
       end
 
       @cache.getset(classes) do
-        merge_class_list(classes)
+        merge_class_list(classes).freeze
       end
     end
 
