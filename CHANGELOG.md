@@ -1,3 +1,14 @@
+# [v0.14.0] - 19-12-2024
+## What's Changed
+* Prevent cache tampering by freezing cached value by @david-uhlig in https://github.com/gjtorikian/tailwind_merge/pull/39
+
+The results of the `merge` class is now a frozen string. This may unexpectedly break your app if you are expecting the string of classes to be mutable.
+
+
+## New Contributors
+* @david-uhlig made their first contribution in https://github.com/gjtorikian/tailwind_merge/pull/39
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v0.13.3...v0.14.0
 # [v0.13.3] - 25-11-2024
 ## What's Changed
 * [skip test] Release v0.13.2 by @github-actions in https://github.com/gjtorikian/tailwind_merge/pull/37
