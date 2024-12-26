@@ -5,21 +5,24 @@ require_relative "lib/tailwind_merge/version"
 Gem::Specification.new do |spec|
   spec.name = "tailwind_merge"
   spec.version = TailwindMerge::VERSION
+  spec.summary = "Utility function to efficiently merge Tailwind CSS classes without style conflicts."
   spec.authors = ["Garen J. Torikian"]
   spec.email = ["gjtorikian@gmail.com"]
-
-  spec.summary = "Utility function to efficiently merge Tailwind CSS classes without style conflicts."
-  spec.homepage = "https://www.github.com/gjtorikian/tailwind_merge"
   spec.license = "MIT"
 
-  spec.required_ruby_version = [">= 3.1", "< 4.0"]
-
+  github_root_uri = "https://github.com/gjtorikian/tailwind_merge"
+  spec.homepage = "#{github_root_uri}/tree/#{spec.version}/#{spec.name}"
   spec.metadata = {
-    "funding_uri" => "https://github.com/sponsors/gjtorikian/",
+    "homepage_uri" => spec.homepage,
+    "source_code_uri" => spec.homepage,
+    "changelog_uri" => "#{github_root_uri}/blob/#{spec.version}/CHANGELOG.md",
+    "bug_tracker_uri" => "#{github_root_uri}/issues",
+    "documentation_uri" => "https://rubydoc.info/gems/#{spec.name}/#{spec.version}",
+    "funding_uri" => "https://github.com/sponsors/gjtorikian",
     "rubygems_mfa_required" => "true",
   }
 
-  spec.metadata["homepage_uri"] = spec.homepage
+  spec.required_ruby_version = [">= 3.1", "< 4.0"]
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
