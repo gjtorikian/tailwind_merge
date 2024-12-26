@@ -17,18 +17,18 @@ If bundler is not being used to manage dependencies, install the gem by executin
 To use it, pass in a single string:
 
 ```ruby
-require "tailwind_merge"
+require 'tailwind_merge'
 
-TailwindMerge::Merger.new.merge("px-2 py-1 bg-red hover:bg-dark-red p-3 bg-[#B91C1C]")
+TailwindMerge::Merger.new.merge('px-2 py-1 bg-red hover:bg-dark-red p-3 bg-[#B91C1C]')
 # → 'hover:bg-dark-red p-3 bg-[#B91C1C]'
 ```
 
 Or, an array of strings:
 
 ```ruby
-require "tailwind_merge"
+require 'tailwind_merge'
 
-TailwindMerge::Merger.new.merge(["px-2 py-1", "bg-red hover:bg-dark-red", "p-3 bg-[#B91C1C]"])
+TailwindMerge::Merger.new.merge(['px-2 py-1', 'bg-red hover:bg-dark-red', 'p-3 bg-[#B91C1C]'])
 # → 'hover:bg-dark-red p-3 bg-[#B91C1C]'
 ```
 
@@ -42,7 +42,7 @@ If you use Tailwind with a component-based UI renderer (like [ViewComponent](htt
 ```
 
 ```ruby
-<%= render(ConfirmEmailComponent.new(class: "p-5")) %>
+<%= render(ConfirmEmailComponent.new(class: 'p-5')) %>
 ```
 
 When the `ConfirmEmailComponent` is rendered, an input with the className `border rounded px-2 py-1` gets created. But because of the way the [CSS cascade](https://developer.mozilla.org/en-US/docs/Web/CSS/Cascade) works, the styles of the `p-5` class are ignored. The order of the classes in the `class` string doesn't matter at all and the only way to apply the `p-5` style is to remove both `px-2` and `py-1`.
@@ -50,10 +50,8 @@ When the `ConfirmEmailComponent` is rendered, an input with the className `borde
 This is where `tailwind_merge` comes in:
 
 ```ruby
-
 @merger = TailwindMerge::Merger.new
-@merger.merge("border rounded px-2 py-1 p-5")
-# → "border rounded p-5"
+@merger.merge('border rounded px-2 py-1 p-5') # → 'border rounded p-5'
 ```
 
 tailwind-merge overrides conflicting classes and keeps everything else untouched. In the case of the implementation of `ConfirmEmailComponent`, the input now only renders the classes `border rounded p-5`.
@@ -145,7 +143,7 @@ The order of standard modifiers does not matter for tailwind-merge.
 ## Supports postfix modifiers
 
 ```ts
-twMerge("text-sm leading-6 text-lg/7"); // → 'text-lg/7'
+twMerge('text-sm leading-6 text-lg/7'); // → 'text-lg/7'
 ```
 
 ### Preserves non-Tailwind classes
@@ -189,22 +187,22 @@ The `tailwind_merge` config is an object with several keys:
 
 ```ruby
 tailwind_merge_config = {
-    # ↓ *Optional* Define how many values should be stored in cache.
-    cache_size: 500,
-    # ↓ *Optional* modifier separator from Tailwind config
-    separator: ':',
-    # ↓ *Optional* prefix from Tailwind config
-    prefix: 'tw-',
-    theme: {
-        # Theme scales are defined here
-        # This is not the theme object from your Tailwind config
-    },
-    class_groups: {
-        # Class groups are defined here
-    },
-    conflicting_class_groups: {
-        # Conflicts between class groups are defined here
-    },
+  # ↓ *Optional* Define how many values should be stored in cache.
+  cache_size: 500,
+  # ↓ *Optional* modifier separator from Tailwind config
+  separator: ':',
+  # ↓ *Optional* prefix from Tailwind config
+  prefix: 'tw-',
+  theme: {
+    # Theme scales are defined here
+    # This is not the theme object from your Tailwind config
+  },
+  class_groups: {
+    # Class groups are defined here
+  },
+  conflicting_class_groups: {
+    # Conflicts between class groups are defined here
+  }
 }
 ```
 
@@ -271,9 +269,7 @@ To summarize, `px-3` should stand in conflict with `pr-4`, but `pr-4` should not
 This is what the `conflicting_class_groups` object in the config is for. You define a key in it which is the ID of a class group which _creates_ a conflict and the value is an array of IDs of class group which _receive_ a conflict.
 
 ```ruby
-conflicting_class_groups = {
-    px: ['pr', 'pl'],
-}
+conflicting_class_groups = { px: ['pr', 'pl'] }
 ```
 
 If a class group _creates_ a conflict, it means that if it appears in a class list string passed to `merge`, all preceding class groups in the string which _receive_ the conflict will be removed.
@@ -314,10 +310,10 @@ If you modified one of these theme scales in your Tailwind config, you can add a
 
 ```ruby
 merger = TailwindMerge::Merger.new(config: {
-    theme: {
-    "spacing" => ["my-space"],
-    "margin" => ["my-margin"],
-    },
+  theme: {
+    'spacing' => ['my-space'],
+    'margin' => ['my-margin']
+  }
 })
 ```
 
