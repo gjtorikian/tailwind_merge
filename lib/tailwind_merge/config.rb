@@ -4,63 +4,38 @@ module TailwindMerge
   module Config
     include Validators
 
-    FROM_THEME = ->(config, key) {
-      config[:theme].fetch(key, nil)
-    }
+    THEME_KEYS = [
+      "colors",
+      "spacing",
+      "blur",
+      "brightness",
+      "border-color",
+      "border-radius",
+      "border-spacing",
+      "border-width",
+      "contrast",
+      "grayscale",
+      "hue-rotate",
+      "invert",
+      "gap",
+      "gradient-color-stops",
+      "gradient-color-stop-positions",
+      "inset",
+      "margin",
+      "opacity",
+      "padding",
+      "saturate",
+      "scale",
+      "sepia",
+      "skew",
+      "space",
+      "translate",
+    ]
+    THEME_KEYS.each do |key|
+      const_set(key.upcase.tr("-", "_"), ->(config) { config[:theme].fetch(key, nil) })
+    end
 
-    COLORS = ->(config) { FROM_THEME.call(config, "colors") }
-    SPACING = ->(config) { FROM_THEME.call(config, "spacing") }
-    BLUR = ->(config) { FROM_THEME.call(config, "blur") }
-    BRIGHTNESS = ->(config) { FROM_THEME.call(config, "brightness") }
-    BORDER_COLOR = ->(config) { FROM_THEME.call(config, "border-color") }
-    BORDER_RADIUS = ->(config) { FROM_THEME.call(config, "border-radius") }
-    BORDER_SPACING = ->(config) { FROM_THEME.call(config, "border-spacing") }
-    BORDER_WIDTH = ->(config) { FROM_THEME.call(config, "border-width") }
-    CONTRAST = ->(config) { FROM_THEME.call(config, "contrast") }
-    GRAYSCALE = ->(config) { FROM_THEME.call(config, "grayscale") }
-    HUE_ROTATE = ->(config) { FROM_THEME.call(config, "hue-rotate") }
-    INVERT = ->(config) { FROM_THEME.call(config, "invert") }
-    GAP = ->(config) { FROM_THEME.call(config, "gap") }
-    GRADIENT_COLOR_STOPS = ->(config) { FROM_THEME.call(config, "gradient-color-stops") }
-    GRADIENT_COLOR_STOP_POSITIONS = ->(config) { FROM_THEME.call(config, "gradient-color-stop-positions") }
-    INSET = ->(config) { FROM_THEME.call(config, "inset") }
-    MARGIN = ->(config) { FROM_THEME.call(config, "margin") }
-    OPACITY = ->(config) { FROM_THEME.call(config, "opacity") }
-    PADDING = ->(config) { FROM_THEME.call(config, "padding") }
-    SATURATE = ->(config) { FROM_THEME.call(config, "saturate") }
-    SCALE = ->(config) { FROM_THEME.call(config, "scale") }
-    SEPIA = ->(config) { FROM_THEME.call(config, "sepia") }
-    SKEW = ->(config) { FROM_THEME.call(config, "skew") }
-    SPACE = ->(config) { FROM_THEME.call(config, "space") }
-    TRANSLATE = ->(config) { FROM_THEME.call(config, "translate") }
-
-    VALID_THEME_IDS = Set.new([
-      COLORS.object_id,
-      SPACING.object_id,
-      BLUR.object_id,
-      BRIGHTNESS.object_id,
-      BORDER_COLOR.object_id,
-      BORDER_RADIUS.object_id,
-      BORDER_SPACING.object_id,
-      BORDER_WIDTH.object_id,
-      CONTRAST.object_id,
-      GRAYSCALE.object_id,
-      HUE_ROTATE.object_id,
-      INVERT.object_id,
-      GAP.object_id,
-      GRADIENT_COLOR_STOPS.object_id,
-      GRADIENT_COLOR_STOP_POSITIONS.object_id,
-      INSET.object_id,
-      MARGIN.object_id,
-      OPACITY.object_id,
-      PADDING.object_id,
-      SATURATE.object_id,
-      SCALE.object_id,
-      SEPIA.object_id,
-      SKEW.object_id,
-      SPACE.object_id,
-      TRANSLATE.object_id,
-    ]).freeze
+    VALID_THEME_IDS = Set.new(THEME_KEYS.map { |theme_key| const_get(theme_key.upcase.tr("-", "_")).object_id }).freeze
 
     OVERSCROLL = -> { ["auto", "contain", "none"] }
     OVERFLOW = -> { ["auto", "hidden", "clip", "visible", "scroll"] }
