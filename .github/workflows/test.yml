@@ -1,4 +1,4 @@
-name: CI
+name: Test
 
 on:
   pull_request:
@@ -9,14 +9,16 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
-
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby-version: [3.1, 3.2, 3.3, 3.4]
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Ruby
-        uses: yettoapp/actions/setup-languages@main
+        uses: ruby/setup-ruby@v1
         with:
-          ruby: true
-
+          ruby-version: ${{ matrix.ruby-version }}
+          bundler-cache: true
       - name: Run tests
         run: bundle exec rake test

@@ -1,4 +1,4 @@
-name: Linting
+name: Lint
 
 on:
   pull_request:
@@ -13,11 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Set up Ruby
-        uses: yettoapp/actions/setup-languages@main
+        uses: ruby/setup-ruby@v1
         with:
-          ruby: true
-
-      - name: Rubocop
+          bundler-cache: true
+      - name: RuboCop
         run: bundle exec rake rubocop
