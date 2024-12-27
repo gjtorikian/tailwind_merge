@@ -20,7 +20,7 @@ To use it, pass in a single string:
 require "tailwind_merge"
 
 TailwindMerge::Merger.new.merge("px-2 py-1 bg-red hover:bg-dark-red p-3 bg-[#B91C1C]")
-# → 'hover:bg-dark-red p-3 bg-[#B91C1C]'
+# → "hover:bg-dark-red p-3 bg-[#B91C1C]"
 ```
 
 Or, an array of strings:
@@ -29,7 +29,7 @@ Or, an array of strings:
 require "tailwind_merge"
 
 TailwindMerge::Merger.new.merge(["px-2 py-1", "bg-red hover:bg-dark-red", "p-3 bg-[#B91C1C]"])
-# → 'hover:bg-dark-red p-3 bg-[#B91C1C]'
+# → "hover:bg-dark-red p-3 bg-[#B91C1C]"
 ```
 
 ## What's it for?
@@ -50,10 +50,8 @@ When the `ConfirmEmailComponent` is rendered, an input with the className `borde
 This is where `tailwind_merge` comes in:
 
 ```ruby
-
 @merger = TailwindMerge::Merger.new
-@merger.merge("border rounded px-2 py-1 p-5")
-# → "border rounded p-5"
+@merger.merge("border rounded px-2 py-1 p-5") # → "border rounded p-5"
 ```
 
 tailwind-merge overrides conflicting classes and keeps everything else untouched. In the case of the implementation of `ConfirmEmailComponent`, the input now only renders the classes `border rounded p-5`.
@@ -67,30 +65,30 @@ tailwind-merge overrides conflicting classes and keeps everything else untouched
 ### Last conflicting class wins
 
 ```ruby
-@merger.merge('p-5 p-2 p-4') # → 'p-4'
+@merger.merge("p-5 p-2 p-4") # → "p-4"
 ```
 
 ### Supports refinements
 
 ```ruby
-@merger.merge('p-3 px-5') # → 'p-3 px-5'
-@merger.merge('inset-x-4 right-4') # → 'inset-x-4 right-4'
+@merger.merge("p-3 px-5") # → "p-3 px-5"
+@merger.merge("inset-x-4 right-4") # → "inset-x-4 right-4"
 ```
 
 ### Resolves non-trivial conflicts
 
 ```ruby
-@merger.merge('inset-x-px -inset-1') # → '-inset-1'
-@merger.merge('bottom-auto inset-y-6') # → 'inset-y-6'
-@merger.merge('inline block') # → 'block'
+@merger.merge("inset-x-px -inset-1") # → "-inset-1"
+@merger.merge("bottom-auto inset-y-6") # → "inset-y-6"
+@merger.merge("inline block") # → "block"
 ```
 
 ### Supports modifiers and stacked modifiers
 
 ```ruby
-@merger.merge('p-2 hover:p-4') # → 'p-2 hover:p-4'
-@merger.merge('hover:p-2 hover:p-4') # → 'hover:p-4'
-@merger.merge('hover:focus:p-2 focus:hover:p-4') # → 'focus:hover:p-4'
+@merger.merge("p-2 hover:p-4") # → "p-2 hover:p-4"
+@merger.merge("hover:p-2 hover:p-4") # → "hover:p-4"
+@merger.merge("hover:focus:p-2 focus:hover:p-4") # → "focus:hover:p-4"
 ```
 
 The order of standard modifiers does not matter for tailwind-merge.
@@ -98,8 +96,8 @@ The order of standard modifiers does not matter for tailwind-merge.
 ### Supports arbitrary values
 
 ```ruby
-@merger.merge('bg-black bg-[color:var(--mystery-var)]') # → 'bg-[color:var(--mystery-var)]'
-@merger.merge('grid-cols-[1fr,auto] grid-cols-2') # → 'grid-cols-2'
+@merger.merge("bg-black bg-[color:var(--mystery-var)]") # → "bg-[color:var(--mystery-var)]"
+@merger.merge("grid-cols-[1fr,auto] grid-cols-2") # → "grid-cols-2"
 ```
 
 > **Warning**
@@ -112,11 +110,11 @@ The order of standard modifiers does not matter for tailwind-merge.
 ### Supports arbitrary properties
 
 ```ruby
-@merger.merge('[mask-type:luminance] [mask-type:alpha]') # → '[mask-type:alpha]'
-@merger.merge('[--scroll-offset:56px] lg:[--scroll-offset:44px]') # → '[--scroll-offset:56px] lg:[--scroll-offset:44px]'
+@merger.merge("[mask-type:luminance] [mask-type:alpha]") # → "[mask-type:alpha]"
+@merger.merge("[--scroll-offset:56px] lg:[--scroll-offset:44px]") # → "[--scroll-offset:56px] lg:[--scroll-offset:44px]"
 
 #Don't actually do this!
-@merger.merge('[padding:1rem] p-8') # → '[padding:1rem] p-8'
+@merger.merge("[padding:1rem] p-8") # → "[padding:1rem] p-8"
 ```
 
 > **Warning** > `tailwind_merge` does not resolve conflicts between arbitrary properties and their matching Tailwind classes to keep the bundle size small.
@@ -124,11 +122,11 @@ The order of standard modifiers does not matter for tailwind-merge.
 ### Supports arbitrary variants
 
 ```ruby
-@merger.merge('[&:nth-child(3)]:py-0 [&:nth-child(3)]:py-4') # → '[&:nth-child(3)]:py-4'
-@merger.merge('dark:hover:[&:nth-child(3)]:py-0 hover:dark:[&:nth-child(3)]:py-4') # → 'hover:dark:[&:nth-child(3)]:py-4'
+@merger.merge("[&:nth-child(3)]:py-0 [&:nth-child(3)]:py-4") # → "[&:nth-child(3)]:py-4"
+@merger.merge("dark:hover:[&:nth-child(3)]:py-0 hover:dark:[&:nth-child(3)]:py-4") # → "hover:dark:[&:nth-child(3)]:py-4"
 
 # Don't actually do this!
-@merger.merge('[&:focus]:ring focus:ring-4') # → '[&:focus]:ring focus:ring-4'
+@merger.merge("[&:focus]:ring focus:ring-4") # → "[&:focus]:ring focus:ring-4"
 ```
 
 > **Warning**
@@ -138,26 +136,26 @@ The order of standard modifiers does not matter for tailwind-merge.
 ### Supports important modifier
 
 ```ruby
-@merger.merge('!p-3 !p-4 p-5') # → '!p-4 p-5'
-@merger.merge('!right-2 !-inset-x-1') # → '!-inset-x-1'
+@merger.merge("!p-3 !p-4 p-5") # → "!p-4 p-5"
+@merger.merge("!right-2 !-inset-x-1") # → "!-inset-x-1"
 ```
 
 ## Supports postfix modifiers
 
 ```ts
-twMerge("text-sm leading-6 text-lg/7"); // → 'text-lg/7'
+twMerge("text-sm leading-6 text-lg/7"); // → "text-lg/7"
 ```
 
 ### Preserves non-Tailwind classes
 
 ```ruby
-@merger.merge('p-5 p-2 my-non-tailwind-class p-4') # → 'my-non-tailwind-class p-4'
+@merger.merge("p-5 p-2 my-non-tailwind-class p-4") # → "my-non-tailwind-class p-4"
 ```
 
 ### Supports custom colors out of the box
 
 ```ruby
-@merger.merge('text-red text-secret-sauce') # → 'text-secret-sauce'
+@merger.merge("text-red text-secret-sauce") # → "text-secret-sauce"
 ```
 
 ## Basic usage
@@ -189,22 +187,22 @@ The `tailwind_merge` config is an object with several keys:
 
 ```ruby
 tailwind_merge_config = {
-    # ↓ *Optional* Define how many values should be stored in cache.
-    cache_size: 500,
-    # ↓ *Optional* modifier separator from Tailwind config
-    separator: ':',
-    # ↓ *Optional* prefix from Tailwind config
-    prefix: 'tw-',
-    theme: {
-        # Theme scales are defined here
-        # This is not the theme object from your Tailwind config
-    },
-    class_groups: {
-        # Class groups are defined here
-    },
-    conflicting_class_groups: {
-        # Conflicts between class groups are defined here
-    },
+  # ↓ *Optional* Define how many values should be stored in cache.
+  cache_size: 500,
+  # ↓ *Optional* modifier separator from Tailwind config
+  separator: ":",
+  # ↓ *Optional* prefix from Tailwind config
+  prefix: "tw-",
+  theme: {
+    # Theme scales are defined here
+    # This is not the theme object from your Tailwind config
+  },
+  class_groups: {
+    # Class groups are defined here
+  },
+  conflicting_class_groups: {
+    # Conflicts between class groups are defined here
+  }
 }
 ```
 
@@ -219,13 +217,13 @@ To use the custom configuration, pass it to the `TailwindMerge::Merger` initiali
 The library uses a concept of _class groups_ which is an array of Tailwind classes which all modify the same CSS property. For example, here is the position class group:
 
 ```ruby
-position_class_group = ['static', 'fixed', 'absolute', 'relative', 'sticky']
+position_class_group = ["static", "fixed", "absolute", "relative", "sticky"]
 ```
 
 `tailwind_merge` resolves conflicts between classes in a class group and only keeps the last one passed to the merge function call:
 
 ```ruby
-@merger.merge('static sticky relative') # → 'relative'
+@merger.merge("static sticky relative") # → "relative"
 ```
 
 Tailwind classes often share the beginning of the class name, so elements in a class group can also be an object with values of the same shape as a class group (the shape is recursive). In the object, each key is joined with all the elements in the corresponding array with a dash (`-`) in between.
@@ -233,7 +231,7 @@ Tailwind classes often share the beginning of the class name, so elements in a c
 For example, here is the overflow class group which results in the classes `overflow-auto`, `overflow-hidden`, `overflow-visible` and `overflow-scroll`.
 
 ```ruby
-overflow_class_group = [{ overflow: ['auto', 'hidden', 'visible', 'scroll'] }]
+overflow_class_group = [{ overflow: ["auto", "hidden", "visible", "scroll"] }]
 ```
 
 Sometimes it isn't possible to enumerate every element in a class group. Think of a Tailwind class which allows arbitrary values. In this scenario you can use a validator function which takes a _class part_ and returns a boolean indicating whether a class is part of a class group.
@@ -242,16 +240,16 @@ For example, here is the fill class group:
 
 ```ruby
 is_arbitrary_value = (class_part: string) => /^\[.+\]$/.test(class_part)
-fill_class_group = [{ fill: ['current', IS_ARBITRARY_VALUE] }]
+fill_class_group = [{ fill: ["current", IS_ARBITRARY_VALUE] }]
 ```
 
 Because the function is under the `fill` key, it will only get called for classes which start with `fill-`. Also, the function only gets passed the part of the class name which comes after `fill-`, this way you can use the same function in multiple class groups. `tailwind_merge` provides its own [validators](#validators), so you don't need to recreate them.
 
-You can use an empty string (`''`) as a class part if you want to indicate that the preceding part was the end. This is useful for defining elements which are marked as `DEFAULT` in the Tailwind config.
+You can use an empty string (`""`) as a class part if you want to indicate that the preceding part was the end. This is useful for defining elements which are marked as `DEFAULT` in the Tailwind config.
 
 ```ruby
 # ↓ Resolves to filter and filter-none
-filter_class_group = [{ filter: ['', 'none'] }]
+filter_class_group = [{ filter: ["", "none"] }]
 ```
 
 Each class group is defined under its ID in the `class_groups` object in the config. This ID is only used internally, and the only thing that matters is that it is unique among all class groups.
@@ -271,9 +269,7 @@ To summarize, `px-3` should stand in conflict with `pr-4`, but `pr-4` should not
 This is what the `conflicting_class_groups` object in the config is for. You define a key in it which is the ID of a class group which _creates_ a conflict and the value is an array of IDs of class group which _receive_ a conflict.
 
 ```ruby
-conflicting_class_groups = {
-    px: ['pr', 'pl'],
-}
+conflicting_class_groups = { px: ["pr", "pl"] }
 ```
 
 If a class group _creates_ a conflict, it means that if it appears in a class list string passed to `merge`, all preceding class groups in the string which _receive_ the conflict will be removed.
@@ -314,10 +310,10 @@ If you modified one of these theme scales in your Tailwind config, you can add a
 
 ```ruby
 merger = TailwindMerge::Merger.new(config: {
-    theme: {
+  theme: {
     "spacing" => ["my-space"],
-    "margin" => ["my-margin"],
-    },
+    "margin" => ["my-margin"]
+  }
 })
 ```
 
