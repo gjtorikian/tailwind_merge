@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.license = "MIT"
 
   github_root_uri = "https://github.com/gjtorikian/tailwind_merge"
-  spec.homepage = "#{github_root_uri}/tree/#{spec.version}/#{spec.name}"
+  spec.homepage = "#{github_root_uri}/tree/v#{spec.version}"
   spec.metadata = {
     "homepage_uri" => spec.homepage,
     "source_code_uri" => spec.homepage,
