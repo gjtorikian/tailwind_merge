@@ -14,8 +14,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: yettoapp/actions/setup-languages@main
         with:
-          bundler-cache: true
+          ruby: true
       - name: RuboCop
         run: bundle exec rake rubocop
