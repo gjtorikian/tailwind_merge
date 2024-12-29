@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     "homepage_uri" => spec.homepage,
     "source_code_uri" => spec.homepage,
-    "changelog_uri" => "#{github_root_uri}/blob/#{spec.version}/CHANGELOG.md",
+    "changelog_uri" => "#{github_root_uri}/blob/v#{spec.version}/CHANGELOG.md",
     "bug_tracker_uri" => "#{github_root_uri}/issues",
     "documentation_uri" => "https://rubydoc.info/gems/#{spec.name}/#{spec.version}",
     "funding_uri" => "https://github.com/sponsors/gjtorikian",
