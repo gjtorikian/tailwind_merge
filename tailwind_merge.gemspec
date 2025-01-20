@@ -35,7 +35,7 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency("lru_redux", "~> 1.1")
+  spec.add_dependency("sin_lru_redux")
 
   spec.add_development_dependency("minitest", "~> 5.6")
   spec.add_development_dependency("minitest-focus", "~> 1.1")
