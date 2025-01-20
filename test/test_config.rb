@@ -7,6 +7,7 @@ class TestConfig < Minitest::Test
     config = TailwindMerge::Config::DEFAULTS
 
     assert_equal(500, config[:cache_size])
+    assert(config[:ignore_empty_cache])
     refute(config[:nonexistent])
     assert_equal("block", config[:class_groups]["display"].first)
     assert_equal("auto", config[:class_groups]["overflow"].first["overflow"].first)

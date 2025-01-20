@@ -26,7 +26,7 @@ module TailwindMerge
       end
 
       @class_utils = TailwindMerge::ClassUtils.new(@config)
-      @cache = LruRedux::Cache.new(@config[:cache_size])
+      @cache = LruRedux::Cache.new(@config[:cache_size], @config[:ignore_empty_cache])
     end
 
     def merge(classes)

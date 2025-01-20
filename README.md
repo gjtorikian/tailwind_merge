@@ -189,6 +189,8 @@ The `tailwind_merge` config is an object with several keys:
 tailwind_merge_config = {
   # ↓ *Optional* Define how many values should be stored in cache.
   cache_size: 500,
+  # ↓ *Optional* Enable or disable caching nil values.
+  ignore_empty_cache: true,
   # ↓ *Optional* modifier separator from Tailwind config
   separator: ":",
   # ↓ *Optional* prefix from Tailwind config
