@@ -6,7 +6,7 @@
 * Refactoring constants by @w-masahiro-ct in https://github.com/gjtorikian/tailwind_merge/pull/43
 * Fix changelog uri by @w-masahiro-ct in https://github.com/gjtorikian/tailwind_merge/pull/46
 * Uninstall lru_cache and install sin_lru_redux by @w-masahiro-ct in https://github.com/gjtorikian/tailwind_merge/pull/48
-
+  - Adds `ignore_empty_cache` option for saving memory
 ## New Contributors
 * @w-masahiro-ct made their first contribution in https://github.com/gjtorikian/tailwind_merge/pull/41
 
