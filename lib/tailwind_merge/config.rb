@@ -84,6 +84,7 @@ module TailwindMerge
 
     DEFAULTS = {
       cache_size: 500,
+      ignore_empty_cache: true,
       separator: ":",
       theme: {
         "colors" => [IS_ANY],
