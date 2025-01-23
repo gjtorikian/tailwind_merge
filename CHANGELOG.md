@@ -1,3 +1,16 @@
+# [v0.15.0] - 23-01-2025
+## What's Changed
+* Improve gemspec by @w-masahiro-ct in https://github.com/gjtorikian/tailwind_merge/pull/41
+* Refactoring README.md by @w-masahiro-ct in https://github.com/gjtorikian/tailwind_merge/pull/42
+* Fix homepage uri by @w-masahiro-ct in https://github.com/gjtorikian/tailwind_merge/pull/45
+* Refactoring constants by @w-masahiro-ct in https://github.com/gjtorikian/tailwind_merge/pull/43
+* Fix changelog uri by @w-masahiro-ct in https://github.com/gjtorikian/tailwind_merge/pull/46
+* Uninstall lru_cache and install sin_lru_redux by @w-masahiro-ct in https://github.com/gjtorikian/tailwind_merge/pull/48
+
+## New Contributors
+* @w-masahiro-ct made their first contribution in https://github.com/gjtorikian/tailwind_merge/pull/41
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v0.14.0...v0.15.0
 # [v0.14.0] - 19-12-2024
 ## What's Changed
 * Prevent cache tampering by freezing cached value by @david-uhlig in https://github.com/gjtorikian/tailwind_merge/pull/39
