@@ -121,7 +121,7 @@ class TestValidators < Minitest::Test
     refute(IS_ARBITRARY_POSITION.call("position:2px"))
   end
 
-  def test_is_arbitrary_iamge
+  def test_is_arbitrary_image
     assert(IS_ARBITRARY_IMAGE.call("[url:var(--my-url)]"))
     assert(IS_ARBITRARY_IMAGE.call("[url(something)]"))
     assert(IS_ARBITRARY_IMAGE.call("[url:bla]"))

@@ -7,7 +7,7 @@ class TestPrefixes < Minitest::Test
     @merger = TailwindMerge::Merger.new(config: { prefix: "tw-" })
   end
 
-  def test_prefix_working_corectly
+  def test_prefix_working_correctly
     assert_equal("tw-hidden", @merger.merge("tw-block tw-hidden"))
     assert_equal("block hidden", @merger.merge("block hidden"))
 

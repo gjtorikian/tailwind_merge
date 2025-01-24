@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "set"
+
 module TailwindMerge
   module Config
     include Validators
@@ -30,7 +32,7 @@ module TailwindMerge
       "skew",
       "space",
       "translate",
-    ]
+    ].freeze
     THEME_KEYS.each do |key|
       const_set(key.upcase.tr("-", "_"), ->(config) { config[:theme].fetch(key, nil) })
     end
