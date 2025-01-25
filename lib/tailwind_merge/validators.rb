@@ -8,12 +8,10 @@ module TailwindMerge
       def arbitrary_value?(class_part, label, test_value)
         match = ARBITRARY_VALUE_REGEX.match(class_part)
         return false unless match
+        return test_value.call(match[2]) if match[1].nil?
+        return label == match[1] if label.is_a?(String)
 
-        unless match[1].nil?
-          return label.is_a?(Set) ? label.include?(match[1]) : label == match[1]
-        end
-
-        test_value.call(match[2])
+        label.include?(match[1])
       end
 
       def numeric?(x)
