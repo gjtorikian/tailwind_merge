@@ -1,4 +1,4 @@
-name: Linting
+name: Lint
 
 on:
   pull_request:
@@ -19,5 +19,5 @@ jobs:
         with:
           ruby: true
 
-      - name: Rubocop
+      - name: RuboCop
         run: bundle exec rake rubocop
