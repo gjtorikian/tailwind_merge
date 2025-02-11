@@ -5,13 +5,22 @@ require "set"
 module TailwindMerge
   module Validators
     class << self
-      def arbitrary_value?(class_part, label, test_value)
+      def arbitrary_value?(class_part, test_label, test_value)
         match = ARBITRARY_VALUE_REGEX.match(class_part)
         return false unless match
-        return test_value.call(match[2]) if match[1].nil?
-        return label == match[1] if label.is_a?(String)
 
-        label.include?(match[1])
+        return test_label.call(match[1]) unless match[1].nil?
+
+        test_value.include?(match[2])
+      end
+
+      def arbitrary_variable?(class_part, test_label, should_match_no_label: false)
+        match = ARBITRARY_(VARIABLE_REGEX.match(class_part))
+        return false unless match
+
+        return test_label.call(match[1]) unless match[1].nil?
+
+        should_match_no_label
       end
 
       def numeric?(x)
@@ -23,95 +32,150 @@ module TailwindMerge
       end
     end
 
-    STRING_LENGTHS = Set.new(["px", "full", "screen"]).freeze
-
-    ARBITRARY_VALUE_REGEX = /^\[(?:([a-z-]+):)?(.+)\]$/i
+    ARBITRARY_VALUE_REGEX = /^\[(?:(\w[\w-]*):)?(.+)\]$/i
+    ARBITRARY_VARIABLE_REGEXP = /^\((?:(\w[\w-]*):)?(.+)\)$/i
     FRACTION_REGEX = %r{^\d+/\d+$}
-    LENGTH_UNIT_REGEX = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/
     TSHIRT_UNIT_REGEX = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/
+    LENGTH_UNIT_REGEX = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/
     COLOR_FUNCTION_REGEX = /^(rgba?|hsla?|hwb|(ok)?(lab|lch))\(.+\)$/
+
     # Shadow always begins with x and y offset separated by underscore optionally prepended by inset
     SHADOW_REGEX = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/
     IMAGE_REGEX = /^(url|image|image-set|cross-fade|element|(repeating-)?(linear|radial|conic)-gradient)\(.+\)$/
 
-    SIZE_LABELS = Set.new(["length", "size", "percentage"]).freeze
-    IMAGE_LABELS = Set.new(["image", "url"]).freeze
-
-    is_length_only = ->(value) {
-      # `colorFunctionRegex` check is necessary because color functions can have percentages in them which which would be incorrectly classified as lengths.
-      # For example, `hsl(0 0% 0%)` would be classified as a length without this check.
-      # I could also use lookbehind assertion in `lengthUnitRegex` but that isn't supported widely enough.
-      LENGTH_UNIT_REGEX.match?(value) && !COLOR_FUNCTION_REGEX.match?(value)
-    }
-
-    is_never = ->(_) { false }
-
-    is_number = ->(value) {
-      numeric?(value)
-    }
-
-    is_integer_only = ->(value) {
-      integer?(value)
-    }
-
-    is_shadow = ->(value) {
-      SHADOW_REGEX.match?(value)
-    }
-
-    is_image = ->(value) {
-      IMAGE_REGEX.match?(value)
-    }
-
-    IS_LENGTH = ->(value) {
-      numeric?(value) ||
-        STRING_LENGTHS.include?(value) ||
-        FRACTION_REGEX.match?(value)
-    }
-
-    IS_ARBITRARY_LENGTH = ->(value) {
-      arbitrary_value?(value, "length", is_length_only)
-    }
-
-    IS_ARBITRARY_NUMBER = ->(value) {
-      arbitrary_value?(value, "number", is_number)
+    IS_FRACTION = ->(value) {
+      FRACTION_REGEX.match?(value)
     }
 
     IS_NUMBER = ->(value) {
-      is_number.call(value)
+      numeric?(value)
     }
 
     IS_INTEGER = ->(value) {
-      is_integer_only.call(value)
+      integer?(value)
     }
 
     IS_PERCENT = ->(value) {
-      value.end_with?("%") && is_number.call(value[0..-2])
-    }
-
-    IS_ARBITRARY_VALUE = ->(value) {
-      ARBITRARY_VALUE_REGEX.match(value)
+      value.end_with?("%") && IS_NUMBER.call(value[0..-2])
     }
 
     IS_TSHIRT_SIZE = ->(value) {
       TSHIRT_UNIT_REGEX.match?(value)
     }
 
+    IS_ANY = ->(_) { true }
+
+    IS_LENGTH_ONLY = ->(value) {
+      # `colorFunctionRegex` check is necessary because color functions can have percentages in them which which would be incorrectly classified as lengths.
+      # For example, `hsl(0 0% 0%)` would be classified as a length without this check.
+      # I could also use lookbehind assertion in `lengthUnitRegex` but that isn't supported widely enough.
+      LENGTH_UNIT_REGEX.match?(value) && !COLOR_FUNCTION_REGEX.match?(value)
+    }
+
+    IS_NEVER = ->(_) { false }
+
+    IS_SHADOW = ->(value) {
+      SHADOW_REGEX.match?(value)
+    }
+
+    IS_IMAGE = ->(value) {
+      IMAGE_REGEX.match?(value)
+    }
+
+    IS_ANY_NON_ARBITRARY = ->(value) {
+      !IS_ARBITRARY_VALUE.call(value) && !IS_ARBITRARY_VARIABLE.call(value)
+    }
+
     IS_ARBITRARY_SIZE = ->(value) {
-      arbitrary_value?(value, SIZE_LABELS, is_never)
+      arbitrary_value?(value, IS_LABEL_SIZE, IS_NEVER)
+    }
+
+    IS_ARBITRARY_VALUE = ->(value) {
+      ARBITRARY_VALUE_REGEX.match(value)
+    }
+
+    IS_ARBITRARY_LENGTH = ->(value) {
+      arbitrary_value?(value, IS_LABEL_LENGTH, IS_LENGTH_ONLY)
+    }
+
+    IS_ARBITRARY_NUMBER = ->(value) {
+      arbitrary_value?(value, IS_LABEL_POSITION, IS_NEVER)
     }
 
     IS_ARBITRARY_POSITION = ->(value) {
-      arbitrary_value?(value, "position", is_never)
+      arbitrary_value?(value, IS_LABEL_POSITION, IS_NEVER)
     }
 
     IS_ARBITRARY_IMAGE = ->(value) {
-      arbitrary_value?(value, IMAGE_LABELS, is_image)
+      arbitrary_value?(value, IS_LABEL_IMAGE, IS_IMAGE)
     }
 
     IS_ARBITRARY_SHADOW = ->(value) {
-      arbitrary_value?(value, "", is_shadow)
+      arbitrary_value?(value, IS_NEVER, IS_SHADOW)
     }
 
-    IS_ANY = ->(_) { true }
+    IS_ARBITRARY_VARIABLE = ->(value) {
+      ARBITRARY_VARIABLE_REGEX.match(value)
+    }
+
+    IS_ARBITRARY_VARIABLE_LENGTH = ->(value) {
+      arbitrary_variable?(value, IS_LABEL_LENGTH)
+    }
+
+    IS_ARBITRARY_VARIABLE_FAMILY_NAME = ->(value) {
+      arbitrary_variable?(value, IS_LABEL_FAMILY_NAME)
+    }
+
+    IS_ARBITRARY_VARIABLE_POSITION = ->(value) {
+      arbitrary_variable?(value, IS_LABEL_POSITION)
+    }
+
+    IS_ARBITRARY_VARIABLE_SIZE = ->(value) {
+      arbitrary_variable?(value, IS_LABEL_SIZE)
+    }
+
+    IS_ARBITRARY_VARIABLE_IMAGE = ->(value) {
+      arbitrary_variable?(value, IS_LABEL_IMAGE)
+    }
+
+    IS_ARBITRARY_VARIABLE_SHADOW = ->(value) {
+      arbitrary_variable?(value, IS_LABEL_SHADOW)
+    }
+
+    ############
+    # Labels
+    ############
+
+    IS_LABEL_POSITION = ->(value) {
+      value == "posiiton"
+    }
+
+    IMAGE_LABELS = Set.new(["image", "url"]).freeze
+
+    IS_LABEL_IMAGE = ->(value) {
+      IMAGE_LABELS.include?(value)
+    }
+
+    SIZE_LABELS = Set.new(["length", "size", "percentage"]).freeze
+
+    IS_LABEL_SIZE = ->(value) {
+      SIZE_LABELS.include?(value)
+    }
+
+    IS_LABEL_LENGTH = ->(value) {
+      value == "length"
+    }
+
+    IS_LABEL_NUMBER = ->(value) {
+      value == "number"
+    }
+
+    IS_LABEL_FAMILY_NAME = ->(value) {
+      value == "family-name"
+    }
+
+    IS_LABEL_SHADOW = ->(value) {
+      value == "shadow"
+    }
   end
 end
