@@ -12,8 +12,9 @@ module TailwindMerge
       unsorted_modifiers = []
 
       modifiers.each do |modifier|
-        is_positiion_sensitive = modifier.start_with?("[") || order_sensitive_modifiers[modifier]
-        if is_positiion_sensitive
+        is_position_sensitive = modifier.start_with?("[") || order_sensitive_modifiers.include?(modifier)
+
+        if is_position_sensitive
           sorted_modifiers.concat(unsorted_modifiers.sort)
           sorted_modifiers << modifier
           unsorted_modifiers.clear

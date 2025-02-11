@@ -21,12 +21,8 @@ module TailwindMerge
     SPLIT_CLASSES_REGEX = /\s+/
 
     def initialize(config: {})
-      @config = if config.key?(:theme)
-        merge_configs(config)
-      else
-        TailwindMerge::Config::DEFAULTS.merge(config)
-      end
-
+      @config = merge_config(config)
+      @config[:important_modifier] = @config[:important_modifier].to_s
       @class_utils = TailwindMerge::ClassGroupUtils.new(@config)
       @cache = LruRedux::Cache.new(@config[:cache_size], @config[:ignore_empty_cache])
     end
@@ -61,16 +57,12 @@ module TailwindMerge
         maybe_postfix_modifier_position = result.maybe_postfix_modifier_position
 
         if is_external
-          merged_classes.unshift(original_class_name)
+          merged_classes.push(original_class_name)
           next
-        end
-        actual_base_class_name = if maybe_postfix_modifier_position
-          base_class_name[0...maybe_postfix_modifier_position]
-        else
-          base_class_name
         end
 
         has_postfix_modifier = maybe_postfix_modifier_position ? true : false
+        actual_base_class_name = has_postfix_modifier ? base_class_name[0...maybe_postfix_modifier_position] : base_class_name
         class_group_id = @class_utils.class_group_id(actual_base_class_name)
 
         unless class_group_id

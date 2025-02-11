@@ -19,15 +19,15 @@ module TailwindMerge
         full_prefix = "#{prefix}#{MODIFIER_SEPARATOR}"
         if class_name.start_with?(full_prefix)
           return parse_class_name(class_name[full_prefix.length..])
+        else
+          return TailwindClass.new(
+            is_external: true,
+            modifiers: [],
+            has_important_modifier: false,
+            base_class_name: class_name,
+            maybe_postfix_modifier_position: nil,
+          )
         end
-
-        return TailwindClass.new(
-          is_external: true,
-          modifiers: [],
-          has_important_modifier: false,
-          base_class_name: class_name,
-          maybe_postfix_modifier_position: nil,
-        )
       end
 
       modifiers = []
@@ -74,10 +74,16 @@ module TailwindMerge
 
     def strip_important_modifier(base_class_name)
       if base_class_name.end_with?(IMPORTANT_MODIFIER)
-        [base_class_name[0...-IMPORTANT_MODIFIER.length], true]
-      else
-        [base_class_name, false]
+        return [base_class_name[0...-IMPORTANT_MODIFIER.length], true]
       end
+
+      # In Tailwind CSS v3 the important modifier was at the start of the base class name. This is still supported for legacy reasons.
+      # @see https://github.com/dcastil/tailwind-merge/issues/513#issuecomment-2614029864
+      if base_class_name.start_with?(IMPORTANT_MODIFIER)
+        return [base_class_name[1..], true]
+      end
+
+      [base_class_name, false]
     end
   end
 end

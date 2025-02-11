@@ -65,7 +65,7 @@ module TailwindMerge
         validators: [],
       }
 
-      class_groups.each do |class_group_id|
+      class_groups.each do |(class_group_id, class_group)|
         process_classes_recursively(class_group, class_map, class_group_id, theme)
       end
 
@@ -79,7 +79,7 @@ module TailwindMerge
           class_part_object_to_edit[:class_group_id] = class_group_id
         elsif class_definition.is_a?(Proc)
           if from_theme?(class_definition)
-            process_classes_recursively(class_definition.call(theme), class_part_object, class_group_id, theme)
+            process_classes_recursively(class_definition.call(@config), class_part_object, class_group_id, theme)
           else
             class_part_object[:validators] << {
               validator: class_definition,

@@ -11,11 +11,11 @@ module TailwindMerge
 
         return test_label.call(match[1]) unless match[1].nil?
 
-        test_value.include?(match[2])
+        test_value.call(match[2])
       end
 
       def arbitrary_variable?(class_part, test_label, should_match_no_label: false)
-        match = ARBITRARY_(VARIABLE_REGEX.match(class_part))
+        match = ARBITRARY_VARIABLE_REGEX.match(class_part)
         return false unless match
 
         return test_label.call(match[1]) unless match[1].nil?
@@ -33,7 +33,7 @@ module TailwindMerge
     end
 
     ARBITRARY_VALUE_REGEX = /^\[(?:(\w[\w-]*):)?(.+)\]$/i
-    ARBITRARY_VARIABLE_REGEXP = /^\((?:(\w[\w-]*):)?(.+)\)$/i
+    ARBITRARY_VARIABLE_REGEX = /^\((?:(\w[\w-]*):)?(.+)\)$/i
     FRACTION_REGEX = %r{^\d+/\d+$}
     TSHIRT_UNIT_REGEX = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/
     LENGTH_UNIT_REGEX = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/
@@ -63,7 +63,7 @@ module TailwindMerge
       TSHIRT_UNIT_REGEX.match?(value)
     }
 
-    IS_ANY = ->(_) { true }
+    IS_ANY = ->(_ = nil) { true }
 
     IS_LENGTH_ONLY = ->(value) {
       # `colorFunctionRegex` check is necessary because color functions can have percentages in them which which would be incorrectly classified as lengths.
@@ -99,7 +99,7 @@ module TailwindMerge
     }
 
     IS_ARBITRARY_NUMBER = ->(value) {
-      arbitrary_value?(value, IS_LABEL_POSITION, IS_NEVER)
+      arbitrary_value?(value, IS_LABEL_NUMBER, IS_NUMBER)
     }
 
     IS_ARBITRARY_POSITION = ->(value) {
@@ -139,7 +139,7 @@ module TailwindMerge
     }
 
     IS_ARBITRARY_VARIABLE_SHADOW = ->(value) {
-      arbitrary_variable?(value, IS_LABEL_SHADOW)
+      arbitrary_variable?(value, IS_LABEL_SHADOW, should_match_no_label: true)
     }
 
     ############
@@ -147,7 +147,7 @@ module TailwindMerge
     ############
 
     IS_LABEL_POSITION = ->(value) {
-      value == "posiiton"
+      value == "position"
     }
 
     IMAGE_LABELS = Set.new(["image", "url"]).freeze

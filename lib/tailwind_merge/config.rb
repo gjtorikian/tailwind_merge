@@ -27,10 +27,12 @@ module TailwindMerge
       "animate",
     ].freeze
     THEME_KEYS.each do |key|
-      const_set("THEME_#{key.upcase.tr("-", "_")}", ->(config) { config[:theme].fetch(key, nil) })
+      const_set("THEME_#{key.upcase.tr("-", "_")}", ->(config) {
+                                                      config[:theme].fetch(key, nil)
+                                                    })
     end
 
-    VALID_THEME_IDS = Set.new(THEME_KEYS.map { |theme_key| const_get(theme_key.upcase.tr("-", "_")).object_id }).freeze
+    VALID_THEME_IDS = Set.new(THEME_KEYS.map { |theme_key| const_get("THEME_#{theme_key.upcase.tr("-", "_")}").object_id }).freeze
 
     SCALE_BREAK = -> { ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"] }
     SCALE_POSITION = -> {
@@ -48,7 +50,7 @@ module TailwindMerge
     }
     SCALE_OVERFLOW = -> { ["auto", "hidden", "clip", "visible", "scroll"] }
     SCALE_OVERSCROLL = -> { ["auto", "contain", "none"] }
-    SCALE_INSET = -> {
+    SCALE_INSET = ->(_config) {
       [
         IS_FRACTION,
         "px",
@@ -170,7 +172,7 @@ module TailwindMerge
         "aspect" => ["video"],
         "blur" => [IS_TSHIRT_SIZE],
         "breakpoint" => [IS_TSHIRT_SIZE],
-        "colors" => [IS_ANY],
+        "color" => [IS_ANY],
         "container" => [IS_TSHIRT_SIZE],
         "drop-shadow" => [IS_TSHIRT_SIZE],
         "ease" => ["in", "out", "in-out"],
@@ -212,7 +214,7 @@ module TailwindMerge
               IS_FRACTION,
               IS_ARBITRARY_VALUE,
               IS_ARBITRARY_VARIABLE,
-              themeAspect,
+              THEME_ASPECT,
             ],
           },
         ],
@@ -338,7 +340,7 @@ module TailwindMerge
         # Overscroll Behavior Y
         # @see https://tailwindcss.com/docs/overscroll-behavior
         ##
-        "overscroll-y" => [{ "overscroll-y" => OVERSCROLL.call }],
+        "overscroll-y" => [{ "overscroll-y" => SCALE_OVERSCROLL.call }],
         ##
         # Position
         # @see https://tailwindcss.com/docs/position
@@ -648,7 +650,7 @@ module TailwindMerge
         # Margin Top
         # @see https://tailwindcss.com/docs/margin
         ##
-        "mt" => [{ "mt" => [MARGIN] }],
+        "mt" => [{ "mt" => SCALE_MARGIN.call }],
         ##
         # Margin Right
         # @see https://tailwindcss.com/docs/margin
@@ -693,7 +695,7 @@ module TailwindMerge
         # Size
         # @see https://tailwindcss.com/docs/width#setting-both-width-and-height
         ##
-        "size" => [{ "size" => SCALE_SIZING }],
+        "size" => [{ "size" => SCALE_SIZING.call }],
         # Width
         # @see https://tailwindcss.com/docs/width
         ##
@@ -891,12 +893,12 @@ module TailwindMerge
         # @deprecated since Tailwind CSS v3.0.0
         # @see https://tailwindcss.com/docs/placeholder-color
         ##
-        "placeholder-color" => [{ "placeholder" => [SCALE_COLOR.call] }],
+        "placeholder-color" => [{ "placeholder" => SCALE_COLOR.call }],
         ##
         # Text Color
         # @see https://tailwindcss.com/docs/text-color
         ##
-        "text-color" => [{ "text" => [SCALE_COLOR.call] }],
+        "text-color" => [{ "text" => SCALE_COLOR.call }],
         ##
         # Text Decoration
         # @see https://tailwindcss.com/docs/text-decoration
@@ -1027,6 +1029,9 @@ module TailwindMerge
               {
                 "linear" => [
                   { "to" => ["t", "tr", "r", "br", "b", "bl", "l", "tl"] },
+                  IS_INTEGER,
+                  IS_ARBITRARY_VARIABLE,
+                  IS_ARBITRARY_VALUE,
                 ],
                 "radial" => ["", IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE],
                 "conic" => [IS_INTEGER, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE],
@@ -1045,17 +1050,17 @@ module TailwindMerge
         # Gradient Color Stops From Position
         # @see https://tailwindcss.com/docs/gradient-color-stops
         #
-        "gradient-from-pos" => [{ "from" => SCALE_GRADIANT_STOP_POSITION.call }],
+        "gradient-from-pos" => [{ "from" => SCALE_GRADIENT_STOP_POSITION.call }],
         #
         # Gradient Color Stops Via Position
         # @see https://tailwindcss.com/docs/gradient-color-stops
         #
-        "gradient-via-pos" => [{ "via" => SCALE_GRADIANT_STOP_POSITION.call }],
+        "gradient-via-pos" => [{ "via" => SCALE_GRADIENT_STOP_POSITION.call }],
         #
         # Gradient Color Stops To Position
         # @see https://tailwindcss.com/docs/gradient-color-stops
         #
-        "gradient-to-pos" => [{ "to" => SCALE_GRADIANT_STOP_POSITION.call }],
+        "gradient-to-pos" => [{ "to" => SCALE_GRADIENT_STOP_POSITION.call }],
         ##
         # Gradient Color Stops From
         # @see https://tailwindcss.com/docs/gradient-color-stops
@@ -1357,11 +1362,6 @@ module TailwindMerge
         ##
         "ring-color" => [{ "ring" => SCALE_COLOR.call }],
         ##
-        # Ring Opacity
-        # @see https://tailwindcss.com/docs/ring-opacity
-        ##
-        "ring-opacity" => [{ "ring-opacity" => [OPACITY] }],
-        ##
         # Ring Offset Width
         # @see https://v3.tailwindcss.com/docs/ring-offset-width
         # @deprecated since Tailwind CSS v4.0.0
@@ -1379,7 +1379,7 @@ module TailwindMerge
         # Inset Ring Width
         # @see https://tailwindcss.com/docs/box-shadow#adding-an-inset-ring
         ##
-        "inset-ring-w" => [{ "inset-ring" => SCALE_BORDER_WITH.call }],
+        "inset-ring-w" => [{ "inset-ring" => SCALE_BORDER_WIDTH.call }],
         ##
         # Inset Ring Color
         # @see https://tailwindcss.com/docs/box-shadow#setting-the-inset-ring-color
@@ -2144,17 +2144,19 @@ module TailwindMerge
       ],
     }.freeze
 
-    def merge_configs(extension_config)
-      config = TailwindMerge::Config::DEFAULTS
-      [:theme].each do |type|
-        extension_config.fetch(type, {}).each_pair do |key, scales|
-          config[type][key] << ->(klass) {
-            scales.include?(klass)
-          }
-        end
+    def merge_config(incoming_config)
+      extended_config = TailwindMerge::Config::DEFAULTS.dup
+
+      incoming_theme = incoming_config.delete(:theme) || {}
+      # if the incoming config has a theme, we...
+      incoming_theme.each_pair do |key, scales|
+        # ...add new scales to the existing ones
+        extended_config[:theme][key] << ->(klass) {
+          scales.include?(klass)
+        }
       end
 
-      config
+      extended_config.merge(incoming_config)
     end
   end
 end
