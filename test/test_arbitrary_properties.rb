@@ -21,7 +21,7 @@ class TestArbitraryProperties < Minitest::Test
 
     assert_equal("[paint-order:normal] [--my-var:2rem] lg:[--my-var:4px]", @merger.merge("[paint-order:markers] [paint-order:normal] [--my-var:2rem] lg:[--my-var:4px]"))
 
-    assert_equal("bg-[#B91C1C] bg-opacity-[48%]", @merger.merge("bg-[#B91C1C] bg-opacity-[0.56] bg-opacity-[48%]"))
+    assert_equal("bg-[#B91C1C] bg-radial-[at_25%_25%]", @merger.merge("bg-[#B91C1C] bg-radial-[at_50%_75%] bg-radial-[at_25%_25%]"))
   end
 
   def test_handles_complex_arbitrary_property_conflicts_correctly

@@ -23,7 +23,7 @@ class TestArbitraryValues < Minitest::Test
     # Handling of value `0`
     assert_equal("min-h-[0]", @merger.merge("min-h-[0.5px] min-h-[0]"))
     assert_equal("text-[0.5px] text-[color:0]", @merger.merge("text-[0.5px] text-[color:0]"))
-    assert_equal("text-[0.5px] text-[--my-0]", @merger.merge("text-[0.5px] text-[--my-0]"))
+    assert_equal("text-[0.5px] text-(--my-0)", @merger.merge("text-[0.5px] text-(--my-0)"))
   end
 
   def test_handles_arbitrary_length_conflicts_with_labels_and_modifiers_correctly
@@ -50,6 +50,11 @@ class TestArbitraryValues < Minitest::Test
     assert_equal("text-[calc(theme(fontSize.4xl)/1.125)]", @merger.merge("text-2xl text-[calc(theme(fontSize.4xl)/1.125)]"))
 
     assert_equal("bg-[length:200px_100px]", @merger.merge("bg-cover bg-[percentage:30%] bg-[length:200px_100px]"))
-    assert_equal("bg-gradient-to-r", @merger.merge("bg-none bg-[url(.)] bg-[image:.] bg-[url:.] bg-[linear-gradient(.)] bg-gradient-to-r"))
+    assert_equal("bg-linear-to-r", @merger.merge("bg-none bg-[url(.)] bg-[image:.] bg-[url:.] bg-[linear-gradient(.)] bg-linear-to-r"))
+  end
+
+  def test_handles_arbitrary_custom_properties_correctly
+    assert_equal("bg-(--other-red) bg-(position:-my-pos)", @merger.merge("bg-red bg-(--other-red) bg-bottom bg-(position:-my-pos)"))
+    assert_equal("shadow-(--some-other-shadow) shadow-(color:--some-color)", @merger.merge("shadow-xs shadow-(shadow:--something) shadow-red shadow-(--some-other-shadow) shadow-(color:--some-color)"))
   end
 end

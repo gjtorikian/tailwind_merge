@@ -96,7 +96,7 @@ The order of standard modifiers does not matter for tailwind-merge.
 ### Supports arbitrary values
 
 ```ruby
-@merger.merge("bg-black bg-[color:var(--mystery-var)]") # → "bg-[color:var(--mystery-var)]"
+@merger.merge("bg-black bg-(--my-color) bg-[color:var(--mystery-var)]") # → "bg-[color:var(--mystery-var)]"
 @merger.merge("grid-cols-[1fr,auto] grid-cols-2") # → "grid-cols-2"
 ```
 
@@ -136,8 +136,8 @@ The order of standard modifiers does not matter for tailwind-merge.
 ### Supports important modifier
 
 ```ruby
-@merger.merge("!p-3 !p-4 p-5") # → "!p-4 p-5"
-@merger.merge("!right-2 !-inset-x-1") # → "!-inset-x-1"
+@merger.merge("p-3! p-4! p-5") # → "p-4! p-5"
+@merger.merge("right-2! -inset-x-1!") # → "-inset-x-1!"
 ```
 
 ## Supports postfix modifiers
@@ -183,18 +183,16 @@ The `tailwind_merge` config is different from the Tailwind config because it's e
 
 ## Configuration
 
-The `tailwind_merge` config is an object with several keys:
+The `tailwind_merge` config is an object with several keys. All of these values are optional.
 
 ```ruby
 tailwind_merge_config = {
-  # ↓ *Optional* Define how many values should be stored in cache.
+  # Define how many values should be stored in cache.
   cache_size: 500,
-  # ↓ *Optional* Enable or disable caching nil values.
+  # Enable or disable caching nil values.
   ignore_empty_cache: true,
-  # ↓ *Optional* modifier separator from Tailwind config
-  separator: ":",
-  # ↓ *Optional* prefix from Tailwind config
-  prefix: "tw-",
+  # Prefix from your Tailwind config
+  prefix: "tw",
   theme: {
     # Theme scales are defined here
     # This is not the theme object from your Tailwind config
@@ -204,7 +202,10 @@ tailwind_merge_config = {
   },
   conflicting_class_groups: {
     # Conflicts between class groups are defined here
-  }
+  },
+  # Modifiers whose order among multiple modifiers should be preserved because their
+  # order changes which element gets targeted. Overrides default value.
+  order_sensitive_modifiers: ['before'],
 }
 ```
 
@@ -278,65 +279,93 @@ If a class group _creates_ a conflict, it means that if it appears in a class li
 
 When we think of our example, the `px` class group creates a conflict which is received by the class groups `pr` and `pl`. This way `px-3` removes a preceding `pr-4`, but not the other way around.
 
+### Order-sensitive modifiers
+
+In Tailwind CSS, not all modifiers behave the same when you stack them.
+
+In most cases the order of modifiers doesn't matter. E.g. `hover:focus:bg-red-500` and `focus:hover:bg-red-500` behave the same and in the context of tailwind-merge, you'd want them both to override each other. tailwind-merge sorts the modifiers internally to be able to override classes with the same modifiers, even if they are in a different order.
+
+However, there are some modifiers where the order matters, e.g. the direct children modifier `*`. The class `*:hover:text-red-500` modifies the text color of a child if that particular child is hovered, but the class `hover:*:text-red-500` modifies the text color of all direct children if the parent is hovered. In this case, you would want tailwind-merge to preserve both classes although they have the same modifiers, just in a different order.
+
+To know which modifiers are order-sensitive, tailwind-merge has the `orderSensitiveModifiers` property in its config. `twMerge` is pre-configured with all the order-sensitive modifiers that Tailwind CSS has by default. You'll only need to configure this property if you add your own order-sensitive modifiers or change the meaning of the default order-sensitive modifiers.
+
 ### Theme
 
-In the Tailwind config you can modify theme scales. `tailwind_merge` follows the same keys for the theme scales, but doesn't support all of them. It only supports theme scales which are used in multiple class groups. At the moment these are:
+In the Tailwind config you can modify your theme variable namespace to add classes with custom values. tailwind-merge follows the same naming scheme as Tailwind CSS for its theme scales:
 
-- `colors`
-- `spacing`
-- `blur`
-- `brightness`
-- `borderColor`
-- `borderRadius`
-- `borderSpacing`
-- `borderWidth`
-- `contrast`
-- `grayscale`
-- `hueRotate`
-- `invert`
-- `gap`
-- `gradientColorStops`
-- `gradientColorStopPositions`
-- `inset`
-- `margin`
-- `opacity`
-- `padding`
-- `saturate`
-- `scale`
-- `sepia`
-- `skew`
-- `space`
-- `translate`
+| Tailwind CSS namespace | tailwind-merge theme key |
+| ---------------------- | ------------------------ |
+| `--color-*`            | `color`                  |
+| `--font-*`             | `font`                   |
+| `--text-*`             | `text`                   |
+| `--font-weight-*`      | `font-weight`            |
+| `--tracking-*`         | `tracking`               |
+| `--leading-*`          | `leading`                |
+| `--breakpoint-*`       | `breakpoint`             |
+| `--container-*`        | `container`              |
+| `--spacing-*`          | `spacing`                |
+| `--radius-*`           | `radius`                 |
+| `--shadow-*`           | `shadow`                 |
+| `--inset-shadow-*`     | `inset-shadow`           |
+| `--drop-shadow-*`      | `drop-shadow`            |
+| `--blur-*`             | `blur`                   |
+| `--perspective-*`      | `perspective`            |
+| `--aspect-*`           | `aspect`                 |
+| `--ease-*`             | `ease`                   |
+| `--animate-*`          | `animate`                |
 
-If you modified one of these theme scales in your Tailwind config, you can add all your keys right here and tailwind-merge will take care of the rest. For example, to add custom spaces and margin, you would provide the following `theme`:
+If you modified one of the theme namespaces in your Tailwind config, you need to add the variable names to the `theme` object in tailwind-merge as well so that tailwind-merge knows about them.
+
+E.g. let's say you added the variable `--text-huge-af: 100px` to your Tailwind config which enables classes like `text-huge-af`. To make sure that tailwind-merge merges these classes correctly, you need to configure tailwind-merge like this:
+
+```ts
+import { extendTailwindMerge } from "tailwind-merge";
+
+const twMerge = extendTailwindMerge({
+  extend: {
+    theme: {
+      // ↓ `text` is the key of the namespace `--text-*`
+      //      ↓ `huge-af` is the variable name in the namespace
+      text: ["huge-af"],
+    },
+  },
+});
+```
 
 ```ruby
 merger = TailwindMerge::Merger.new(config: {
-  theme: {
-    "spacing" => ["my-space"],
-    "margin" => ["my-margin"]
-  }
+ theme: {
+   "spacing" => ["my-space"],
+   "margin" => ["my-margin"]
+ }
 })
 ```
-
-If you modified other theme scales, you need to figure out the class group to modify in the [default config](#getdefaultconfig).
 
 ### Validators
 
 Here's a brief summary for each validator:
 
-- `IS_LENGTH` checks whether a class part is a number (`3`, `1.5`), a fraction (`3/4`), or one of the strings `px`, `full` or `screen`.
-- `IS_ARBITRARY_LENGTH` checks for arbitrary length values (`[3%]`, `[4px]`, `[length:var(--my-var)]`).
-- `IS_INTEGER` checks for integer values (`3`).
-- `IS_PERCENT` checks for percent values (`12.5%`) which is used for color stop positions.
-- `IS_ARBITRARY_VALUE` checks whether the class part is enclosed in brackets (`[something]`)
-- `IS_TSHIRT_SIZE`checks whether class part is a T-shirt size (`sm`, `xl`), optionally with a preceding number (`2xl`).
-- `IS_ARBITRARY_SIZE` checks whether class part is an arbitrary value which starts with `size:` (`[size:200px_100px]`) which is necessary for background-size classNames.
-- `IS_ARBITRARY_POSITION` checks whether class part is an arbitrary value which starts with `position:` (`[position:200px_100px]`) which is necessary for background-position classNames.
-- `IS_ARBITRARY_IMAGE` checks whether class part is an arbitrary value which is an iamge, e.g. by starting with `image:`, `url:`, `linear-gradient(` or `url(` (`[url('/path-to-image.png')]`, `image:var(--maybe-an-image-at-runtime)]`) which is necessary for background-image classNames.
-- `IS_ARBITRARY_NUMBER` checks whether class part is an arbitrary value which starts with `number:` or is a number (`[number:var(--value)]`, `[450]`) which is necessary for font-weight classNames.
-- `IS_ARBITRARY_SHADOW` checks whether class part is an arbitrary value which starts with the same pattern as a shadow value (`[0_35px_60px_-15px_rgba(0,0,0,0.3)]`), namely with two lengths separated by a underscore, optionally prepended by `inset`.
 - `IS_ANY` always returns true. Be careful with this validator as it might match unwanted classes. I use it primarily to match colors or when it's certain there are no other class groups in a namespace.
+- `IS_ANY_NONE_ARBITRARY` checks if the class part is not an arbitrary value or arbitrary variable.
+- `IS_ARBITRARY_IMAGE` checks whether class part is an arbitrary value which is an iamge, e.g. by starting with `image:`, `url:`, `linear-gradient(` or `url(` (`[url('/path-to-image.png')]`, `image:var(--maybe-an-image-at-runtime)]`) which is necessary for background-image class names.
+- `IS_ARBITRARY_LENGTH` checks for arbitrary length values (`[3%]`, `[4px]`, `[length:var(--my-var)]`).
+- `IS_ARBITRARY_NUMBER` checks whether class part is an arbitrary value which starts with `number:` or is a number (`[number:var(--value)]`, `[450]`) which is necessary for font-weight and stroke-width class names.
+- `IS_ARBITRARY_POSITION` checks whether class part is an arbitrary value which starts with `position:` (`[position:200px_100px]`) which is necessary for background-position class names.
+- `IS_ARBITRARY_SHADOW` checks whether class part is an arbitrary value which starts with the same pattern as a shadow value (`[0_35px_60px_-15px_rgba(0,0,0,0.3)]`), namely with two lengths separated by a underscore, optionally prepended by `inset`.
+- `IS_ARBITRARY_SIZE` checks whether class part is an arbitrary value which starts with `size:` (`[size:200px_100px]`) which is necessary for background-size class names.
+- `IS_ARBITRARY_VALUE` checks whether the class part is enclosed in brackets (`[something]`)
+- `IS_ARBITRARY_VARIABLE` checks whether the class part is an arbitrary variable (`(--my-var)`)
+- `IS_ARBITRARY_VARIABLE_FAMILY_NAME` checks whether class part is an arbitrary variable with the `family-name` label (`(family-name:--my-font)`)
+- `IS_ARBITRARY_VARIABLE_IMAGE` checks whether class part is an arbitrary variable with the `image` or `url` label (`(image:--my-image)`)
+  `isArbitraryVariableLength` checks whether class part is an arbitrary variable with the `length` label (`(length:--my-length)`)
+- `IS_ARBITRARY_VARIABLE_POSITION` checks whether class part is an arbitrary variable with the `position` label (`(position:--my-position)`)
+- `IS_ARBITRARY_VARIABLE_SHADOW` checks whether class part is an arbitrary variable with the `shadow` label or not label at all (`(shadow:--my-shadow)`, `(--my-shadow)`)
+- `IS_ARBITRARY_VARIABLE_SIZE` checks whether class part is an arbitrary variable with the `size`, `length` or `percentage` label (`(size:--my-size)`)
+- `IS_FRACTION` checks whether class part is a fraction of two numbers (`1/2`, `127/256`)
+- `IS_INTEGER` checks for integer values (`3`).
+- `IS_NUMBER` checks for numbers (`3`, `1.5`)
+- `IS_PERCENT` checks for percent values (`12.5%`) which is used for color stop positions.
+- `IS_TSHIRT_SIZE`checks whether class part is a T-shirt size (`sm`, `xl`), optionally with a preceding number (`2xl`).
 
 ## Performance
 

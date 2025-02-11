@@ -8,6 +8,7 @@ class TestArbitraryVariants < Minitest::Test
   end
 
   def test_basic_arbitrary_variants
+    assert_equal("[p]:line-through", @merger.merge("[p]:underline [p]:line-through"))
     assert_equal("[&>*]:line-through", @merger.merge("[&>*]:underline [&>*]:line-through"))
     assert_equal("[&>*]:line-through [&_div]:line-through", @merger.merge("[&>*]:underline [&>*]:line-through [&_div]:line-through"))
     assert_equal("supports-[display:grid]:grid", @merger.merge("supports-[display:grid]:flex supports-[display:grid]:grid"))
