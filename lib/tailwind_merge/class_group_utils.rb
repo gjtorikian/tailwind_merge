@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module TailwindMerge
-  class ClassUtils
+  class ClassGroupUtils
     attr_reader :class_map
 
     CLASS_PART_SEPARATOR = "-"

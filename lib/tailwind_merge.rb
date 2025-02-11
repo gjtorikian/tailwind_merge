@@ -5,7 +5,7 @@ require "lru_redux"
 require_relative "tailwind_merge/version"
 require_relative "tailwind_merge/validators"
 require_relative "tailwind_merge/config"
-require_relative "tailwind_merge/class_utils"
+require_relative "tailwind_merge/class_group_utils"
 require_relative "tailwind_merge/sort_modifiers"
 require_relative "tailwind_merge/parse_class_name"
 
@@ -27,7 +27,7 @@ module TailwindMerge
         TailwindMerge::Config::DEFAULTS.merge(config)
       end
 
-      @class_utils = TailwindMerge::ClassUtils.new(@config)
+      @class_utils = TailwindMerge::ClassGroupUtils.new(@config)
       @cache = LruRedux::Cache.new(@config[:cache_size], @config[:ignore_empty_cache])
     end
 
