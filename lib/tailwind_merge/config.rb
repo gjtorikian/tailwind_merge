@@ -50,15 +50,13 @@ module TailwindMerge
     }
     SCALE_OVERFLOW = -> { ["auto", "hidden", "clip", "visible", "scroll"] }
     SCALE_OVERSCROLL = -> { ["auto", "contain", "none"] }
+    SCALE_UNAMBIGUOUS_SPACING = -> { [IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE, THEME_SPACING] }
     SCALE_INSET = ->(_config) {
       [
         IS_FRACTION,
-        "px",
         "full",
         "auto",
-        IS_ARBITRARY_VARIABLE,
-        IS_ARBITRARY_VALUE,
-        THEME_SPACING,
+        *SCALE_UNAMBIGUOUS_SPACING.call,
       ]
     }
 
@@ -73,17 +71,13 @@ module TailwindMerge
     }
     SCALE_GRID_COL_ROW_START_OR_END = -> { [IS_INTEGER, "auto", IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
     SCALE_GRID_AUTO_COLS_ROWS = -> { ["auto", "min", "max", "fr", IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
-    SCALE_GAP = -> { [IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE, THEME_SPACING] }
     SCALE_ALIGN_PRIMARY_AXIS = -> { ["start", "end", "center", "between", "around", "evenly", "stretch", "baseline"] }
     SCALE_ALIGN_SECONDARY_AXIS = -> { ["start", "end", "center", "stretch"] }
-    SCALE_UNAMBIGUOUS_SPACING = -> { [IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE, THEME_SPACING] }
-    SCALE_PADDING = -> { ["px", *SCALE_UNAMBIGUOUS_SPACING.call] }
-    SCALE_MARGIN = -> { ["px", "auto", *SCALE_UNAMBIGUOUS_SPACING.call] }
+    SCALE_MARGIN = -> { ["auto", *SCALE_UNAMBIGUOUS_SPACING.call] }
     SCALE_SIZING = -> {
       [
         IS_FRACTION,
         "auto",
-        "px",
         "full",
         "dvw",
         "dvh",
@@ -94,9 +88,7 @@ module TailwindMerge
         "min",
         "max",
         "fit",
-        IS_ARBITRARY_VARIABLE,
-        IS_ARBITRARY_VALUE,
-        THEME_SPACING,
+        *SCALE_UNAMBIGUOUS_SPACING.call,
       ]
     }
     SCALE_COLOR = -> { [THEME_COLOR, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
@@ -161,7 +153,7 @@ module TailwindMerge
     SCALE_ROTATE = -> { ["none", IS_NUMBER, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
     SCALE_SCALE = -> { ["none", IS_NUMBER, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
     SCALE_SKEW = -> { [IS_NUMBER, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
-    SCALE_TRANSLATE = -> { [IS_FRACTION, "full", "px", IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE, THEME_SPACING] }
+    SCALE_TRANSLATE = -> { [IS_FRACTION, "full", *SCALE_UNAMBIGUOUS_SPACING.call] }
 
     DEFAULTS = {
       cache_size: 500,
@@ -193,7 +185,7 @@ module TailwindMerge
         "perspective" => ["dramatic", "near", "normal", "midrange", "distant", "none"],
         "radius" => [IS_TSHIRT_SIZE],
         "shadow" => [IS_TSHIRT_SIZE],
-        "spacing" => [IS_NUMBER],
+        "spacing" => ["px", IS_NUMBER],
         "text" => [IS_TSHIRT_SIZE],
         "tracking" => ["tighter", "tight", "normal", "wide", "wider", "widest"],
       },
@@ -414,10 +406,8 @@ module TailwindMerge
             IS_FRACTION,
             "full",
             "auto",
-            IS_ARBITRARY_VARIABLE,
-            IS_ARBITRARY_VALUE,
             THEME_CONTAINER,
-            THEME_SPACING,
+            *SCALE_UNAMBIGUOUS_SPACING.call,
           ],
         }],
         ##
@@ -519,17 +509,17 @@ module TailwindMerge
         # Gap
         # @see https://tailwindcss.com/docs/gap
         ##
-        "gap" => [{ "gap" => SCALE_GAP.call }],
+        "gap" => [{ "gap" => SCALE_UNAMBIGUOUS_SPACING.call }],
         ##
         # Gap X
         # @see https://tailwindcss.com/docs/gap
         ##
-        "gap-x" => [{ "gap-x" => SCALE_GAP.call }],
+        "gap-x" => [{ "gap-x" => SCALE_UNAMBIGUOUS_SPACING.call }],
         ##
         # Gap Y
         # @see https://tailwindcss.com/docs/gap
         ##
-        "gap-y" => [{ "gap-y" => SCALE_GAP.call }],
+        "gap-y" => [{ "gap-y" => SCALE_UNAMBIGUOUS_SPACING.call }],
         ##
         # Justify Content
         # @see https://tailwindcss.com/docs/justify-content
@@ -580,47 +570,47 @@ module TailwindMerge
         # Padding
         # @see https://tailwindcss.com/docs/padding
         ##
-        "p" => [{ "p" => SCALE_PADDING.call }],
+        "p" => [{ "p" => SCALE_UNAMBIGUOUS_SPACING.call }],
         ##
         # Padding X
         # @see https://tailwindcss.com/docs/padding
         ##
-        "px" => [{ "px" => SCALE_PADDING.call }],
+        "px" => [{ "px" => SCALE_UNAMBIGUOUS_SPACING.call }],
         ##
         # Padding Y
         # @see https://tailwindcss.com/docs/padding
         ##
-        "py" => [{ "py" => SCALE_PADDING.call }],
+        "py" => [{ "py" => SCALE_UNAMBIGUOUS_SPACING.call }],
         #
         # Padding Start
         # @see https://tailwindcss.com/docs/padding
         #
-        "ps" => [{ "ps" => SCALE_PADDING.call }],
+        "ps" => [{ "ps" => SCALE_UNAMBIGUOUS_SPACING.call }],
         #
         # Padding End
         # @see https://tailwindcss.com/docs/padding
         #
-        "pe" => [{ "pe" => SCALE_PADDING.call }],
+        "pe" => [{ "pe" => SCALE_UNAMBIGUOUS_SPACING.call }],
         ##
         # Padding Top
         # @see https://tailwindcss.com/docs/padding
         ##
-        "pt" => [{ "pt" => SCALE_PADDING.call }],
+        "pt" => [{ "pt" => SCALE_UNAMBIGUOUS_SPACING.call }],
         ##
         # Padding Right
         # @see https://tailwindcss.com/docs/padding
         ##
-        "pr" => [{ "pr" => SCALE_PADDING.call }],
+        "pr" => [{ "pr" => SCALE_UNAMBIGUOUS_SPACING.call }],
         ##
         # Padding Bottom
         # @see https://tailwindcss.com/docs/padding
         ##
-        "pb" => [{ "pb" => SCALE_PADDING.call }],
+        "pb" => [{ "pb" => SCALE_UNAMBIGUOUS_SPACING.call }],
         ##
         # Padding Left
         # @see https://tailwindcss.com/docs/padding
         ##
-        "pl" => [{ "pl" => SCALE_PADDING.call }],
+        "pl" => [{ "pl" => SCALE_UNAMBIGUOUS_SPACING.call }],
         ##
         # Margin
         # @see https://tailwindcss.com/docs/margin
@@ -859,13 +849,9 @@ module TailwindMerge
         "leading" => [
           {
             "leading" => [
-
-              IS_ARBITRARY_VARIABLE,
-              IS_ARBITRARY_VALUE,
               # Deprecated since Tailwind CSS v4.0.0. @see https://github.com/tailwindlabs/tailwindcss.com/issues/2027#issuecomment-2620152757 */
               THEME_LEADING,
-              THEME_SPACING,
-
+              *SCALE_UNAMBIGUOUS_SPACING.call,
             ],
           },
         ],
@@ -943,7 +929,7 @@ module TailwindMerge
         # Text Indent
         # @see https://tailwindcss.com/docs/text-indent
         ##
-        "indent" => [{ "indent" => ["px", *SCALE_UNAMBIGUOUS_SPACING.call] }],
+        "indent" => [{ "indent" => SCALE_UNAMBIGUOUS_SPACING.call }],
         ##
         # Vertical Alignment
         # @see https://tailwindcss.com/docs/vertical-align
