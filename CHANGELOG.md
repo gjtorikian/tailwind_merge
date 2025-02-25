@@ -1,3 +1,10 @@
+# [v1.0.0] - 25-02-2025
+## What's Changed
+* Add matrix to test CI by @w-masahiro-ct in https://github.com/gjtorikian/tailwind_merge/pull/47
+* [breaking] Support Tailwind v4 by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/52
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v0.16.0...v1.0.0
 # [v0.16.0] - 25-01-2025
 ## What's Changed
 * Fix and improve implementation by @w-masahiro-ct in https://github.com/gjtorikian/tailwind_merge/pull/50
