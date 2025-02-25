@@ -2,7 +2,8 @@
 
 Utility function to efficiently merge [Tailwind CSS](https://tailwindcss.com/) classes without style conflicts. Essentially, a Ruby port of [tailwind-merge](https://github.com/dcastil/tailwind-merge).
 
-Supports Tailwind v3.0 up to v3.4.
+- Version 1.0 and above supports Tailwind v4.0+.
+- Versions below that support from v3.0 up to v3.4.
 
 ## Installation
 
