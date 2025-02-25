@@ -14,6 +14,8 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
     $ gem install tailwind_merge
 
+## Usage
+
 To use it, pass in a single string:
 
 ```ruby
@@ -205,7 +207,7 @@ tailwind_merge_config = {
   },
   # Modifiers whose order among multiple modifiers should be preserved because their
   # order changes which element gets targeted. Overrides default value.
-  order_sensitive_modifiers: ['before'],
+  order_sensitive_modifiers: [],
 }
 ```
 
@@ -279,6 +281,17 @@ If a class group _creates_ a conflict, it means that if it appears in a class li
 
 When we think of our example, the `px` class group creates a conflict which is received by the class groups `pr` and `pl`. This way `px-3` removes a preceding `pr-4`, but not the other way around.
 
+### Postfix modifiers conflicting with class groups
+
+Tailwind CSS allows postfix modifiers for some classes. E.g. you can set font-size and line-height together with `text-lg/7` with `/7` being the postfix modifier. This means that any line-height classes preceding a font-size class with a modifier should be removed.
+For this tailwind-merge has the `conflicting_class_groups` object in its config with the same shape as `conflicting_class_groups` explained in the [section above](#conflicting-class-groups). This time the key is the ID of a class group whose modifier _creates_ a conflict and the value is an array of IDs of class groups which _receive_ the conflict.
+
+```ruby
+conflicting_class_groups = {
+  "font-size": ["leading"],
+};
+```
+
 ### Order-sensitive modifiers
 
 In Tailwind CSS, not all modifiers behave the same when you stack them.
@@ -318,26 +331,13 @@ If you modified one of the theme namespaces in your Tailwind config, you need to
 
 E.g. let's say you added the variable `--text-huge-af: 100px` to your Tailwind config which enables classes like `text-huge-af`. To make sure that tailwind-merge merges these classes correctly, you need to configure tailwind-merge like this:
 
-```ts
-import { extendTailwindMerge } from "tailwind-merge";
-
-const twMerge = extendTailwindMerge({
-  extend: {
-    theme: {
-      // ↓ `text` is the key of the namespace `--text-*`
-      //      ↓ `huge-af` is the variable name in the namespace
-      text: ["huge-af"],
-    },
-  },
-});
-```
-
 ```ruby
 merger = TailwindMerge::Merger.new(config: {
  theme: {
-   "spacing" => ["my-space"],
-   "margin" => ["my-margin"]
- }
+    # ↓ `text` is the key of the namespace `--text-*`
+    #      ↓ `huge-af` is the variable name in the namespace
+    text: ["huge-af"],
+  }
 })
 ```
 
@@ -345,19 +345,19 @@ merger = TailwindMerge::Merger.new(config: {
 
 Here's a brief summary for each validator:
 
-- `IS_ANY` always returns true. Be careful with this validator as it might match unwanted classes. I use it primarily to match colors or when it's certain there are no other class groups in a namespace.
-- `IS_ANY_NONE_ARBITRARY` checks if the class part is not an arbitrary value or arbitrary variable.
-- `IS_ARBITRARY_IMAGE` checks whether class part is an arbitrary value which is an iamge, e.g. by starting with `image:`, `url:`, `linear-gradient(` or `url(` (`[url('/path-to-image.png')]`, `image:var(--maybe-an-image-at-runtime)]`) which is necessary for background-image class names.
+- `IS_ANY` always returns true. Be careful with this validator as it might match unwanted classes. I use it primarily to match colors or when I'm certain there are no other class groups in a namespace.
+- `IS_ANY_NON_ARBITRARY` checks if the class part is not an arbitrary value or arbitrary variable.
+- `IS_ARBITRARY_IMAGE` checks whether class part is an arbitrary value which is an iamge, e.g. by starting with `image:`, `url:`, `linear-gradient(` or `url(` (`[url('/path-to-image.png')]`, `image:var(--maybe-an-image-at-runtime)]`) which is necessary for background-image classNames.
 - `IS_ARBITRARY_LENGTH` checks for arbitrary length values (`[3%]`, `[4px]`, `[length:var(--my-var)]`).
-- `IS_ARBITRARY_NUMBER` checks whether class part is an arbitrary value which starts with `number:` or is a number (`[number:var(--value)]`, `[450]`) which is necessary for font-weight and stroke-width class names.
-- `IS_ARBITRARY_POSITION` checks whether class part is an arbitrary value which starts with `position:` (`[position:200px_100px]`) which is necessary for background-position class names.
+- `IS_ARBITRARY_NUMBER` checks whether class part is an arbitrary value which starts with `number:` or is a number (`[number:var(--value)]`, `[450]`) which is necessary for font-weight and stroke-width classNames.
+- `IS_ARBITRARY_POSITION` checks whether class part is an arbitrary value which starts with `position:` (`[position:200px_100px]`) which is necessary for background-position classNames.
 - `IS_ARBITRARY_SHADOW` checks whether class part is an arbitrary value which starts with the same pattern as a shadow value (`[0_35px_60px_-15px_rgba(0,0,0,0.3)]`), namely with two lengths separated by a underscore, optionally prepended by `inset`.
-- `IS_ARBITRARY_SIZE` checks whether class part is an arbitrary value which starts with `size:` (`[size:200px_100px]`) which is necessary for background-size class names.
+- `IS_ARBITRARY_SIZE` checks whether class part is an arbitrary value which starts with `size:` (`[size:200px_100px]`) which is necessary for background-size classNames.
 - `IS_ARBITRARY_VALUE` checks whether the class part is enclosed in brackets (`[something]`)
 - `IS_ARBITRARY_VARIABLE` checks whether the class part is an arbitrary variable (`(--my-var)`)
-- `IS_ARBITRARY_VARIABLE_FAMILY_NAME` checks whether class part is an arbitrary variable with the `family-name` label (`(family-name:--my-font)`)
+- `IS_ARBITRARY_VARIABLE_FAMILYNAME` checks whether class part is an arbitrary variable with the `family-name` label (`(family-name:--my-font)`)
 - `IS_ARBITRARY_VARIABLE_IMAGE` checks whether class part is an arbitrary variable with the `image` or `url` label (`(image:--my-image)`)
-  `isArbitraryVariableLength` checks whether class part is an arbitrary variable with the `length` label (`(length:--my-length)`)
+- `IS_ARBITRARY_VARIABLE_LENGTH` checks whether class part is an arbitrary variable with the `length` label (`(length:--my-length)`)
 - `IS_ARBITRARY_VARIABLE_POSITION` checks whether class part is an arbitrary variable with the `position` label (`(position:--my-position)`)
 - `IS_ARBITRARY_VARIABLE_SHADOW` checks whether class part is an arbitrary variable with the `shadow` label or not label at all (`(shadow:--my-shadow)`, `(--my-shadow)`)
 - `IS_ARBITRARY_VARIABLE_SIZE` checks whether class part is an arbitrary variable with the `size`, `length` or `percentage` label (`(size:--my-size)`)
