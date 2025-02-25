@@ -5,8 +5,9 @@ require "lru_redux"
 require_relative "tailwind_merge/version"
 require_relative "tailwind_merge/validators"
 require_relative "tailwind_merge/config"
-require_relative "tailwind_merge/class_utils"
-require_relative "tailwind_merge/modifier_utils"
+require_relative "tailwind_merge/class_group_utils"
+require_relative "tailwind_merge/sort_modifiers"
+require_relative "tailwind_merge/parse_class_name"
 
 require "strscan"
 require "set"
@@ -14,18 +15,15 @@ require "set"
 module TailwindMerge
   class Merger
     include Config
-    include ModifierUtils
+    include ParseClassName
+    include SortModifiers
 
     SPLIT_CLASSES_REGEX = /\s+/
 
     def initialize(config: {})
-      @config = if config.key?(:theme)
-        merge_configs(config)
-      else
-        TailwindMerge::Config::DEFAULTS.merge(config)
-      end
-
-      @class_utils = TailwindMerge::ClassUtils.new(@config)
+      @config = merge_config(config)
+      @config[:important_modifier] = @config[:important_modifier].to_s
+      @class_utils = TailwindMerge::ClassGroupUtils.new(@config)
       @cache = LruRedux::Cache.new(@config[:cache_size], @config[:ignore_empty_cache])
     end
 
@@ -51,16 +49,20 @@ module TailwindMerge
       merged_classes = []
 
       trimmed.split(SPLIT_CLASSES_REGEX).reverse_each do |original_class_name|
-        modifiers, has_important_modifier, base_class_name, maybe_postfix_modifier_position =
-          split_modifiers(original_class_name, separator: @config[:separator])
+        result = parse_class_name(original_class_name, prefix: @config[:prefix])
+        is_external = result.is_external
+        modifiers = result.modifiers
+        has_important_modifier = result.has_important_modifier
+        base_class_name = result.base_class_name
+        maybe_postfix_modifier_position = result.maybe_postfix_modifier_position
 
-        actual_base_class_name = if maybe_postfix_modifier_position
-          base_class_name[0...maybe_postfix_modifier_position]
-        else
-          base_class_name
+        if is_external
+          merged_classes.push(original_class_name)
+          next
         end
 
         has_postfix_modifier = maybe_postfix_modifier_position ? true : false
+        actual_base_class_name = has_postfix_modifier ? base_class_name[0...maybe_postfix_modifier_position] : base_class_name
         class_group_id = @class_utils.class_group_id(actual_base_class_name)
 
         unless class_group_id
@@ -81,7 +83,7 @@ module TailwindMerge
           has_postfix_modifier = false
         end
 
-        variant_modifier = sort_modifiers(modifiers).join(":")
+        variant_modifier = sort_modifiers(modifiers, @config[:order_sensitive_modifiers]).join(":")
 
         modifier_id = has_important_modifier ? "#{variant_modifier}#{IMPORTANT_MODIFIER}" : variant_modifier
         class_id = "#{modifier_id}#{class_group_id}"

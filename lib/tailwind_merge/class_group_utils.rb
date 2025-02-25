@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module TailwindMerge
-  class ClassUtils
+  class ClassGroupUtils
     attr_reader :class_map
 
     CLASS_PART_SEPARATOR = "-"
@@ -58,50 +58,28 @@ module TailwindMerge
     end
 
     private def create_class_map(config)
-      prefix = config[:prefix]
+      theme = config[:theme]
+      class_groups = config[:class_groups]
       class_map = {
         next_part: {},
         validators: [],
       }
 
-      prefixed_class_group_entries = get_prefixed_class_group_entries(
-        config[:class_groups].map { |group_id, group_classes| [group_id, group_classes] },
-        prefix,
-      )
-
-      prefixed_class_group_entries.each do |class_group_id, class_group|
-        process_classes_recursively(class_group, class_map, class_group_id)
+      class_groups.each do |(class_group_id, class_group)|
+        process_classes_recursively(class_group, class_map, class_group_id, theme)
       end
 
       class_map
     end
 
-    private def get_prefixed_class_group_entries(class_group_entries, prefix)
-      return class_group_entries if prefix.nil?
-
-      class_group_entries.map do |class_group_id, class_group|
-        prefixed_class_group = class_group.map do |class_definition|
-          if class_definition.is_a?(String)
-            "#{prefix}#{class_definition}"
-          elsif class_definition.is_a?(Hash)
-            class_definition.transform_keys { |key| "#{prefix}#{key}" }
-          else
-            class_definition
-          end
-        end
-
-        [class_group_id, prefixed_class_group]
-      end
-    end
-
-    private def process_classes_recursively(class_group, class_part_object, class_group_id)
+    private def process_classes_recursively(class_group, class_part_object, class_group_id, theme)
       class_group.each do |class_definition|
         if class_definition.is_a?(String)
           class_part_object_to_edit = class_definition.empty? ? class_part_object : get_class_part(class_part_object, class_definition)
           class_part_object_to_edit[:class_group_id] = class_group_id
         elsif class_definition.is_a?(Proc)
           if from_theme?(class_definition)
-            process_classes_recursively(class_definition.call(@config), class_part_object, class_group_id)
+            process_classes_recursively(class_definition.call(@config), class_part_object, class_group_id, theme)
           else
             class_part_object[:validators] << {
               validator: class_definition,
@@ -114,6 +92,7 @@ module TailwindMerge
               nested_class_group,
               get_class_part(class_part_object, key),
               class_group_id,
+              theme,
             )
           end
         end
