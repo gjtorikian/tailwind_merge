@@ -1,3 +1,9 @@
+# [v1.1.0] - 10-03-2025
+## What's Changed
+* Add  and utilities for grid-column and grid-row  by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/54
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v1.0.0...v1.1.0
 # [v1.0.0] - 25-02-2025
 ## What's Changed
 * Add matrix to test CI by @w-masahiro-ct in https://github.com/gjtorikian/tailwind_merge/pull/47
