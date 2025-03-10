@@ -65,6 +65,7 @@ module TailwindMerge
       [
         "auto",
         { "span" => ["full", IS_INTEGER, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] },
+        IS_INTEGER,
         IS_ARBITRARY_VARIABLE,
         IS_ARBITRARY_VALUE,
       ]

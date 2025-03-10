@@ -51,15 +51,16 @@ class TestTailwindCSSVersions < Minitest::Test
   end
 
   def test_tailwind_4_0_features
-    # assert_equal("transform-flat", @merger.merge("transform-3d transform-flat"))
-    # assert_equal("rotate-x-2 rotate-none rotate-y-3", @merger.merge("rotate-12 rotate-x-2 rotate-none rotate-y-3"))
-    # assert_equal("perspective-midrange", @merger.merge("perspective-dramatic perspective-none perspective-midrange"))
-    # assert_equal("perspective-origin-top-left", @merger.merge("perspective-origin-center perspective-origin-top-left"))
+    assert_equal("transform-flat", @merger.merge("transform-3d transform-flat"))
+    assert_equal("rotate-x-2 rotate-none rotate-y-3", @merger.merge("rotate-12 rotate-x-2 rotate-none rotate-y-3"))
+    assert_equal("perspective-midrange", @merger.merge("perspective-dramatic perspective-none perspective-midrange"))
+    assert_equal("perspective-origin-top-left", @merger.merge("perspective-origin-center perspective-origin-top-left"))
     assert_equal("bg-linear-45", @merger.merge("bg-linear-to-r bg-linear-45"))
-    # assert_equal("bg-conic-10", @merger.merge("bg-linear-to-r bg-radial-[something] bg-conic-10"))
-    # assert_equal("ring-4 ring-orange inset-ring-3 inset-ring-blue", @merger.merge("ring-4 ring-orange inset-ring inset-ring-3 inset-ring-blue"))
-    # assert_equal("field-sizing-fixed", @merger.merge("field-sizing-content field-sizing-fixed"))
-    # assert_equal("scheme-dark", @merger.merge("scheme-normal scheme-dark"))
-    # assert_equal("font-stretch-50%", @merger.merge("font-stretch-expanded font-stretch-[66.66%] font-stretch-50%"))
+    assert_equal("bg-conic-10", @merger.merge("bg-linear-to-r bg-radial-[something] bg-conic-10"))
+    assert_equal("ring-4 ring-orange inset-ring-3 inset-ring-blue", @merger.merge("ring-4 ring-orange inset-ring inset-ring-3 inset-ring-blue"))
+    assert_equal("field-sizing-fixed", @merger.merge("field-sizing-content field-sizing-fixed"))
+    assert_equal("scheme-dark", @merger.merge("scheme-normal scheme-dark"))
+    assert_equal("font-stretch-50%", @merger.merge("font-stretch-expanded font-stretch-[66.66%] font-stretch-50%"))
+    assert_equal("col-2 row-4", @merger.merge("col-span-full col-2 row-span-3 row-4"))
   end
 end
