@@ -93,7 +93,7 @@ module TailwindMerge
       ]
     }
     SCALE_COLOR = -> { [THEME_COLOR, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
-    SCALE_GRADIENT_STOP_POSITION = -> { [IS_PERCENT, IS_ARBITRARY_LENGTH] }
+    SCALE_GRADIENT_STOP_POSITION = -> { [IS_PERCENT, IS_ARBITRARY_VARIABLE_LENGTH, IS_ARBITRARY_LENGTH] }
     SCALE_RADIUS = -> {
       [
         # Deprecated since Tailwind CSS v4.0.0
@@ -190,7 +190,7 @@ module TailwindMerge
         "text" => [IS_TSHIRT_SIZE],
         "tracking" => ["tighter", "tight", "normal", "wide", "wider", "widest"],
       },
-      class_groups: { # rubocop:disable Metrics/CollectionLiteralLength
+      class_groups: {
         ##########
         # Layout
         ##########
