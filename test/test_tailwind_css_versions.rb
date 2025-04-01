@@ -62,5 +62,8 @@ class TestTailwindCSSVersions < Minitest::Test
     assert_equal("scheme-dark", @merger.merge("scheme-normal scheme-dark"))
     assert_equal("font-stretch-50%", @merger.merge("font-stretch-expanded font-stretch-[66.66%] font-stretch-50%"))
     assert_equal("col-2 row-4", @merger.merge("col-span-full col-2 row-span-3 row-4"))
+
+    assert_equal("via-(--mobile-header-gradient)", @merger.merge("via-red-500 via-(--mobile-header-gradient)"))
+    assert_equal("via-red-500 via-(length:--mobile-header-gradient)", @merger.merge("via-red-500 via-(length:--mobile-header-gradient)"))
   end
 end
