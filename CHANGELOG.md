@@ -1,3 +1,9 @@
+# [v1.1.1] - 01-04-2025
+## What's Changed
+* fix length variable not being detected via classes by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/56
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v1.1.0...v1.1.1
 # [v1.1.0] - 10-03-2025
 ## What's Changed
 * Add  and utilities for grid-column and grid-row  by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/54
