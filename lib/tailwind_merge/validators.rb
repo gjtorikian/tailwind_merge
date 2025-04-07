@@ -111,7 +111,7 @@ module TailwindMerge
     }
 
     IS_ARBITRARY_SHADOW = ->(value) {
-      arbitrary_value?(value, IS_NEVER, IS_SHADOW)
+      arbitrary_value?(value, IS_LABEL_SHADOW, IS_SHADOW)
     }
 
     IS_ARBITRARY_VARIABLE = ->(value) {
@@ -146,36 +146,32 @@ module TailwindMerge
     # Labels
     ############
 
-    IS_LABEL_POSITION = ->(value) {
-      value == "position"
+    IS_LABEL_POSITION = ->(label) {
+      label == "position" || label == "percentage"
     }
 
-    IMAGE_LABELS = Set.new(["image", "url"]).freeze
-
-    IS_LABEL_IMAGE = ->(value) {
-      IMAGE_LABELS.include?(value)
+    IS_LABEL_IMAGE = ->(label) {
+      label == "image" || label == "url"
     }
 
-    SIZE_LABELS = Set.new(["length", "size", "percentage"]).freeze
-
-    IS_LABEL_SIZE = ->(value) {
-      SIZE_LABELS.include?(value)
+    IS_LABEL_SIZE = ->(label) {
+      label == "length" || label == "size" || label == "bg-size"
     }
 
-    IS_LABEL_LENGTH = ->(value) {
-      value == "length"
+    IS_LABEL_LENGTH = ->(label) {
+      label == "length"
     }
 
-    IS_LABEL_NUMBER = ->(value) {
-      value == "number"
+    IS_LABEL_NUMBER = ->(label) {
+      label == "number"
     }
 
-    IS_LABEL_FAMILY_NAME = ->(value) {
-      value == "family-name"
+    IS_LABEL_FAMILY_NAME = ->(label) {
+      label == "family-name"
     }
 
-    IS_LABEL_SHADOW = ->(value) {
-      value == "shadow"
+    IS_LABEL_SHADOW = ->(label) {
+      label == "shadow"
     }
   end
 end

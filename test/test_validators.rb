@@ -72,6 +72,7 @@ class TestValidators < Minitest::Test
   def test_is_arbitrary_position
     assert(IS_ARBITRARY_POSITION.call("[position:2px]"))
     assert(IS_ARBITRARY_POSITION.call("[position:bla]"))
+    assert(IS_ARBITRARY_POSITION.call("[percentage:bla]"))
 
     refute(IS_ARBITRARY_POSITION.call("[2px]"))
     refute(IS_ARBITRARY_POSITION.call("[bla]"))
@@ -97,11 +98,11 @@ class TestValidators < Minitest::Test
     assert(IS_ARBITRARY_SIZE.call("[size:2px]"))
     assert(IS_ARBITRARY_SIZE.call("[size:bla]"))
     assert(IS_ARBITRARY_SIZE.call("[length:bla]"))
-    assert(IS_ARBITRARY_SIZE.call("[percentage:bla]"))
 
     refute(IS_ARBITRARY_SIZE.call("[2px]"))
     refute(IS_ARBITRARY_SIZE.call("[bla]"))
     refute(IS_ARBITRARY_SIZE.call("size:2px"))
+    refute(IS_ARBITRARY_SIZE.call("[percentage:bla]"))
   end
 
   def test_is_arbitrary_value
@@ -164,6 +165,7 @@ class TestValidators < Minitest::Test
     refute(IS_ARBITRARY_VARIABLE_POSITION.call("(other:test)"))
     refute(IS_ARBITRARY_VARIABLE_POSITION.call("(test)"))
     refute(IS_ARBITRARY_VARIABLE_POSITION.call("position:test"))
+    refute(IS_ARBITRARY_VARIABLE_POSITION.call("percentage:test"))
   end
 
   def test_is_arbitrary_variable_shadow
@@ -177,11 +179,11 @@ class TestValidators < Minitest::Test
   def test_is_arbitrary_variable_size
     assert(IS_ARBITRARY_VARIABLE_SIZE.call("(size:test)"))
     assert(IS_ARBITRARY_VARIABLE_SIZE.call("(length:test)"))
-    assert(IS_ARBITRARY_VARIABLE_SIZE.call("(percentage:test)"))
 
     refute(IS_ARBITRARY_VARIABLE_SIZE.call("(other:test)"))
     refute(IS_ARBITRARY_VARIABLE_SIZE.call("(test)"))
     refute(IS_ARBITRARY_VARIABLE_SIZE.call("size:test"))
+    refute(IS_ARBITRARY_VARIABLE_SIZE.call("percentage:test"))
   end
 
   def test_is_fraction
