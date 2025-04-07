@@ -19,6 +19,7 @@ module TailwindMerge
       "radius",
       "shadow",
       "inset-shadow",
+      "text-shadow",
       "drop-shadow",
       "blur",
       "perspective",
@@ -37,17 +38,26 @@ module TailwindMerge
     SCALE_BREAK = -> { ["auto", "avoid", "all", "avoid-page", "page", "left", "right", "column"] }
     SCALE_POSITION = -> {
       [
-        "bottom",
         "center",
-        "left",
-        "left-bottom",
-        "left-top",
-        "right",
-        "right-bottom",
-        "right-top",
         "top",
+        "bottom",
+        "left",
+        "right",
+        "top-left",
+        # Deprecated since Tailwind CSS v4.1.0, see https://github.com/tailwindlabs/tailwindcss/pull/17378
+        "left-top",
+        "top-right",
+        # Deprecated since Tailwind CSS v4.1.0, see https://github.com/tailwindlabs/tailwindcss/pull/17378
+        "right-top",
+        "bottom-right",
+        # Deprecated since Tailwind CSS v4.1.0, see https://github.com/tailwindlabs/tailwindcss/pull/17378
+        "right-bottom",
+        "bottom-left",
+        # Deprecated since Tailwind CSS v4.1.0, see https://github.com/tailwindlabs/tailwindcss/pull/17378
+        "left-bottom",
       ]
     }
+    SCALE_POSITION_WITH_ARBITRARY = -> { [*SCALE_POSITION.call, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
     SCALE_OVERFLOW = -> { ["auto", "hidden", "clip", "visible", "scroll"] }
     SCALE_OVERSCROLL = -> { ["auto", "contain", "none"] }
     SCALE_UNAMBIGUOUS_SPACING = -> { [IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE, THEME_SPACING] }
@@ -72,8 +82,8 @@ module TailwindMerge
     }
     SCALE_GRID_COL_ROW_START_OR_END = -> { [IS_INTEGER, "auto", IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
     SCALE_GRID_AUTO_COLS_ROWS = -> { ["auto", "min", "max", "fr", IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
-    SCALE_ALIGN_PRIMARY_AXIS = -> { ["start", "end", "center", "between", "around", "evenly", "stretch", "baseline"] }
-    SCALE_ALIGN_SECONDARY_AXIS = -> { ["start", "end", "center", "stretch"] }
+    SCALE_ALIGN_PRIMARY_AXIS = -> { ["start", "end", "center", "between", "around", "evenly", "stretch", "baseline", "center-safe", "end-sage"] }
+    SCALE_ALIGN_SECONDARY_AXIS = -> { ["start", "end", "center", "stretch", "center-safe", "end-safe"] }
     SCALE_MARGIN = -> { ["auto", *SCALE_UNAMBIGUOUS_SPACING.call] }
     SCALE_SIZING = -> {
       [
@@ -93,6 +103,9 @@ module TailwindMerge
       ]
     }
     SCALE_COLOR = -> { [THEME_COLOR, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
+    SCALE_BG_POSITION = -> { [*SCALE_POSITION.call, IS_ARBITRARY_VARIABLE_POSITION, IS_ARBITRARY_POSITION, "position" => [IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE]] }
+    SCALE_BG_REPEAT = -> { ["no-repeat", "repeat" => ["", "x", "y", "space", "round"]] }
+    SCALE_BG_SIZE = -> { ["auto", "cover", "contain", IS_ARBITRARY_VARIABLE_SIZE, IS_ARBITRARY_SIZE, "size" => [IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE]] }
     SCALE_GRADIENT_STOP_POSITION = -> { [IS_PERCENT, IS_ARBITRARY_VARIABLE_LENGTH, IS_ARBITRARY_LENGTH] }
     SCALE_RADIUS = -> {
       [
@@ -127,6 +140,7 @@ module TailwindMerge
         "luminosity",
       ]
     }
+    SCALE_MASK_IMAGE_POSITION = -> { [IS_NUMBER, IS_PERCENT, IS_ARBITRARY_VARIABLE_POSITION, IS_ARBITRARY_POSITION] }
     SCALE_BLUR = -> {
       [
         "",
@@ -136,21 +150,7 @@ module TailwindMerge
         IS_ARBITRARY_VALUE,
       ]
     }
-    SCALE_ORIGIN = -> {
-      [
-        "center",
-        "top",
-        "top-right",
-        "right",
-        "bottom-right",
-        "bottom",
-        "bottom-left",
-        "left",
-        "top-left",
-        IS_ARBITRARY_VARIABLE,
-        IS_ARBITRARY_VALUE,
-      ]
-    }
+
     SCALE_ROTATE = -> { ["none", IS_NUMBER, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
     SCALE_SCALE = -> { ["none", IS_NUMBER, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
     SCALE_SKEW = -> { [IS_NUMBER, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
@@ -188,6 +188,7 @@ module TailwindMerge
         "shadow" => [IS_TSHIRT_SIZE],
         "spacing" => ["px", IS_NUMBER],
         "text" => [IS_TSHIRT_SIZE],
+        "text-shadow" => [IS_TSHIRT_SIZE],
         "tracking" => ["tighter", "tight", "normal", "wide", "wider", "widest"],
       },
       class_groups: {
@@ -303,7 +304,7 @@ module TailwindMerge
         # Object Position
         # @see https://tailwindcss.com/docs/object-position
         ##
-        "object-position" => [{ "object" => [*SCALE_POSITION.call, IS_ARBITRARY_VALUE, Validators::IS_ARBITRARY_VARIABLE] }],
+        "object-position" => [{ "object" => SCALE_POSITION_WITH_ARBITRARY.call }],
         ##
         # Overflow
         # @see https://tailwindcss.com/docs/overflow
@@ -545,12 +546,12 @@ module TailwindMerge
         # Align Items
         # @see https://tailwindcss.com/docs/align-items
         ##
-        "align-items" => [{ "items" => [*SCALE_ALIGN_SECONDARY_AXIS.call, "baseline"] }],
+        "align-items" => [{ "items" => [*SCALE_ALIGN_SECONDARY_AXIS.call, "baseline" => ["", "last"]] }],
         ##
         # Align Self
         # @see https://tailwindcss.com/docs/align-self
         ##
-        "align-self" => [{ "self" => ["auto", *SCALE_ALIGN_SECONDARY_AXIS.call, "baseline"] }],
+        "align-self" => [{ "self" => ["auto", *SCALE_ALIGN_SECONDARY_AXIS.call, { "baseline" => ["", "last"] }] }],
         ##
         # Place Content
         # @see https://tailwindcss.com/docs/place-content
@@ -703,7 +704,7 @@ module TailwindMerge
           "min-w" => [
             THEME_CONTAINER,
             "screen",
-            # Deprecated. @see https://github.com/tailwindlabs/tailwindcss.com/issues/2027#issuecomment-2620152757 */
+            # Deprecated. @see https://github.com/tailwindlabs/tailwindcss.com/issues/2027#issuecomment-2620152757 ##
             "none",
             *SCALE_SIZING.call,
           ],
@@ -718,9 +719,9 @@ module TailwindMerge
               THEME_CONTAINER,
               "screen",
               "none",
-              # Deprecated since Tailwind CSS v4.0.0. @see https://github.com/tailwindlabs/tailwindcss.com/issues/2027#issuecomment-2620152757 */
+              # Deprecated since Tailwind CSS v4.0.0. @see https://github.com/tailwindlabs/tailwindcss.com/issues/2027#issuecomment-2620152757 ##
               "prose",
-              # Deprecated since Tailwind CSS v4.0.0. @see https://github.com/tailwindlabs/tailwindcss.com/issues/2027#issuecomment-2620152757 */
+              # Deprecated since Tailwind CSS v4.0.0. @see https://github.com/tailwindlabs/tailwindcss.com/issues/2027#issuecomment-2620152757 ##
               { "screen" => [THEME_BREAKPOINT] },
               *SCALE_SIZING.call,
             ],
@@ -850,7 +851,7 @@ module TailwindMerge
         "leading" => [
           {
             "leading" => [
-              # Deprecated since Tailwind CSS v4.0.0. @see https://github.com/tailwindlabs/tailwindcss.com/issues/2027#issuecomment-2620152757 */
+              # Deprecated since Tailwind CSS v4.0.0. @see https://github.com/tailwindlabs/tailwindcss.com/issues/2027#issuecomment-2620152757 ##
               THEME_LEADING,
               *SCALE_UNAMBIGUOUS_SPACING.call,
             ],
@@ -961,6 +962,11 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/word-break
         ##
         "break" => [{ "break" => ["normal", "words", "all", "keep"] }],
+        ##
+        # Overflow Wrap
+        # @see https://tailwindcss.com/docs/overflow-wrap
+        ##
+        "wrap" => [{ "wrap" => ["break-word", "anywhere", "normal"] }],
         #
         # Hyphens
         # @see https://tailwindcss.com/docs/hyphens
@@ -994,17 +1000,17 @@ module TailwindMerge
         # Background Position
         # @see https://tailwindcss.com/docs/background-position
         ##
-        "bg-position" => [{ "bg" => [*SCALE_POSITION.call, IS_ARBITRARY_VARIABLE_POSITION, IS_ARBITRARY_POSITION] }],
+        "bg-position" => [{ "bg" => SCALE_BG_POSITION.call }],
         ##
         # Background Repeat
         # @see https://tailwindcss.com/docs/background-repeat
         ##
-        "bg-repeat" => [{ "bg" => ["no-repeat", { "repeat" => ["", "x", "y", "space", "round"] }] }],
+        "bg-repeat" => [{ "bg" => SCALE_BG_REPEAT.call }],
         ##
         # Background Size
         # @see https://tailwindcss.com/docs/background-size
         ##
-        "bg-size" => [{ "bg" => ["auto", "cover", "contain", IS_ARBITRARY_VARIABLE_SIZE, IS_ARBITRARY_SIZE] }],
+        "bg-size" => [{ "bg" => SCALE_BG_SIZE.call }],
         ##
         # Background Image
         # @see https://tailwindcss.com/docs/background-image
@@ -1287,7 +1293,7 @@ module TailwindMerge
         # Outline Color
         # @see https://tailwindcss.com/docs/outline-color
         ##
-        "outline-color" => [{ "outline" => [THEME_COLOR] }],
+        "outline-color" => [{ "outline" => SCALE_COLOR.call }],
 
         #########
         # Effects
@@ -1322,9 +1328,9 @@ module TailwindMerge
           {
             "inset-shadow" => [
               "none",
-              IS_ARBITRARY_VARIABLE,
-              IS_ARBITRARY_VALUE,
               THEME_INSET_SHADOW,
+              IS_ARBITRARY_VARIABLE_SHADOW,
+              IS_ARBITRARY_SHADOW,
             ],
           },
         ],
@@ -1373,6 +1379,25 @@ module TailwindMerge
         ##
         "inset-ring-color" => [{ "inset-ring" => SCALE_COLOR.call }],
         ##
+        # Text Shadow
+        # @see https://tailwindcss.com/docs/text-shadow
+        ##
+        "text-shadow" => [
+          {
+            "text-shadow" => [
+              "none",
+              THEME_TEXT_SHADOW,
+              IS_ARBITRARY_VARIABLE_SHADOW,
+              IS_ARBITRARY_SHADOW,
+            ],
+          },
+        ],
+        ##
+        # Text Shadow Color
+        # @see https://tailwindcss.com/docs/text-shadow#setting-the-shadow-color
+        ##
+        "text-shadow-color" => [{ "text-shadow": SCALE_COLOR.call }],
+        ##
         # Opacity
         # @see https://tailwindcss.com/docs/opacity
         ##
@@ -1387,6 +1412,104 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/background-blend-mode
         ##
         "bg-blend" => [{ "bg-blend" => SCALE_BLEND_MODE.call }],
+        ##
+        # Mask Clip
+        # @see https://tailwindcss.com/docs/mask-clip
+        ##
+        "mask-clip" => [
+          { "mask-clip" => ["border", "padding", "content", "fill", "stroke", "view"] },
+          "mask-no-clip",
+        ],
+        ##
+        # Mask Composite
+        # @see https://tailwindcss.com/docs/mask-composite
+        ##
+        "mask-composite" => [{ "mask" => ["add", "subtract", "intersect", "exclude"] }],
+        ##
+        # Mask Image
+        # @see https://tailwindcss.com/docs/mask-image
+        ##
+        "mask-image-linear-pos" => [{ "mask-linear" => [Validators::IS_NUMBER] }],
+        "mask-image-linear-from-pos" => [{ "mask-linear-from": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-linear-to-pos" => [{ "mask-linear-to": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-linear-from-color" => [{ "mask-linear-from": SCALE_COLOR.call }],
+        "mask-image-linear-to-color" => [{ "mask-linear-to": SCALE_COLOR.call }],
+        "mask-image-t-from-pos" => [{ "mask-t-from": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-t-to-pos" => [{ "mask-t-to": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-t-from-color" => [{ "mask-t-from": SCALE_COLOR.call }],
+        "mask-image-t-to-color" => [{ "mask-t-to": SCALE_COLOR.call }],
+        "mask-image-r-from-pos" => [{ "mask-r-from": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-r-to-pos" => [{ "mask-r-to": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-r-from-color" => [{ "mask-r-from": SCALE_COLOR.call }],
+        "mask-image-r-to-color" => [{ "mask-r-to": SCALE_COLOR.call }],
+        "mask-image-b-from-pos" => [{ "mask-b-from": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-b-to-pos" => [{ "mask-b-to": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-b-from-color" => [{ "mask-b-from": SCALE_COLOR.call }],
+        "mask-image-b-to-color" => [{ "mask-b-to": SCALE_COLOR.call }],
+        "mask-image-l-from-pos" => [{ "mask-l-from": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-l-to-pos" => [{ "mask-l-to": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-l-from-color" => [{ "mask-l-from": SCALE_COLOR.call }],
+        "mask-image-l-to-color" => [{ "mask-l-to": SCALE_COLOR.call }],
+        "mask-image-x-from-pos" => [{ "mask-x-from": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-x-to-pos" => [{ "mask-x-to": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-x-from-color" => [{ "mask-x-from": SCALE_COLOR.call }],
+        "mask-image-x-to-color" => [{ "mask-x-to": SCALE_COLOR.call }],
+        "mask-image-y-from-pos" => [{ "mask-y-from": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-y-to-pos" => [{ "mask-y-to": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-y-from-color" => [{ "mask-y-from": SCALE_COLOR.call }],
+        "mask-image-y-to-color" => [{ "mask-y-to": SCALE_COLOR.call }],
+        "mask-image-radial" => [{ "mask-radial" => [IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }],
+        "mask-image-radial-from-pos" => [{ "mask-radial-from": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-radial-to-pos" => [{ "mask-radial-to": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-radial-from-color" => [{ "mask-radial-from": SCALE_COLOR.call }],
+        "mask-image-radial-to-color" => [{ "mask-radial-to": SCALE_COLOR.call }],
+        "mask-image-radial-shape" => [{ "mask-radial" => ["circle", "ellipse"] }],
+        "mask-image-radial-size" => [
+          { "mask-radial" => [{ "closest" => ["side", "corner"], "farthest" => ["side", "corner"] }] },
+        ],
+        "mask-image-radial-pos" => [{ "mask-radial-at": SCALE_POSITION.call }],
+        "mask-image-conic-pos" => [{ "mask-conic" => [IS_NUMBER] }],
+        "mask-image-conic-from-pos" => [{ "mask-conic-from": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-conic-to-pos" => [{ "mask-conic-to": SCALE_MASK_IMAGE_POSITION.call }],
+        "mask-image-conic-from-color" => [{ "mask-conic-from": SCALE_COLOR.call }],
+        "mask-image-conic-to-color" => [{ "mask-conic-to": SCALE_COLOR.call }],
+        ##
+        # Mask Mode
+        # @see https://tailwindcss.com/docs/mask-mode
+        ##
+        "mask-mode" => [{ "mask" => ["alpha", "luminance", "match"] }],
+        ##
+        # Mask Origin
+        # @see https://tailwindcss.com/docs/mask-origin
+        ##
+        "mask-origin" => [
+          { "mask-origin" => ["border", "padding", "content", "fill", "stroke", "view"] },
+        ],
+        ##
+        # Mask Position
+        # @see https://tailwindcss.com/docs/mask-position
+        ##
+        "mask-position" => [{ "mask" => SCALE_BG_POSITION.call }],
+        ##
+        # Mask Repeat
+        # @see https://tailwindcss.com/docs/mask-repeat
+        ##
+        "mask-repeat" => [{ "mask" => SCALE_BG_REPEAT.call }],
+        ##
+        # Mask Size
+        # @see https://tailwindcss.com/docs/mask-size
+        ##
+        "mask-size" => [{ "mask" => SCALE_BG_SIZE.call }],
+        ##
+        # Mask Type
+        # @see https://tailwindcss.com/docs/mask-type
+        ##
+        "mask-type" => [{ "mask-type" => ["alpha", "luminance"] }],
+        ##
+        # Mask Image
+        # @see https://tailwindcss.com/docs/mask-image
+        ##
+        "mask-image" => [{ "mask" => ["none", IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }],
 
         #########
         # Filters
@@ -1434,10 +1557,15 @@ module TailwindMerge
             "",
             "none",
             THEME_DROP_SHADOW,
-            IS_ARBITRARY_VARIABLE,
-            IS_ARBITRARY_VALUE,
+            IS_ARBITRARY_VARIABLE_SHADOW,
+            IS_ARBITRARY_SHADOW,
           ],
         }],
+        ##
+        # Drop Shadow Color
+        # @see https://tailwindcss.com/docs/filter-drop-shadow#setting-the-shadow-color
+        ##
+        "drop-shadow-color" => [{ "drop-shadow": SCALE_COLOR.call }],
         ##
         # Grayscale
         # @see https://tailwindcss.com/docs/grayscale
@@ -1626,7 +1754,7 @@ module TailwindMerge
         # Perspective Origin
         # @see https://tailwindcss.com/docs/perspective-origin
         ##
-        "perspective-origin" => [{ "perspective-origin" => SCALE_ORIGIN.call }],
+        "perspective-origin" => [{ "perspective-origin" => SCALE_POSITION_WITH_ARBITRARY.call }],
         ##
         # Rotate
         # @see https://tailwindcss.com/docs/rotate
@@ -1697,7 +1825,7 @@ module TailwindMerge
         ##
         "transform-origin" => [
           {
-            "origin" => SCALE_ORIGIN.call,
+            "origin" => SCALE_POSITION_WITH_ARBITRARY.call,
           },
         ],
         ##
@@ -2063,6 +2191,8 @@ module TailwindMerge
         "rounded-l" => ["rounded-tl", "rounded-bl"],
         "border-spacing" => ["border-spacing-x", "border-spacing-y"],
         "border-w" => [
+          "border-w-x",
+          "border-w-y",
           "border-w-s",
           "border-w-e",
           "border-w-t",
@@ -2073,6 +2203,8 @@ module TailwindMerge
         "border-w-x" => ["border-w-r", "border-w-l"],
         "border-w-y" => ["border-w-t", "border-w-b"],
         "border-color" => [
+          "border-color-x",
+          "border-color-y",
           "border-color-s",
           "border-color-e",
           "border-color-t",
@@ -2117,17 +2249,18 @@ module TailwindMerge
         "font-size" => ["leading"],
       },
       order_sensitive_modifiers: [
-        "before",
-        "after",
-        "placeholder",
-        "file",
-        "marker",
-        "selection",
-        "first-line",
-        "first-letter",
-        "backdrop",
         "*",
         "**",
+        "after",
+        "backdrop",
+        "before",
+        "details-content",
+        "file",
+        "first-letter",
+        "first-line",
+        "marker",
+        "placeholder",
+        "selection",
       ],
     }.freeze
 
