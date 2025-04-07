@@ -1,3 +1,9 @@
+# [v1.2.0] - 07-04-2025
+## What's Changed
+* Support TailwindCSS v4.1 by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/58
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v1.1.1...v1.2.0
 # [v1.1.1] - 01-04-2025
 ## What's Changed
 * fix length variable not being detected via classes by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/56
