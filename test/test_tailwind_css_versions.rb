@@ -120,5 +120,10 @@ class TestTailwindCSSVersions < Minitest::Test
     assert_equal("drop-shadow-some-color", @merger.merge("drop-shadow-[#123456] drop-shadow-some-color"))
     assert_equal("drop-shadow-[shadow:foo]", @merger.merge("drop-shadow-2xl drop-shadow-[shadow:foo]"))
   end
+
+  def test_tailwind_4_15_features
+    assert_equal("h-lh", @merger.merge("h-12 h-lh"))
+    assert_equal("min-h-lh", @merger.merge("min-h-12 min-h-lh"))
+    assert_equal("max-h-lh", @merger.merge("max-h-12 max-h-lh"))
   end
 end

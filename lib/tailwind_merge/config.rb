@@ -731,17 +731,17 @@ module TailwindMerge
         # Height
         # @see https://tailwindcss.com/docs/height
         ##
-        "h" => [{ "h" => ["screen", *SCALE_SIZING.call] }],
+        "h" => [{ "h" => ["screen", "lh", *SCALE_SIZING.call] }],
         ##
         # Min-Height
         # @see https://tailwindcss.com/docs/min-height
         ##
-        "min-h" => [{ "min-h" => ["screen", "none", *SCALE_SIZING.call] }],
+        "min-h" => [{ "min-h" => ["screen", "none", "lh", *SCALE_SIZING.call] }],
         ##
         # Max-Height
         # @see https://tailwindcss.com/docs/max-height
         ##
-        "max-h" => [{ "max-h" => ["screen", *SCALE_SIZING.call] }],
+        "max-h" => [{ "max-h" => ["screen", "lh", *SCALE_SIZING.call] }],
 
         ############
         # Typography
