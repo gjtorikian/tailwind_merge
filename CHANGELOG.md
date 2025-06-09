@@ -1,3 +1,9 @@
+# [v1.3.0] - 09-06-2025
+## What's Changed
+* Add support for tailwind CSS v4.1.5 by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/60
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v1.2.0...v1.3.0
 # [v1.2.0] - 07-04-2025
 ## What's Changed
 * Support TailwindCSS v4.1 by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/58
