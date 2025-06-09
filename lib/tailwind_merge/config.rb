@@ -82,7 +82,7 @@ module TailwindMerge
     }
     SCALE_GRID_COL_ROW_START_OR_END = -> { [IS_INTEGER, "auto", IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
     SCALE_GRID_AUTO_COLS_ROWS = -> { ["auto", "min", "max", "fr", IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
-    SCALE_ALIGN_PRIMARY_AXIS = -> { ["start", "end", "center", "between", "around", "evenly", "stretch", "baseline", "center-safe", "end-sage"] }
+    SCALE_ALIGN_PRIMARY_AXIS = -> { ["start", "end", "center", "between", "around", "evenly", "stretch", "baseline", "center-safe", "end-safe"] }
     SCALE_ALIGN_SECONDARY_AXIS = -> { ["start", "end", "center", "stretch", "center-safe", "end-safe"] }
     SCALE_MARGIN = -> { ["auto", *SCALE_UNAMBIGUOUS_SPACING.call] }
     SCALE_SIZING = -> {
@@ -731,17 +731,17 @@ module TailwindMerge
         # Height
         # @see https://tailwindcss.com/docs/height
         ##
-        "h" => [{ "h" => ["screen", *SCALE_SIZING.call] }],
+        "h" => [{ "h" => ["screen", "lh", *SCALE_SIZING.call] }],
         ##
         # Min-Height
         # @see https://tailwindcss.com/docs/min-height
         ##
-        "min-h" => [{ "min-h" => ["screen", "none", *SCALE_SIZING.call] }],
+        "min-h" => [{ "min-h" => ["screen", "none", "lh", *SCALE_SIZING.call] }],
         ##
         # Max-Height
         # @see https://tailwindcss.com/docs/max-height
         ##
-        "max-h" => [{ "max-h" => ["screen", *SCALE_SIZING.call] }],
+        "max-h" => [{ "max-h" => ["screen", "lh", *SCALE_SIZING.call] }],
 
         ############
         # Typography
