@@ -68,78 +68,57 @@ class TestTailwindCSSVersions < Minitest::Test
   end
 
   def test_tailwind_4_1_features
-    #     expect(twMerge('items-baseline items-baseline-last')).toBe('items-baseline-last')
-
-    #     expect(twMerge('self-baseline self-baseline-last')).toBe('self-baseline-last')
-    #     expect(twMerge('place-content-center place-content-end-safe place-content-center-safe')).toBe(
-    #         'place-content-center-safe',
-    #     )
-    #     expect(twMerge('items-center-safe items-baseline items-end-safe')).toBe('items-end-safe')
-    #     expect(twMerge('wrap-break-word wrap-normal wrap-anywhere')).toBe('wrap-anywhere')
-    #     expect(twMerge('text-shadow-none text-shadow-2xl')).toBe('text-shadow-2xl')
-    #     expect(
-    #         twMerge(
-    #             'text-shadow-none text-shadow-md text-shadow-red text-shadow-red-500 shadow-red shadow-3xs',
-    #         ),
-    #     ).toBe('text-shadow-md text-shadow-red-500 shadow-red shadow-3xs')
-    #     expect(twMerge('mask-add mask-subtract')).toBe('mask-subtract')
-    #     expect(
-    #         twMerge(
-    #             // mask-image
-    #             'mask-(--foo) mask-[foo] mask-none',
-    #             // mask-image-linear-pos
-    #             'mask-linear-1 mask-linear-2',
-    #             // mask-image-linear-from-pos
-    #             'mask-linear-from-[position:test] mask-linear-from-3',
-    #             // mask-image-linear-to-pos
-    #             'mask-linear-to-[position:test] mask-linear-to-3',
-    #             // mask-image-linear-from-color
-    #             'mask-linear-from-color-red mask-linear-from-color-3',
-    #             // mask-image-linear-to-color
-    #             'mask-linear-to-color-red mask-linear-to-color-3',
-    #             // mask-image-t-from-pos
-    #             'mask-t-from-[position:test] mask-t-from-3',
-    #             // mask-image-t-to-pos
-    #             'mask-t-to-[position:test] mask-t-to-3',
-    #             // mask-image-t-from-color
-    #             'mask-t-from-color-red mask-t-from-color-3',
-    #             // mask-image-radial
-    #             'mask-radial-(--test) mask-radial-[test]',
-    #             // mask-image-radial-from-pos
-    #             'mask-radial-from-[position:test] mask-radial-from-3',
-    #             // mask-image-radial-to-pos
-    #             'mask-radial-to-[position:test] mask-radial-to-3',
-    #             // mask-image-radial-from-color
-    #             'mask-radial-from-color-red mask-radial-from-color-3',
-    #         ),
-    #     ).toBe(
-    #         'mask-none mask-linear-2 mask-linear-from-3 mask-linear-to-3 mask-linear-from-color-3 mask-linear-to-color-3 mask-t-from-3 mask-t-to-3 mask-t-from-color-3 mask-radial-[test] mask-radial-from-3 mask-radial-to-3 mask-radial-from-color-3',
-    #     )
-    #     expect(
-    #         twMerge(
-    #             // mask-image
-    #             'mask-(--something) mask-[something]',
-    #             // mask-position
-    #             'mask-top-left mask-center mask-(position:--var) mask-[position:1px_1px] mask-position-(--var) mask-position-[1px_1px]',
-    #         ),
-    #     ).toBe('mask-[something] mask-position-[1px_1px]')
-    #     expect(
-    #         twMerge(
-    #             // mask-image
-    #             'mask-(--something) mask-[something]',
-    #             // mask-size
-    #             'mask-auto mask-[size:foo] mask-(size:--foo) mask-size-[foo] mask-size-(--foo) mask-cover mask-contain',
-    #         ),
-    #     ).toBe('mask-[something] mask-contain')
-    #     expect(twMerge('mask-type-luminance mask-type-alpha')).toBe('mask-type-alpha')
-    #     expect(twMerge('shadow-md shadow-lg/25 text-shadow-md text-shadow-lg/25')).toBe(
-    #         'shadow-lg/25 text-shadow-lg/25',
-    #     )
-    #     expect(
-    #         twMerge('drop-shadow-some-color drop-shadow-[#123456] drop-shadow-lg drop-shadow-[10px_0]'),
-    #     ).toBe('drop-shadow-[#123456] drop-shadow-[10px_0]')
-    #     expect(twMerge('drop-shadow-[#123456] drop-shadow-some-color')).toBe('drop-shadow-some-color')
-    #     expect(twMerge('drop-shadow-2xl drop-shadow-[shadow:foo]')).toBe('drop-shadow-[shadow:foo]')
-    # })
+    assert_equal("items-baseline-last", @merger.merge("items-baseline items-baseline-last"))
+    assert_equal("self-baseline-last", @merger.merge("self-baseline self-baseline-last"))
+    assert_equal("place-content-center-safe", @merger.merge("place-content-center place-content-end-safe place-content-center-safe"))
+    assert_equal("items-end-safe", @merger.merge("items-center-safe items-baseline items-end-safe"))
+    assert_equal("wrap-anywhere", @merger.merge("wrap-break-word wrap-normal wrap-anywhere"))
+    assert_equal("text-shadow-2xl", @merger.merge("text-shadow-none text-shadow-2xl"))
+    assert_equal(
+      "text-shadow-md text-shadow-red-500 shadow-red shadow-3xs",
+      @merger.merge("text-shadow-none text-shadow-md text-shadow-red text-shadow-red-500 shadow-red shadow-3xs"),
+    )
+    assert_equal("mask-subtract", @merger.merge("mask-add mask-subtract"))
+    assert_equal(
+      "mask-none mask-linear-2 mask-linear-from-3 mask-linear-to-3 mask-linear-from-color-3 mask-linear-to-color-3 mask-t-from-3 mask-t-to-3 mask-t-from-color-3 mask-radial-[test] mask-radial-from-3 mask-radial-to-3 mask-radial-from-color-3",
+      @merger.merge(
+        "mask-(--foo) mask-[foo] mask-none " \
+          "mask-linear-1 mask-linear-2 " \
+          "mask-linear-from-[position:test] mask-linear-from-3 " \
+          "mask-linear-to-[position:test] mask-linear-to-3 " \
+          "mask-linear-from-color-red mask-linear-from-color-3 " \
+          "mask-linear-to-color-red mask-linear-to-color-3 " \
+          "mask-t-from-[position:test] mask-t-from-3 " \
+          "mask-t-to-[position:test] mask-t-to-3 " \
+          "mask-t-from-color-red mask-t-from-color-3 " \
+          "mask-radial-(--test) mask-radial-[test] " \
+          "mask-radial-from-[position:test] mask-radial-from-3 " \
+          "mask-radial-to-[position:test] mask-radial-to-3 " \
+          "mask-radial-from-color-red mask-radial-from-color-3",
+      ),
+    )
+    assert_equal(
+      "mask-[something] mask-position-[1px_1px]",
+      @merger.merge(
+        "mask-(--something) mask-[something] " \
+          "mask-top-left mask-center mask-(position:--var) mask-[position:1px_1px] mask-position-(--var) mask-position-[1px_1px]",
+      ),
+    )
+    assert_equal(
+      "mask-[something] mask-contain",
+      @merger.merge(
+        "mask-(--something) mask-[something] " \
+          "mask-auto mask-[size:foo] mask-(size:--foo) mask-size-[foo] mask-size-(--foo) mask-cover mask-contain",
+      ),
+    )
+    assert_equal("mask-type-alpha", @merger.merge("mask-type-luminance mask-type-alpha"))
+    assert_equal("shadow-lg/25 text-shadow-lg/25", @merger.merge("shadow-md shadow-lg/25 text-shadow-md text-shadow-lg/25"))
+    assert_equal(
+      "drop-shadow-[#123456] drop-shadow-[10px_0]",
+      @merger.merge("drop-shadow-some-color drop-shadow-[#123456] drop-shadow-lg drop-shadow-[10px_0]"),
+    )
+    assert_equal("drop-shadow-some-color", @merger.merge("drop-shadow-[#123456] drop-shadow-some-color"))
+    assert_equal("drop-shadow-[shadow:foo]", @merger.merge("drop-shadow-2xl drop-shadow-[shadow:foo]"))
+  end
   end
 end

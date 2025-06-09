@@ -82,7 +82,7 @@ module TailwindMerge
     }
     SCALE_GRID_COL_ROW_START_OR_END = -> { [IS_INTEGER, "auto", IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
     SCALE_GRID_AUTO_COLS_ROWS = -> { ["auto", "min", "max", "fr", IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
-    SCALE_ALIGN_PRIMARY_AXIS = -> { ["start", "end", "center", "between", "around", "evenly", "stretch", "baseline", "center-safe", "end-sage"] }
+    SCALE_ALIGN_PRIMARY_AXIS = -> { ["start", "end", "center", "between", "around", "evenly", "stretch", "baseline", "center-safe", "end-safe"] }
     SCALE_ALIGN_SECONDARY_AXIS = -> { ["start", "end", "center", "stretch", "center-safe", "end-safe"] }
     SCALE_MARGIN = -> { ["auto", *SCALE_UNAMBIGUOUS_SPACING.call] }
     SCALE_SIZING = -> {
