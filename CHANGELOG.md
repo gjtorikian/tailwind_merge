@@ -1,3 +1,9 @@
+# [v1.3.1] - 10-06-2025
+## What's Changed
+* Fix arbitrary color mix by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/62
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v1.3.0...v1.3.1
 # [v1.3.0] - 09-06-2025
 ## What's Changed
 * Add support for tailwind CSS v4.1.5 by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/60
