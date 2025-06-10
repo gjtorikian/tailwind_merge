@@ -51,6 +51,7 @@ class TestArbitraryValues < Minitest::Test
 
     assert_equal("bg-[percentage:30%] bg-[length:200px_100px]", @merger.merge("bg-cover bg-[percentage:30%] bg-[size:200px_100px] bg-[length:200px_100px]"))
     assert_equal("bg-linear-to-r", @merger.merge("bg-none bg-[url(.)] bg-[image:.] bg-[url:.] bg-[linear-gradient(.)] bg-linear-to-r"))
+    assert_equal("border-[color-mix(in_oklab,var(--background),var(--calendar-color)_30%)] border", @merger.merge("border-[color-mix(in_oklab,var(--background),var(--calendar-color)_30%)] border"))
   end
 
   def test_handles_arbitrary_custom_properties_correctly
