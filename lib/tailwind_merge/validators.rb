@@ -37,7 +37,7 @@ module TailwindMerge
     FRACTION_REGEX = %r{^\d+/\d+$}
     TSHIRT_UNIT_REGEX = /^(\d+(\.\d+)?)?(xs|sm|md|lg|xl)$/
     LENGTH_UNIT_REGEX = /\d+(%|px|r?em|[sdl]?v([hwib]|min|max)|pt|pc|in|cm|mm|cap|ch|ex|r?lh|cq(w|h|i|b|min|max))|\b(calc|min|max|clamp)\(.+\)|^0$/
-    COLOR_FUNCTION_REGEX = /^(rgba?|hsla?|hwb|(ok)?(lab|lch))\(.+\)$/
+    COLOR_FUNCTION_REGEX = /^(rgba?|hsla?|hwb|(ok)?(lab|lch)|color-mix)\(.+\)$/
 
     # Shadow always begins with x and y offset separated by underscore optionally prepended by inset
     SHADOW_REGEX = /^(inset_)?-?((\d+)?\.?(\d+)[a-z]+|0)_-?((\d+)?\.?(\d+)[a-z]+|0)/
