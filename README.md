@@ -37,7 +37,7 @@ TailwindMerge::Merger.new.merge(["px-2 py-1", "bg-red hover:bg-dark-red", "p-3 b
 
 ## What's it for?
 
-If you use Tailwind with a component-based UI renderer (like [ViewComponent](https://viewcomponent.org) or [Ariadne](https://github.com/yettoapp/ariadne)), you're probably familiar with the situation that you want to change some styles of an existing component:
+If you use Tailwind with a component-based UI renderer (like [ViewComponent](https://viewcomponent.org)), you're probably familiar with the situation that you want to change some styles of an existing component:
 
 ```html
 <!-- app/components/confirm_email_component.html.erb -->
