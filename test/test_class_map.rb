@@ -270,6 +270,7 @@ class TestClassMap < Minitest::Test
         "pointer" => ["pointer-events"],
         "pr" => ["pr"],
         "proportional" => ["fvn-spacing"],
+        "prose" => ["typography-color", "typography-size"],
         "ps" => ["ps"],
         "pt" => ["pt"],
         "px" => ["px"],

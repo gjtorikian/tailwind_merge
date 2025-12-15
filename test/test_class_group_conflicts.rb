@@ -24,4 +24,16 @@ class TestClassGroupConflicts < Minitest::Test
     assert_equal("normal-nums", @merger.merge("tabular-nums diagonal-fractions normal-nums"))
     assert_equal("proportional-nums", @merger.merge("tabular-nums proportional-nums"))
   end
+
+  def test_merges_typography_plugin_classes_correctly
+    assert_equal("prose-lg", @merger.merge("prose-base prose-lg"))
+    assert_equal("prose-sm", @merger.merge("prose-lg prose-sm"))
+
+    assert_equal("prose-zinc", @merger.merge("prose-gray prose-zinc"))
+    assert_equal("prose-slate", @merger.merge("prose-zinc prose-slate"))
+
+    assert_equal("prose prose-lg prose-zinc", @merger.merge("prose prose-lg prose-zinc"))
+
+    assert_equal("prose-lg prose-zinc", @merger.merge("prose-lg prose-zinc"))
+  end
 end

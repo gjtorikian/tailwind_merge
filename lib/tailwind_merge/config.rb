@@ -857,6 +857,12 @@ module TailwindMerge
             ],
           },
         ],
+        ##
+        # Typography Plugin
+        # @see https://tailwindcss.com/docs/typography-plugin
+        ##
+        "typography-size" => [{ "prose" => ["base", THEME_TEXT, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }],
+        "typography-color" => [{ "prose" => SCALE_COLOR.call }],
         #
         # List Style Image
         # @see https://tailwindcss.com/docs/list-style-image
