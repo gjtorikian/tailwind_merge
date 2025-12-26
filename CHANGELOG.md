@@ -1,3 +1,11 @@
+# [v1.3.2] - 26-12-2025
+## What's Changed
+* Bump actions/checkout from 4 to 5 by @dependabot[bot] in https://github.com/gjtorikian/tailwind_merge/pull/64
+* Bump actions/checkout from 5 to 6 by @dependabot[bot] in https://github.com/gjtorikian/tailwind_merge/pull/65
+* Support any Ruby version by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/68
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v1.3.1...v1.3.2
 # [v1.3.1] - 10-06-2025
 ## What's Changed
 * Fix arbitrary color mix by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/62
