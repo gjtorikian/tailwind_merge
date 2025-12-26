@@ -12,6 +12,7 @@ test/tmp
 test/version_tmp
 tmp
 vendor/cache
+vendor/bundle
 
 Gemfile.lock
 out/
