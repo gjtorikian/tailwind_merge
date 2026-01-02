@@ -37,6 +37,6 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency("sin_lru_redux", "~> 2.5")
 
-  spec.add_development_dependency("minitest", "~> 5.6")
+  spec.add_development_dependency("minitest", "~> 6.0")
   spec.add_development_dependency("minitest-focus", "~> 1.1")
 end
