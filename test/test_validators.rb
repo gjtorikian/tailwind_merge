@@ -25,6 +25,17 @@ class TestValidators < Minitest::Test
     refute(IS_ANY_NON_ARBITRARY.call("(label:test)"))
   end
 
+  def test_is_arbitrary_family_name
+    assert(IS_ARBITRARY_FAMILY_NAME.call("[family-name:Open_Sans]"))
+    assert(IS_ARBITRARY_FAMILY_NAME.call("[family-name:var(--my-font)]"))
+
+    refute(IS_ARBITRARY_FAMILY_NAME.call("[Open_Sans]"))
+    refute(IS_ARBITRARY_FAMILY_NAME.call("[number:400]"))
+    refute(IS_ARBITRARY_FAMILY_NAME.call("[weight:400]"))
+    refute(IS_ARBITRARY_FAMILY_NAME.call("family-name:test"))
+    refute(IS_ARBITRARY_FAMILY_NAME.call("(family-name:test)"))
+  end
+
   def test_is_arbitrary_image
     assert(IS_ARBITRARY_IMAGE.call("[url:var(--my-url)]"))
     assert(IS_ARBITRARY_IMAGE.call("[url(something)]"))
@@ -92,6 +103,19 @@ class TestValidators < Minitest::Test
     refute(IS_ARBITRARY_SHADOW.call("[rgba(5,5,5,5)]"))
     refute(IS_ARBITRARY_SHADOW.call("[#00f]"))
     refute(IS_ARBITRARY_SHADOW.call("[something-else]"))
+  end
+
+  def test_is_arbitrary_weight
+    assert(IS_ARBITRARY_WEIGHT.call("[weight:400]"))
+    assert(IS_ARBITRARY_WEIGHT.call("[weight:bold]"))
+    assert(IS_ARBITRARY_WEIGHT.call("[number:400]"))
+    assert(IS_ARBITRARY_WEIGHT.call("[number:var(--my-weight)]"))
+    assert(IS_ARBITRARY_WEIGHT.call("[400]"))
+    assert(IS_ARBITRARY_WEIGHT.call("[bold]"))
+
+    refute(IS_ARBITRARY_WEIGHT.call("[family-name:test]"))
+    refute(IS_ARBITRARY_WEIGHT.call("weight:400"))
+    refute(IS_ARBITRARY_WEIGHT.call("(weight:400)"))
   end
 
   def test_is_arbitrary_size
@@ -184,6 +208,16 @@ class TestValidators < Minitest::Test
     refute(IS_ARBITRARY_VARIABLE_SIZE.call("(test)"))
     refute(IS_ARBITRARY_VARIABLE_SIZE.call("size:test"))
     refute(IS_ARBITRARY_VARIABLE_SIZE.call("percentage:test"))
+  end
+
+  def test_is_arbitrary_variable_weight
+    assert(IS_ARBITRARY_VARIABLE_WEIGHT.call("(weight:test)"))
+    assert(IS_ARBITRARY_VARIABLE_WEIGHT.call("(number:test)"))
+    assert(IS_ARBITRARY_VARIABLE_WEIGHT.call("(--my-weight)"))
+
+    refute(IS_ARBITRARY_VARIABLE_WEIGHT.call("(other:test)"))
+    refute(IS_ARBITRARY_VARIABLE_WEIGHT.call("weight:test"))
+    refute(IS_ARBITRARY_VARIABLE_WEIGHT.call("[weight:test]"))
   end
 
   def test_is_fraction
