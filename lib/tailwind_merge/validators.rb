@@ -102,6 +102,14 @@ module TailwindMerge
       arbitrary_value?(value, IS_LABEL_NUMBER, IS_NUMBER)
     }
 
+    IS_ARBITRARY_WEIGHT = ->(value) {
+      arbitrary_value?(value, IS_LABEL_WEIGHT, IS_ANY)
+    }
+
+    IS_ARBITRARY_FAMILY_NAME = ->(value) {
+      arbitrary_value?(value, IS_LABEL_FAMILY_NAME, IS_NEVER)
+    }
+
     IS_ARBITRARY_POSITION = ->(value) {
       arbitrary_value?(value, IS_LABEL_POSITION, IS_NEVER)
     }
@@ -142,6 +150,10 @@ module TailwindMerge
       arbitrary_variable?(value, IS_LABEL_SHADOW, should_match_no_label: true)
     }
 
+    IS_ARBITRARY_VARIABLE_WEIGHT = ->(value) {
+      arbitrary_variable?(value, IS_LABEL_WEIGHT, should_match_no_label: true)
+    }
+
     ############
     # Labels
     ############
@@ -168,6 +180,10 @@ module TailwindMerge
 
     IS_LABEL_FAMILY_NAME = ->(label) {
       label == "family-name"
+    }
+
+    IS_LABEL_WEIGHT = ->(label) {
+      label == "number" || label == "weight"
     }
 
     IS_LABEL_SHADOW = ->(label) {

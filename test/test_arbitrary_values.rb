@@ -52,10 +52,21 @@ class TestArbitraryValues < Minitest::Test
     assert_equal("bg-[percentage:30%] bg-[length:200px_100px]", @merger.merge("bg-cover bg-[percentage:30%] bg-[size:200px_100px] bg-[length:200px_100px]"))
     assert_equal("bg-linear-to-r", @merger.merge("bg-none bg-[url(.)] bg-[image:.] bg-[url:.] bg-[linear-gradient(.)] bg-linear-to-r"))
     assert_equal("border-[color-mix(in_oklab,var(--background),var(--calendar-color)_30%)] border", @merger.merge("border-[color-mix(in_oklab,var(--background),var(--calendar-color)_30%)] border"))
+
+    assert_equal("font-[600]", @merger.merge("font-[400] font-[600]"))
+    assert_equal("font-[var(--b)]", @merger.merge("font-[var(--a)] font-[var(--b)]"))
+    assert_equal("font-[var(--b)]", @merger.merge("font-[weight:var(--a)] font-[var(--b)]"))
+    assert_equal("font-[weight:var(--b)]", @merger.merge("font-[400] font-[weight:var(--b)]"))
+    assert_equal("font-[weight:var(--b)]", @merger.merge("font-[weight:var(--a)] font-[weight:var(--b)]"))
+    assert_equal("font-[family-name:var(--a)] font-[var(--b)]", @merger.merge("font-[family-name:var(--a)] font-[var(--b)]"))
   end
 
   def test_handles_arbitrary_custom_properties_correctly
     assert_equal("bg-(--other-red) bg-(position:-my-pos)", @merger.merge("bg-red bg-(--other-red) bg-bottom bg-(position:-my-pos)"))
     assert_equal("shadow-(--some-other-shadow) shadow-(color:--some-color)", @merger.merge("shadow-xs shadow-(shadow:--something) shadow-red shadow-(--some-other-shadow) shadow-(color:--some-color)"))
+
+    assert_equal("font-(--b)", @merger.merge("font-(--a) font-(--b)"))
+    assert_equal("font-(--b)", @merger.merge("font-(weight:--a) font-(--b)"))
+    assert_equal("font-(family-name:--a) font-(--b)", @merger.merge("font-(family-name:--a) font-(--b)"))
   end
 end

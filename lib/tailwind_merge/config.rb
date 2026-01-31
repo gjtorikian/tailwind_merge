@@ -769,8 +769,8 @@ module TailwindMerge
           {
             "font" => [
               THEME_FONT_WEIGHT,
-              IS_ARBITRARY_VARIABLE,
-              IS_ARBITRARY_NUMBER,
+              IS_ARBITRARY_VARIABLE_WEIGHT,
+              IS_ARBITRARY_WEIGHT,
             ],
           },
         ],
@@ -799,7 +799,7 @@ module TailwindMerge
         # Font Family
         # @see https://tailwindcss.com/docs/font-family
         ##
-        "font-family" => [{ "font" => [IS_ARBITRARY_VARIABLE_FAMILY_NAME, IS_ARBITRARY_VALUE, THEME_FONT] }],
+        "font-family" => [{ "font" => [IS_ARBITRARY_VARIABLE_FAMILY_NAME, IS_ARBITRARY_FAMILY_NAME, THEME_FONT] }],
         ##
         # Font Variant Numeric
         # @see https://tailwindcss.com/docs/font-variant-numeric
