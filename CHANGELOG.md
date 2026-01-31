@@ -1,3 +1,10 @@
+# [v1.3.3] - 31-01-2026
+## What's Changed
+* Update minitest requirement from ~> 5.6 to ~> 6.0 in the bundler-dependencies group by @dependabot[bot] in https://github.com/gjtorikian/tailwind_merge/pull/70
+* prevent arbitrary font-family and font-weight from merging by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/71
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v1.3.2...v1.3.3
 # [v1.3.2] - 26-12-2025
 ## What's Changed
 * Bump actions/checkout from 4 to 5 by @dependabot[bot] in https://github.com/gjtorikian/tailwind_merge/pull/64
