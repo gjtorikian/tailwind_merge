@@ -1,3 +1,9 @@
+# [v1.4.0] - 22-02-2026
+## What's Changed
+* Support Tailwind v4.2 by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/73
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v1.3.3...v1.4.0
 # [v1.3.3] - 31-01-2026
 ## What's Changed
 * Update minitest requirement from ~> 5.6 to ~> 6.0 in the bundler-dependencies group by @dependabot[bot] in https://github.com/gjtorikian/tailwind_merge/pull/70
