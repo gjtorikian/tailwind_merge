@@ -121,6 +121,52 @@ class TestTailwindCSSVersions < Minitest::Test
     assert_equal("drop-shadow-[shadow:foo]", @merger.merge("drop-shadow-2xl drop-shadow-[shadow:foo]"))
   end
 
+  def test_tailwind_4_2_features
+    # Logical inset utilities
+    assert_equal("inset-s-2", @merger.merge("inset-s-1 inset-s-2"))
+    assert_equal("inset-e-2", @merger.merge("inset-e-1 inset-e-2"))
+    assert_equal("inset-bs-2", @merger.merge("inset-bs-1 inset-bs-2"))
+    assert_equal("inset-be-2", @merger.merge("inset-be-1 inset-be-2"))
+    assert_equal("inset-s-1 inset-bs-1", @merger.merge("inset-s-1 inset-bs-1"))
+    assert_equal("inset-0", @merger.merge("inset-s-1 inset-e-1 inset-bs-1 inset-be-1 inset-0"))
+
+    # Logical spacing
+    assert_equal("pbs-2", @merger.merge("pbs-1 pbs-2"))
+    assert_equal("pbe-2", @merger.merge("pbe-1 pbe-2"))
+    assert_equal("mbs-2", @merger.merge("mbs-1 mbs-2"))
+    assert_equal("mbe-2", @merger.merge("mbe-1 mbe-2"))
+    assert_equal("p-0", @merger.merge("pbs-1 pbe-1 p-0"))
+    assert_equal("m-0", @merger.merge("mbs-1 mbe-1 m-0"))
+
+    # Logical scroll spacing
+    assert_equal("scroll-pbs-2", @merger.merge("scroll-pbs-1 scroll-pbs-2"))
+    assert_equal("scroll-pbe-2", @merger.merge("scroll-pbe-1 scroll-pbe-2"))
+    assert_equal("scroll-mbs-2", @merger.merge("scroll-mbs-1 scroll-mbs-2"))
+    assert_equal("scroll-mbe-2", @merger.merge("scroll-mbe-1 scroll-mbe-2"))
+    assert_equal("scroll-p-0", @merger.merge("scroll-pbs-1 scroll-pbe-1 scroll-p-0"))
+    assert_equal("scroll-m-0", @merger.merge("scroll-mbs-1 scroll-mbe-1 scroll-m-0"))
+
+    # Logical border block
+    assert_equal("border-bs-2", @merger.merge("border-bs border-bs-2"))
+    assert_equal("border-be-2", @merger.merge("border-be border-be-2"))
+    assert_equal("border-2", @merger.merge("border-bs border-be border-2"))
+
+    # Logical sizing
+    assert_equal("inline-auto", @merger.merge("inline-full inline-auto"))
+    assert_equal("block-auto", @merger.merge("block-full block-auto"))
+    assert_equal("min-inline-auto", @merger.merge("min-inline-full min-inline-auto"))
+    assert_equal("max-inline-none", @merger.merge("max-inline-full max-inline-none"))
+    assert_equal("min-block-auto", @merger.merge("min-block-full min-block-auto"))
+    assert_equal("max-block-none", @merger.merge("max-block-full max-block-none"))
+
+    # Font feature settings
+    assert_equal("font-features-[\"tnum\"]", @merger.merge("font-features-[\"smcp\"] font-features-[\"tnum\"]"))
+
+    # Decimal fractions
+    assert_equal("aspect-8.5/11", @merger.merge("aspect-4/3 aspect-8.5/11"))
+    assert_equal("w-8.5/11", @merger.merge("w-1/2 w-8.5/11"))
+  end
+
   def test_tailwind_4_15_features
     assert_equal("h-lh", @merger.merge("h-12 h-lh"))
     assert_equal("min-h-lh", @merger.merge("min-h-12 min-h-lh"))

@@ -102,6 +102,35 @@ module TailwindMerge
         *SCALE_UNAMBIGUOUS_SPACING.call,
       ]
     }
+    SCALE_SIZING_INLINE = -> {
+      [
+        IS_FRACTION,
+        "screen",
+        "full",
+        "dvw",
+        "lvw",
+        "svw",
+        "min",
+        "max",
+        "fit",
+        *SCALE_UNAMBIGUOUS_SPACING.call,
+      ]
+    }
+    SCALE_SIZING_BLOCK = -> {
+      [
+        IS_FRACTION,
+        "screen",
+        "full",
+        "lh",
+        "dvh",
+        "lvh",
+        "svh",
+        "min",
+        "max",
+        "fit",
+        *SCALE_UNAMBIGUOUS_SPACING.call,
+      ]
+    }
     SCALE_COLOR = -> { [THEME_COLOR, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }
     SCALE_BG_POSITION = -> { [*SCALE_POSITION.call, IS_ARBITRARY_VARIABLE_POSITION, IS_ARBITRARY_POSITION, "position" => [IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE]] }
     SCALE_BG_REPEAT = -> { ["no-repeat", "repeat" => ["", "x", "y", "space", "round"]] }
@@ -359,12 +388,22 @@ module TailwindMerge
         # Start
         # @see https://tailwindcss.com/docs/top-right-bottom-left
         #
-        "start" => [{ "start" => [SCALE_INSET] }],
+        "start" => [{ "inset-s" => [SCALE_INSET], "start" => [SCALE_INSET] }],
         #
         # End
         # @see https://tailwindcss.com/docs/top-right-bottom-left
         #
-        "end" => [{ "end" => [SCALE_INSET] }],
+        "end" => [{ "inset-e" => [SCALE_INSET], "end" => [SCALE_INSET] }],
+        #
+        # Inset Block Start
+        # @see https://tailwindcss.com/docs/top-right-bottom-left
+        #
+        "inset-bs" => [{ "inset-bs" => [SCALE_INSET] }],
+        #
+        # Inset Block End
+        # @see https://tailwindcss.com/docs/top-right-bottom-left
+        #
+        "inset-be" => [{ "inset-be" => [SCALE_INSET] }],
         ##
         # Top
         # @see https://tailwindcss.com/docs/top-right-bottom-left
@@ -593,6 +632,16 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/padding
         #
         "pe" => [{ "pe" => SCALE_UNAMBIGUOUS_SPACING.call }],
+        #
+        # Padding Block Start
+        # @see https://tailwindcss.com/docs/padding
+        #
+        "pbs" => [{ "pbs" => SCALE_UNAMBIGUOUS_SPACING.call }],
+        #
+        # Padding Block End
+        # @see https://tailwindcss.com/docs/padding
+        #
+        "pbe" => [{ "pbe" => SCALE_UNAMBIGUOUS_SPACING.call }],
         ##
         # Padding Top
         # @see https://tailwindcss.com/docs/padding
@@ -638,6 +687,16 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/margin
         #
         "me" => [{ "me" => SCALE_MARGIN.call  }],
+        #
+        # Margin Block Start
+        # @see https://tailwindcss.com/docs/margin
+        #
+        "mbs" => [{ "mbs" => SCALE_MARGIN.call }],
+        #
+        # Margin Block End
+        # @see https://tailwindcss.com/docs/margin
+        #
+        "mbe" => [{ "mbe" => SCALE_MARGIN.call }],
         ##
         # Margin Top
         # @see https://tailwindcss.com/docs/margin
@@ -688,6 +747,30 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/width#setting-both-width-and-height
         ##
         "size" => [{ "size" => SCALE_SIZING.call }],
+        ##
+        # Inline Size
+        ##
+        "inline-size" => [{ "inline" => ["auto", *SCALE_SIZING_INLINE.call] }],
+        ##
+        # Min Inline Size
+        ##
+        "min-inline-size" => [{ "min-inline" => ["auto", *SCALE_SIZING_INLINE.call] }],
+        ##
+        # Max Inline Size
+        ##
+        "max-inline-size" => [{ "max-inline" => ["none", *SCALE_SIZING_INLINE.call] }],
+        ##
+        # Block Size
+        ##
+        "block-size" => [{ "block" => ["auto", *SCALE_SIZING_BLOCK.call] }],
+        ##
+        # Min Block Size
+        ##
+        "min-block-size" => [{ "min-block" => ["auto", *SCALE_SIZING_BLOCK.call] }],
+        ##
+        # Max Block Size
+        ##
+        "max-block-size" => [{ "max-block" => ["none", *SCALE_SIZING_BLOCK.call] }],
         # Width
         # @see https://tailwindcss.com/docs/width
         ##
@@ -800,6 +883,10 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/font-family
         ##
         "font-family" => [{ "font" => [IS_ARBITRARY_VARIABLE_FAMILY_NAME, IS_ARBITRARY_FAMILY_NAME, THEME_FONT] }],
+        ##
+        # Font Feature Settings
+        ##
+        "font-features" => [{ "font-features" => [IS_ARBITRARY_VALUE] }],
         ##
         # Font Variant Numeric
         # @see https://tailwindcss.com/docs/font-variant-numeric
@@ -1173,6 +1260,16 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/border-width
         #
         "border-w-e" => [{ "border-e" => SCALE_BORDER_WIDTH.call }],
+        #
+        # Border Width Block Start
+        # @see https://tailwindcss.com/docs/border-width
+        #
+        "border-w-bs" => [{ "border-bs" => SCALE_BORDER_WIDTH.call }],
+        #
+        # Border Width Block End
+        # @see https://tailwindcss.com/docs/border-width
+        #
+        "border-w-be" => [{ "border-be" => SCALE_BORDER_WIDTH.call }],
         ##
         # Border Width Top
         # @see https://tailwindcss.com/docs/border-width
@@ -1249,6 +1346,16 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/border-color
         ##
         "border-color-e" => [{ "border-e" => SCALE_COLOR.call }],
+        #
+        # Border Color Block Start
+        # @see https://tailwindcss.com/docs/border-color
+        #
+        "border-color-bs" => [{ "border-bs" => SCALE_COLOR.call }],
+        #
+        # Border Color Block End
+        # @see https://tailwindcss.com/docs/border-color
+        #
+        "border-color-be" => [{ "border-be" => SCALE_COLOR.call }],
         ##
         # Border Color Top
         # @see https://tailwindcss.com/docs/border-color
@@ -1978,6 +2085,16 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/scroll-margin
         #
         "scroll-me" => [{ "scroll-me" => SCALE_UNAMBIGUOUS_SPACING.call }],
+        #
+        # Scroll Margin Block Start
+        # @see https://tailwindcss.com/docs/scroll-margin
+        #
+        "scroll-mbs" => [{ "scroll-mbs" => SCALE_UNAMBIGUOUS_SPACING.call }],
+        #
+        # Scroll Margin Block End
+        # @see https://tailwindcss.com/docs/scroll-margin
+        #
+        "scroll-mbe" => [{ "scroll-mbe" => SCALE_UNAMBIGUOUS_SPACING.call }],
         ##
         # Scroll Margin Top
         # @see https://tailwindcss.com/docs/scroll-margin
@@ -2023,6 +2140,16 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/scroll-padding
         #
         "scroll-pe" => [{ "scroll-pe" => SCALE_UNAMBIGUOUS_SPACING.call }],
+        #
+        # Scroll Padding Block Start
+        # @see https://tailwindcss.com/docs/scroll-padding
+        #
+        "scroll-pbs" => [{ "scroll-pbs" => SCALE_UNAMBIGUOUS_SPACING.call }],
+        #
+        # Scroll Padding Block End
+        # @see https://tailwindcss.com/docs/scroll-padding
+        #
+        "scroll-pbe" => [{ "scroll-pbe" => SCALE_UNAMBIGUOUS_SPACING.call }],
         ##
         # Scroll Padding Top
         # @see https://tailwindcss.com/docs/scroll-padding
@@ -2141,15 +2268,15 @@ module TailwindMerge
       conflicting_class_groups: {
         "overflow" => ["overflow-x", "overflow-y"],
         "overscroll" => ["overscroll-x", "overscroll-y"],
-        "inset" => ["inset-x", "inset-y", "start", "end", "top", "right", "bottom", "left"],
+        "inset" => ["inset-x", "inset-y", "start", "end", "inset-bs", "inset-be", "top", "right", "bottom", "left"],
         "inset-x" => ["right", "left"],
         "inset-y" => ["top", "bottom"],
         "flex" => ["basis", "grow", "shrink"],
         "gap" => ["gap-x", "gap-y"],
-        "p" => ["px", "py", "ps", "pe", "pt", "pr", "pb", "pl"],
+        "p" => ["px", "py", "ps", "pe", "pbs", "pbe", "pt", "pr", "pb", "pl"],
         "px" => ["pr", "pl"],
         "py" => ["pt", "pb"],
-        "m" => ["mx", "my", "ms", "me", "mt", "mr", "mb", "ml"],
+        "m" => ["mx", "my", "ms", "me", "mbs", "mbe", "mt", "mr", "mb", "ml"],
         "mx" => ["mr", "ml"],
         "my" => ["mt", "mb"],
         "size" => ["w", "h"],
@@ -2195,6 +2322,8 @@ module TailwindMerge
           "border-w-y",
           "border-w-s",
           "border-w-e",
+          "border-w-bs",
+          "border-w-be",
           "border-w-t",
           "border-w-r",
           "border-w-b",
@@ -2207,6 +2336,8 @@ module TailwindMerge
           "border-color-y",
           "border-color-s",
           "border-color-e",
+          "border-color-bs",
+          "border-color-be",
           "border-color-t",
           "border-color-r",
           "border-color-b",
@@ -2221,6 +2352,8 @@ module TailwindMerge
           "scroll-my",
           "scroll-ms",
           "scroll-me",
+          "scroll-mbs",
+          "scroll-mbe",
           "scroll-mt",
           "scroll-mr",
           "scroll-mb",
@@ -2233,6 +2366,8 @@ module TailwindMerge
           "scroll-py",
           "scroll-ps",
           "scroll-pe",
+          "scroll-pbs",
+          "scroll-pbe",
           "scroll-pt",
           "scroll-pr",
           "scroll-pb",
