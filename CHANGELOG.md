@@ -1,3 +1,9 @@
+# [v1.5.0] - 11-05-2026
+## What's Changed
+* Add TW 4.3 features by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/75
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v1.4.0...v1.5.0
 # [v1.4.0] - 22-02-2026
 ## What's Changed
 * Support Tailwind v4.2 by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/73
