@@ -25,6 +25,25 @@ class TestValidators < Minitest::Test
     refute(IS_ANY_NON_ARBITRARY.call("(label:test)"))
   end
 
+  def test_is_named_container_query
+    assert(IS_NAMED_CONTAINER_QUERY.call("@container/sidebar"))
+    assert(IS_NAMED_CONTAINER_QUERY.call("@container-normal/sidebar"))
+    assert(IS_NAMED_CONTAINER_QUERY.call("@container-size/sidebar"))
+    assert(IS_NAMED_CONTAINER_QUERY.call("@container/[sidebar]"))
+    assert(IS_NAMED_CONTAINER_QUERY.call("@container-size/(--sidebar)"))
+
+    refute(IS_NAMED_CONTAINER_QUERY.call("@container"))
+    refute(IS_NAMED_CONTAINER_QUERY.call("@container-normal"))
+    refute(IS_NAMED_CONTAINER_QUERY.call("@container-size"))
+    refute(IS_NAMED_CONTAINER_QUERY.call("@container/"))
+    refute(IS_NAMED_CONTAINER_QUERY.call("@container-normal/"))
+    refute(IS_NAMED_CONTAINER_QUERY.call("@container-size/"))
+    refute(IS_NAMED_CONTAINER_QUERY.call("@container-[size]/sidebar"))
+    refute(IS_NAMED_CONTAINER_QUERY.call("@container-foo/sidebar"))
+    refute(IS_NAMED_CONTAINER_QUERY.call("container/sidebar"))
+    refute(IS_NAMED_CONTAINER_QUERY.call("hover:@container/sidebar"))
+  end
+
   def test_is_arbitrary_family_name
     assert(IS_ARBITRARY_FAMILY_NAME.call("[family-name:Open_Sans]"))
     assert(IS_ARBITRARY_FAMILY_NAME.call("[family-name:var(--my-font)]"))

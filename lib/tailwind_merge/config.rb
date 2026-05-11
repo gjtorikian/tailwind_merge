@@ -248,6 +248,18 @@ module TailwindMerge
         ##
         "container" => ["container"],
         ##
+        # Container Type
+        # @see https://tailwindcss.com/docs/responsive-design#container-queries
+        ##
+        "container-type" => [
+          { "@container" => ["", "normal", "size", IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] },
+        ],
+        ##
+        # Container Name
+        # @see https://tailwindcss.com/docs/responsive-design#named-containers
+        ##
+        "container-named" => [IS_NAMED_CONTAINER_QUERY],
+        ##
         # Columns
         # @see https://tailwindcss.com/docs/columns
         ##
@@ -1019,6 +1031,11 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/text-indent
         ##
         "indent" => [{ "indent" => SCALE_UNAMBIGUOUS_SPACING.call }],
+        ##
+        # Tab Size
+        # @see https://tailwindcss.com/docs/tab-size
+        ##
+        "tab-size" => [{ "tab" => [IS_INTEGER, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }],
         ##
         # Vertical Alignment
         # @see https://tailwindcss.com/docs/vertical-align
@@ -1965,6 +1982,11 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/translate
         ##
         "translate-none" => ["translate-none"],
+        ##
+        # Zoom
+        # @see https://tailwindcss.com/docs/zoom
+        ##
+        "zoom" => [{ "zoom" => [IS_INTEGER, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE] }],
 
         ###############
         # Interactivity
@@ -2060,6 +2082,26 @@ module TailwindMerge
         # @see https://tailwindcss.com/docs/scroll-behavior
         ##
         "scroll-behavior" => [{ "scroll" => ["auto", "smooth"] }],
+        ##
+        # Scrollbar Thumb Color
+        # @see https://tailwindcss.com/docs/scrollbar-color
+        ##
+        "scrollbar-thumb-color" => [{ "scrollbar-thumb" => SCALE_COLOR.call }],
+        ##
+        # Scrollbar Track Color
+        # @see https://tailwindcss.com/docs/scrollbar-color
+        ##
+        "scrollbar-track-color" => [{ "scrollbar-track" => SCALE_COLOR.call }],
+        ##
+        # Scrollbar Gutter
+        # @see https://tailwindcss.com/docs/scrollbar-gutter
+        ##
+        "scrollbar-gutter" => [{ "scrollbar-gutter" => ["auto", "stable", "both"] }],
+        ##
+        # Scrollbar Width
+        # @see https://tailwindcss.com/docs/scrollbar-width
+        ##
+        "scrollbar-w" => [{ "scrollbar" => ["auto", "thin", "none"] }],
         ##
         # Scroll Margin
         # @see https://tailwindcss.com/docs/scroll-margin
@@ -2266,6 +2308,7 @@ module TailwindMerge
         "forced-color-adjust" => [{ "forced-color-adjust" => ["auto", "none"] }],
       },
       conflicting_class_groups: {
+        "container-named" => ["container-type"],
         "overflow" => ["overflow-x", "overflow-y"],
         "overscroll" => ["overscroll-x", "overscroll-y"],
         "inset" => ["inset-x", "inset-y", "start", "end", "inset-bs", "inset-be", "top", "right", "bottom", "left"],
@@ -2383,6 +2426,7 @@ module TailwindMerge
       conflicting_class_group_modifiers: {
         "font-size" => ["leading"],
       },
+      postfix_lookup_class_groups: ["container-type"],
       order_sensitive_modifiers: [
         "*",
         "**",

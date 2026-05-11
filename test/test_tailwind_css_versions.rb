@@ -167,6 +167,110 @@ class TestTailwindCSSVersions < Minitest::Test
     assert_equal("w-8.5/11", @merger.merge("w-1/2 w-8.5/11"))
   end
 
+  def test_tailwind_4_3_scrollbar_features
+    assert_equal("scrollbar-none", @merger.merge("scrollbar-auto scrollbar-thin scrollbar-none"))
+    assert_equal(
+      "scrollbar-gutter-both",
+      @merger.merge("scrollbar-gutter-auto scrollbar-gutter-stable scrollbar-gutter-both"),
+    )
+
+    assert_equal(
+      "scrollbar-thumb-blue-500",
+      @merger.merge("scrollbar-thumb-red-500 scrollbar-thumb-blue-500"),
+    )
+    assert_equal(
+      "scrollbar-thumb-red-500/50",
+      @merger.merge("scrollbar-thumb-red-500 scrollbar-thumb-red-500/50"),
+    )
+    assert_equal(
+      "scrollbar-thumb-(--thumb-color)",
+      @merger.merge("scrollbar-thumb-[#0088cc] scrollbar-thumb-(--thumb-color)"),
+    )
+
+    assert_equal(
+      "scrollbar-track-blue-500",
+      @merger.merge("scrollbar-track-red-500 scrollbar-track-blue-500"),
+    )
+    assert_equal(
+      "scrollbar-track-[color:var(--track-color)]",
+      @merger.merge("scrollbar-track-red-500 scrollbar-track-[color:var(--track-color)]"),
+    )
+
+    assert_equal(
+      "scrollbar-thin scrollbar-thumb-red-500 scrollbar-track-blue-500",
+      @merger.merge("scrollbar-thin scrollbar-thumb-red-500 scrollbar-track-blue-500"),
+    )
+  end
+
+  def test_tailwind_4_3_container_query_container_features
+    assert_equal("@container-size", @merger.merge("@container @container-normal @container-size"))
+    assert_equal(
+      "@container-(--container-type)",
+      @merger.merge("@container-[inline-size] @container-(--container-type)"),
+    )
+
+    assert_equal("@container-size/sidebar", @merger.merge("@container @container-size/sidebar"))
+    assert_equal(
+      "@container-size/sidebar",
+      @merger.merge("@container-normal @container-size/sidebar"),
+    )
+    assert_equal(
+      "@container-size/sidebar @container",
+      @merger.merge("@container-size/sidebar @container"),
+    )
+    assert_equal(
+      "@container/sidebar @container-normal",
+      @merger.merge("@container/sidebar @container-normal"),
+    )
+
+    assert_equal(
+      "@container-size/content",
+      @merger.merge("@container/sidebar @container-normal/sidebar @container-size/content"),
+    )
+    assert_equal(
+      "@container-normal/content @container-size",
+      @merger.merge("@container/sidebar @container-normal/content @container-size"),
+    )
+    assert_equal("@container/sidebar", @merger.merge("@container-size @container/sidebar"))
+
+    assert_equal(
+      "@container-normal/(--container-name)",
+      @merger.merge("@container-size/[sidebar] @container-normal/(--container-name)"),
+    )
+    assert_equal(
+      "hover:@container-size/sidebar",
+      @merger.merge("hover:@container hover:@container-size/sidebar"),
+    )
+    assert_equal(
+      "hover:@container-size/sidebar hover:@container",
+      @merger.merge("hover:@container-size/sidebar hover:@container"),
+    )
+    assert_equal("@container-size/sidebar!", @merger.merge("@container! @container-size/sidebar!"))
+    assert_equal(
+      "@container-size/sidebar! @container!",
+      @merger.merge("@container-size/sidebar! @container!"),
+    )
+
+    assert_equal(
+      "@container-foo/sidebar @container-size/sidebar",
+      @merger.merge("@container-foo/sidebar @container-size/sidebar"),
+    )
+  end
+
+  def test_tailwind_4_3_zoom_features
+    assert_equal("zoom-100", @merger.merge("zoom-50 zoom-100"))
+    assert_equal("zoom-[var(--zoom)]", @merger.merge("zoom-100 zoom-[var(--zoom)]"))
+    assert_equal("zoom-(--zoom)", @merger.merge("zoom-[1.5] zoom-(--zoom)"))
+    assert_equal("zoom-50 scale-125", @merger.merge("zoom-50 scale-125"))
+  end
+
+  def test_tailwind_4_3_tab_size_features
+    assert_equal("tab-8", @merger.merge("tab-2 tab-8"))
+    assert_equal("tab-[12px]", @merger.merge("tab-8 tab-[12px]"))
+    assert_equal("tab-(--tab-size)", @merger.merge("tab-[3] tab-(--tab-size)"))
+    assert_equal("tab-4 tabular-nums", @merger.merge("tab-4 tabular-nums"))
+  end
+
   def test_tailwind_4_15_features
     assert_equal("h-lh", @merger.merge("h-12 h-lh"))
     assert_equal("min-h-lh", @merger.merge("min-h-12 min-h-lh"))
