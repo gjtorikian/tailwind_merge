@@ -25,6 +25,7 @@ module TailwindMerge
       @config[:important_modifier] = @config[:important_modifier].to_s
       @class_utils = TailwindMerge::ClassGroupUtils.new(@config)
       @cache = LruRedux::Cache.new(@config[:cache_size], @config[:ignore_empty_cache])
+      @postfix_lookup_class_group_ids = build_postfix_lookup_class_group_ids(@config[:postfix_lookup_class_groups])
     end
 
     def merge(classes)
@@ -62,8 +63,21 @@ module TailwindMerge
         end
 
         has_postfix_modifier = maybe_postfix_modifier_position ? true : false
-        actual_base_class_name = has_postfix_modifier ? base_class_name[0...maybe_postfix_modifier_position] : base_class_name
-        class_group_id = @class_utils.class_group_id(actual_base_class_name)
+
+        if has_postfix_modifier
+          base_class_name_without_postfix = base_class_name[0...maybe_postfix_modifier_position]
+          class_group_id = @class_utils.class_group_id(base_class_name_without_postfix)
+
+          if class_group_id && @postfix_lookup_class_group_ids[class_group_id]
+            class_group_id_with_postfix = @class_utils.class_group_id(base_class_name)
+            if class_group_id_with_postfix && class_group_id_with_postfix != class_group_id
+              class_group_id = class_group_id_with_postfix
+              has_postfix_modifier = false
+            end
+          end
+        else
+          class_group_id = @class_utils.class_group_id(base_class_name)
+        end
 
         unless class_group_id
           unless has_postfix_modifier
@@ -102,6 +116,14 @@ module TailwindMerge
       end
 
       merged_classes.reverse.join(" ")
+    end
+
+    private def build_postfix_lookup_class_group_ids(class_group_ids)
+      lookup = {}
+      return lookup unless class_group_ids
+
+      class_group_ids.each { |id| lookup[id] = true }
+      lookup
     end
   end
 end

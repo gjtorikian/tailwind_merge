@@ -86,6 +86,12 @@ module TailwindMerge
       !IS_ARBITRARY_VALUE.call(value) && !IS_ARBITRARY_VARIABLE.call(value)
     }
 
+    NAMED_CONTAINER_QUERY_REGEX = %r{\A@container(?:-size|-normal)?/.+\z}
+
+    IS_NAMED_CONTAINER_QUERY = ->(value) {
+      NAMED_CONTAINER_QUERY_REGEX.match?(value)
+    }
+
     IS_ARBITRARY_SIZE = ->(value) {
       arbitrary_value?(value, IS_LABEL_SIZE, IS_NEVER)
     }

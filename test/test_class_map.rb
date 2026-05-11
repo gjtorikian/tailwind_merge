@@ -41,12 +41,13 @@ class TestClassMap < Minitest::Test
     end
 
     refute(@class_map[:class_group_id])
-    assert_equal(0, @class_map[:validators].length)
+    assert_equal(["container-named"], @class_map[:validators].map { |v| v[:class_group_id] })
 
     result = result.sort.to_h
 
     assert_equal(
       {
+        "@container" => ["container-type"],
         "absolute" => ["position"],
         "accent" => ["accent"],
         "align" => ["vertical-align"],
@@ -337,6 +338,12 @@ class TestClassMap < Minitest::Test
           "scroll-px",
           "scroll-py",
         ],
+        "scrollbar" => [
+          "scrollbar-gutter",
+          "scrollbar-thumb-color",
+          "scrollbar-track-color",
+          "scrollbar-w",
+        ],
         "select" => ["select"],
         "self" => ["align-self"],
         "sepia" => ["sepia"],
@@ -354,6 +361,7 @@ class TestClassMap < Minitest::Test
         "sticky" => ["position"],
         "stroke" => ["stroke", "stroke-w"],
         "subpixel" => ["font-smoothing"],
+        "tab" => ["tab-size"],
         "table" => ["display", "table-layout"],
         "tabular" => ["fvn-spacing"],
         "text" => [
@@ -382,6 +390,7 @@ class TestClassMap < Minitest::Test
         "will" => ["will-change"],
         "wrap" => ["wrap"],
         "z" => ["z"],
+        "zoom" => ["zoom"],
       },
       result,
     )
