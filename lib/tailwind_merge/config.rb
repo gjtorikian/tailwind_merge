@@ -2444,18 +2444,32 @@ module TailwindMerge
     }.freeze
 
     def merge_config(incoming_config)
-      extended_config = TailwindMerge::Config::DEFAULTS.dup
+      extended_config = duplicate_config_value(TailwindMerge::Config::DEFAULTS)
 
-      incoming_theme = incoming_config.delete(:theme) || {}
+      incoming_theme = incoming_config.fetch(:theme, nil) || {}
       # if the incoming config has a theme, we...
       incoming_theme.each_pair do |key, scales|
         # ...add new scales to the existing ones
+        extended_config[:theme][key] ||= []
         extended_config[:theme][key] << ->(klass) {
           scales.include?(klass)
         }
       end
 
-      extended_config.merge(incoming_config)
+      extended_config.merge(incoming_config.reject { |key, _| key == :theme })
+    end
+
+    private def duplicate_config_value(value)
+      case value
+      when Hash
+        value.each_with_object({}) do |(key, child_value), copy|
+          copy[key] = duplicate_config_value(child_value)
+        end
+      when Array
+        value.map { |child_value| duplicate_config_value(child_value) }
+      else
+        value
+      end
     end
   end
 end
