@@ -2444,7 +2444,8 @@ module TailwindMerge
     }.freeze
 
     def merge_config(incoming_config)
-      extended_config = duplicate_config_value(TailwindMerge::Config::DEFAULTS)
+      extended_config = TailwindMerge::Config::DEFAULTS.dup
+      extended_config[:theme] = TailwindMerge::Config::DEFAULTS[:theme].transform_values(&:dup)
 
       incoming_theme = incoming_config.fetch(:theme, nil) || {}
       # if the incoming config has a theme, we...
@@ -2457,19 +2458,6 @@ module TailwindMerge
       end
 
       extended_config.merge(incoming_config.reject { |key, _| key == :theme })
-    end
-
-    private def duplicate_config_value(value)
-      case value
-      when Hash
-        value.each_with_object({}) do |(key, child_value), copy|
-          copy[key] = duplicate_config_value(child_value)
-        end
-      when Array
-        value.map { |child_value| duplicate_config_value(child_value) }
-      else
-        value
-      end
     end
   end
 end
