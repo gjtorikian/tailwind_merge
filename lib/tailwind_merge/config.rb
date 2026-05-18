@@ -2445,17 +2445,19 @@ module TailwindMerge
 
     def merge_config(incoming_config)
       extended_config = TailwindMerge::Config::DEFAULTS.dup
+      extended_config[:theme] = TailwindMerge::Config::DEFAULTS[:theme].dup
 
-      incoming_theme = incoming_config.delete(:theme) || {}
+      incoming_theme = incoming_config.fetch(:theme, nil) || {}
       # if the incoming config has a theme, we...
       incoming_theme.each_pair do |key, scales|
         # ...add new scales to the existing ones
+        extended_config[:theme][key] = extended_config[:theme][key].dup
         extended_config[:theme][key] << ->(klass) {
           scales.include?(klass)
         }
       end
 
-      extended_config.merge(incoming_config)
+      extended_config.merge(incoming_config.reject { |key, _| key == :theme })
     end
   end
 end
