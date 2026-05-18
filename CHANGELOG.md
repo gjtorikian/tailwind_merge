@@ -1,3 +1,11 @@
+# [v1.5.1] - 18-05-2026
+## What's Changed
+* Fix memory leak when passing  in config by @ibrahima in https://github.com/gjtorikian/tailwind_merge/pull/77
+
+## New Contributors
+* @ibrahima made their first contribution in https://github.com/gjtorikian/tailwind_merge/pull/77
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v1.5.0...v1.5.1
 # [v1.5.0] - 11-05-2026
 ## What's Changed
 * Add TW 4.3 features by @gjtorikian in https://github.com/gjtorikian/tailwind_merge/pull/75
