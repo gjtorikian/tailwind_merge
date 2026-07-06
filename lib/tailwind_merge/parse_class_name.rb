@@ -9,6 +9,13 @@ module TailwindMerge
     MODIFIER_SEPARATOR = ":"
     MODIFIER_SEPARATOR_LENGTH = MODIFIER_SEPARATOR.length
 
+    MODIFIER_SEPARATOR_BYTE = MODIFIER_SEPARATOR.ord
+    POSTFIX_SEPARATOR_BYTE = "/".ord
+    OPEN_BRACKET_BYTE = "[".ord
+    CLOSE_BRACKET_BYTE = "]".ord
+    OPEN_PAREN_BYTE = "(".ord
+    CLOSE_PAREN_BYTE = ")".ord
+
     ##
     # Parse class name into parts.
     #
@@ -37,25 +44,39 @@ module TailwindMerge
       modifier_start = 0
       postfix_modifier_position = nil
 
-      class_name.each_char.with_index do |char, index|
+      # Byte-wise scan: all separators are ASCII, so byte positions are safe
+      # for multibyte class names (UTF-8 continuation bytes never match ASCII).
+      # Positions produced here (including maybe_postfix_modifier_position)
+      # are byte offsets and must be consumed with String#byteslice.
+      index = 0
+      size = class_name.bytesize
+      while index < size
+        byte = class_name.getbyte(index)
+
         if bracket_depth.zero? && paren_depth.zero?
-          if char == MODIFIER_SEPARATOR
-            modifiers << class_name[modifier_start...index]
+          if byte == MODIFIER_SEPARATOR_BYTE
+            modifiers << class_name.byteslice(modifier_start, index - modifier_start)
             modifier_start = index + MODIFIER_SEPARATOR_LENGTH
+            index += 1
             next
-          elsif char == "/"
+          elsif byte == POSTFIX_SEPARATOR_BYTE
             postfix_modifier_position = index
+            index += 1
             next
           end
         end
 
-        bracket_depth += 1 if char == "["
-        bracket_depth -= 1 if char == "]"
-        paren_depth += 1 if char == "("
-        paren_depth -= 1 if char == ")"
+        case byte
+        when OPEN_BRACKET_BYTE then bracket_depth += 1
+        when CLOSE_BRACKET_BYTE then bracket_depth -= 1
+        when OPEN_PAREN_BYTE then paren_depth += 1
+        when CLOSE_PAREN_BYTE then paren_depth -= 1
+        end
+
+        index += 1
       end
 
-      base_class_name_with_important_modifier = modifiers.empty? ? class_name : class_name[modifier_start..]
+      base_class_name_with_important_modifier = modifiers.empty? ? class_name : class_name.byteslice(modifier_start, size - modifier_start)
 
       base_class_name, has_important_modifier = strip_important_modifier(base_class_name_with_important_modifier)
 

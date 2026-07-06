@@ -97,7 +97,7 @@ module TailwindMerge
     }
 
     IS_ARBITRARY_VALUE = ->(value) {
-      ARBITRARY_VALUE_REGEX.match(value)
+      ARBITRARY_VALUE_REGEX.match?(value)
     }
 
     IS_ARBITRARY_LENGTH = ->(value) {
@@ -129,7 +129,7 @@ module TailwindMerge
     }
 
     IS_ARBITRARY_VARIABLE = ->(value) {
-      ARBITRARY_VARIABLE_REGEX.match(value)
+      ARBITRARY_VARIABLE_REGEX.match?(value)
     }
 
     IS_ARBITRARY_VARIABLE_LENGTH = ->(value) {

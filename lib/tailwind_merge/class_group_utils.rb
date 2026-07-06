@@ -23,25 +23,26 @@ module TailwindMerge
       get_group_recursive(class_parts, @class_map) || get_group_id_for_arbitrary_property(class_name)
     end
 
-    def get_group_recursive(class_parts, class_part_object)
-      return class_part_object[:class_group_id] if class_parts.empty?
+    def get_group_recursive(class_parts, class_part_object, index = 0)
+      return class_part_object[:class_group_id] if index == class_parts.length
 
-      current_class_part = class_parts.first
+      current_class_part = class_parts[index]
 
       next_class_part_object = class_part_object[:next_part][current_class_part]
 
       if next_class_part_object
-        class_group_from_next_class_part = get_group_recursive(class_parts.drop(1), next_class_part_object)
+        class_group_from_next_class_part = get_group_recursive(class_parts, next_class_part_object, index + 1)
         return class_group_from_next_class_part if class_group_from_next_class_part
       end
 
       return if class_part_object[:validators].empty?
 
-      class_rest = class_parts.join(CLASS_PART_SEPARATOR)
+      class_rest = index.zero? ? class_parts.join(CLASS_PART_SEPARATOR) : class_parts[index..].join(CLASS_PART_SEPARATOR)
 
+      # Theme procs are expanded at trie-build time (see process_classes_recursively),
+      # so validators here are always plain value validators.
       result = class_part_object[:validators].find do |v|
-        validator = v[:validator]
-        from_theme?(validator) ? validator.call(@config) : validator.call(class_rest)
+        v[:validator].call(class_rest)
       end
 
       result&.fetch(:class_group_id, nil)
