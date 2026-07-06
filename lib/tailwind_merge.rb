@@ -24,7 +24,7 @@ module TailwindMerge
       @config = merge_config(config)
       @config[:important_modifier] = @config[:important_modifier].to_s
       @class_utils = TailwindMerge::ClassGroupUtils.new(@config)
-      @cache = LruRedux::Cache.new(@config[:cache_size], @config[:ignore_empty_cache])
+      @cache = LruRedux::ThreadSafeCache.new(@config[:cache_size], @config[:ignore_empty_cache])
       @postfix_lookup_class_group_ids = build_postfix_lookup_class_group_ids(@config[:postfix_lookup_class_groups])
     end
 
