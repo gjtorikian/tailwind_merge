@@ -6,6 +6,19 @@ module TailwindMerge
   module Config
     include Validators
 
+    class << self
+      # Recursively freezes nested Hash/Array structures so shared config
+      # constants can't be mutated in place. Keys are strings/symbols and are
+      # already immutable, so only values need walking.
+      private def deep_freeze(object)
+        case object
+        when Hash then object.each_value { |value| deep_freeze(value) }
+        when Array then object.each { |value| deep_freeze(value) }
+        end
+        object.freeze
+      end
+    end
+
     THEME_KEYS = [
       "color",
       "font",
@@ -2441,7 +2454,8 @@ module TailwindMerge
         "placeholder",
         "selection",
       ],
-    }.freeze
+    }
+    deep_freeze(DEFAULTS)
 
     def merge_config(incoming_config)
       extended_config = TailwindMerge::Config::DEFAULTS.dup
