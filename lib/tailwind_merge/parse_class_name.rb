@@ -6,6 +6,7 @@ module TailwindMerge
 
   module ParseClassName
     IMPORTANT_MODIFIER = "!"
+    EMPTY_MODIFIERS = [].freeze
     MODIFIER_SEPARATOR = ":"
     MODIFIER_SEPARATOR_LENGTH = MODIFIER_SEPARATOR.length
 
@@ -29,7 +30,7 @@ module TailwindMerge
         else
           return TailwindClass.new(
             is_external: true,
-            modifiers: [],
+            modifiers: EMPTY_MODIFIERS,
             has_important_modifier: false,
             base_class_name: class_name,
             maybe_postfix_modifier_position: nil,
@@ -37,7 +38,9 @@ module TailwindMerge
         end
       end
 
-      modifiers = []
+      # Stays nil until the first modifier separator, so the common no-modifier
+      # class (`px-2`, `block`) never allocates an array.
+      modifiers = nil
 
       bracket_depth = 0
       paren_depth = 0
@@ -55,7 +58,7 @@ module TailwindMerge
 
         if bracket_depth.zero? && paren_depth.zero?
           if byte == MODIFIER_SEPARATOR_BYTE
-            modifiers << class_name.byteslice(modifier_start, index - modifier_start)
+            (modifiers ||= []) << class_name.byteslice(modifier_start, index - modifier_start)
             modifier_start = index + MODIFIER_SEPARATOR_LENGTH
             index += 1
             next
@@ -76,7 +79,7 @@ module TailwindMerge
         index += 1
       end
 
-      base_class_name_with_important_modifier = modifiers.empty? ? class_name : class_name.byteslice(modifier_start, size - modifier_start)
+      base_class_name_with_important_modifier = modifiers ? class_name.byteslice(modifier_start, size - modifier_start) : class_name
 
       base_class_name, has_important_modifier = strip_important_modifier(base_class_name_with_important_modifier)
 
@@ -86,7 +89,7 @@ module TailwindMerge
 
       TailwindClass.new(
         is_external: false,
-        modifiers:,
+        modifiers: modifiers || EMPTY_MODIFIERS,
         has_important_modifier:,
         base_class_name: base_class_name,
         maybe_postfix_modifier_position:,
