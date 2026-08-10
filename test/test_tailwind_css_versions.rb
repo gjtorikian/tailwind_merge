@@ -65,6 +65,12 @@ class TestTailwindCSSVersions < Minitest::Test
 
     assert_equal("via-(--mobile-header-gradient)", @merger.merge("via-red-500 via-(--mobile-header-gradient)"))
     assert_equal("via-red-500 via-(length:--mobile-header-gradient)", @merger.merge("via-red-500 via-(length:--mobile-header-gradient)"))
+
+    # shadow-inner is deprecated in v4 but still sets --tw-shadow, so it conflicts
+    # with other shadow utilities and not with shadow color utilities.
+    assert_equal("shadow-lg", @merger.merge("shadow-inner shadow-lg"))
+    assert_equal("shadow-inner", @merger.merge("shadow-lg shadow-inner"))
+    assert_equal("shadow-initial shadow-inner", @merger.merge("shadow-initial shadow-inner"))
   end
 
   def test_tailwind_4_1_features

@@ -1445,6 +1445,8 @@ module TailwindMerge
             "shadow" => [
               # Deprecated since Tailwind CSS v4.0.0
               "",
+              # Deprecated since Tailwind CSS v4.0.0
+              "inner",
               "none",
               THEME_SHADOW,
               IS_ARBITRARY_VARIABLE_SHADOW,
