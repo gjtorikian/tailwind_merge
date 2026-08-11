@@ -1,3 +1,11 @@
+# [v1.5.2] - 11-08-2026
+## What's Changed
+* fix: thread-safety of Merger's internal LRU cache by @svyatov in https://github.com/gjtorikian/tailwind_merge/pull/79
+* perf: reduce allocations in merge hot path (~35% faster, ~56% fewer allocations) by @svyatov in https://github.com/gjtorikian/tailwind_merge/pull/80
+* [skip test] Release v1.5.2 by @github-actions[bot] in https://github.com/gjtorikian/tailwind_merge/pull/81
+
+
+**Full Changelog**: https://github.com/gjtorikian/tailwind_merge/compare/v1.5.1...v1.5.2
 # [v1.5.2] - 06-07-2026
 ## What's Changed
 * fix: thread-safety of Merger's internal LRU cache by @svyatov in https://github.com/gjtorikian/tailwind_merge/pull/79
