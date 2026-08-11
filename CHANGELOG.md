@@ -1,3 +1,19 @@
+## [1.5.3](https://github.com/gjtorikian/tailwind_merge/compare/v1.5.2...v1.5.3) (2026-08-11)
+
+### Bug Fixes
+
+* **config:** classify shadow-inner into the shadow class group ([99bccc2](https://github.com/gjtorikian/tailwind_merge/commit/99bccc2b66d5a6e94735515676102534a3f29e37))
+
+### Performance Improvements
+
+* **parse:** skip modifiers array alloc for no-modifier classes ([0ee620e](https://github.com/gjtorikian/tailwind_merge/commit/0ee620e7e464074fb490fd363afaa5b404a4faf4))
+
+### Miscellaneous Chores
+
+* trigger release-please run ([65e80ae](https://github.com/gjtorikian/tailwind_merge/commit/65e80ae41d08e813c0d6ce9317aa235454bfc935))
+* **config:** deep-freeze DEFAULTS to prevent global-state mutation ([9bf4778](https://github.com/gjtorikian/tailwind_merge/commit/9bf47789b778b4d1e0503e9b69ce30d407826483))
+
+
 # [v1.5.2] - 06-07-2026
 ## What's Changed
 * fix: thread-safety of Merger's internal LRU cache by @svyatov in https://github.com/gjtorikian/tailwind_merge/pull/79
