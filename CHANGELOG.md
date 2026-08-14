@@ -1,3 +1,10 @@
+## [1.5.4](https://github.com/gjtorikian/tailwind_merge/compare/v1.5.3...v1.5.4) (2026-08-13)
+
+### Bug Fixes
+
+* **config:** axis shorthands override logical sides ([#87](https://github.com/gjtorikian/tailwind_merge/pull/87))
+
+
 ## [1.5.3](https://github.com/gjtorikian/tailwind_merge/compare/v1.5.2...v1.5.3) (2026-08-11)
 
 ### Bug Fixes
