@@ -1144,7 +1144,7 @@ module TailwindMerge
                   IS_ARBITRARY_VALUE,
                 ],
                 "radial" => ["", IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE],
-                "conic" => [IS_INTEGER, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE],
+                "conic" => ["", IS_INTEGER, IS_ARBITRARY_VARIABLE, IS_ARBITRARY_VALUE],
               },
               IS_ARBITRARY_VARIABLE_IMAGE,
               IS_ARBITRARY_IMAGE,
