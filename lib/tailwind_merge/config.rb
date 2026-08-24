@@ -117,6 +117,7 @@ module TailwindMerge
     }
     SCALE_SIZING_INLINE = -> {
       [
+        THEME_CONTAINER,
         IS_FRACTION,
         "screen",
         "full",
