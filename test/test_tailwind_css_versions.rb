@@ -164,6 +164,9 @@ class TestTailwindCSSVersions < Minitest::Test
     assert_equal("max-inline-none", @merger.merge("max-inline-full max-inline-none"))
     assert_equal("min-block-auto", @merger.merge("min-block-full min-block-auto"))
     assert_equal("max-block-none", @merger.merge("max-block-full max-block-none"))
+    assert_equal("inline-3xl", @merger.merge("inline-2xl inline-3xl"))
+    assert_equal("min-inline-1/2", @merger.merge("min-inline-xs min-inline-1/2"))
+    assert_equal("max-inline-xl", @merger.merge("max-inline-svw max-inline-xl"))
 
     # Font feature settings
     assert_equal("font-features-[\"tnum\"]", @merger.merge("font-features-[\"smcp\"] font-features-[\"tnum\"]"))
