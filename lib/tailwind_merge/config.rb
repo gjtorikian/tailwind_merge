@@ -276,7 +276,7 @@ module TailwindMerge
         # Columns
         # @see https://tailwindcss.com/docs/columns
         ##
-        "columns" => [{ "columns" => [IS_TSHIRT_SIZE] }],
+        "columns" => [{ "columns" => [IS_NUMBER, "auto", IS_ARBITRARY_VALUE, IS_ARBITRARY_VARIABLE, THEME_CONTAINER] }],
         ##
         # Break After
         # @see https://tailwindcss.com/docs/break-after

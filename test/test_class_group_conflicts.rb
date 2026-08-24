@@ -15,6 +15,8 @@ class TestClassGroupConflicts < Minitest::Test
     assert_equal("hover:overflow-x-hidden overflow-x-scroll", @merger.merge("overflow-x-auto hover:overflow-x-hidden overflow-x-scroll"))
     assert_equal("hover:overflow-x-auto overflow-x-scroll", @merger.merge("overflow-x-auto hover:overflow-x-hidden hover:overflow-x-auto overflow-x-scroll"))
     assert_equal("col-span-full", @merger.merge("col-span-1 col-span-full"))
+    assert_equal("columns-auto", @merger.merge("columns-12 columns-auto"))
+    assert_equal("columns-2xl", @merger.merge("columns-auto columns-2xl"))
     assert_equal("gap-px basis-3", @merger.merge("gap-2 gap-px basis-px basis-3"))
   end
 
