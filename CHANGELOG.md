@@ -1,3 +1,17 @@
+## [1.5.5](https://github.com/gjtorikian/tailwind_merge/compare/v1.5.4...v1.5.5) (2026-08-24)
+
+### Bug Fixes
+
+* **config:** merge bare bg-conic with other background image classes ([#92](https://github.com/gjtorikian/tailwind_merge/pull/92))
+* **config:** make columns-auto conflict with other columns classes ([#91](https://github.com/gjtorikian/tailwind_merge/pull/91))
+* **config:** support container scale in inline sizing groups ([#90](https://github.com/gjtorikian/tailwind_merge/pull/90))
+* **config:** add none option to max-h class group ([#89](https://github.com/gjtorikian/tailwind_merge/pull/89))
+
+### Miscellaneous Chores
+
+* add port-upstream skill ([#93](https://github.com/gjtorikian/tailwind_merge/pull/93))
+
+
 ## [1.5.4](https://github.com/gjtorikian/tailwind_merge/compare/v1.5.3...v1.5.4) (2026-08-13)
 
 ### Bug Fixes
