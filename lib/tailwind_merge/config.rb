@@ -696,22 +696,22 @@ module TailwindMerge
         # Margin X
         # @see https://tailwindcss.com/docs/margin
         ##
-        "mx" => [{ "mx" => SCALE_MARGIN.call  }],
+        "mx" => [{ "mx" => SCALE_MARGIN.call }],
         ##
         # Margin Y
         # @see https://tailwindcss.com/docs/margin
         ##
-        "my" => [{ "my" => SCALE_MARGIN.call  }],
+        "my" => [{ "my" => SCALE_MARGIN.call }],
         #
         # Margin Start
         # @see https://tailwindcss.com/docs/margin
         #
-        "ms" => [{ "ms" => SCALE_MARGIN.call  }],
+        "ms" => [{ "ms" => SCALE_MARGIN.call }],
         #
         # Margin End
         # @see https://tailwindcss.com/docs/margin
         #
-        "me" => [{ "me" => SCALE_MARGIN.call  }],
+        "me" => [{ "me" => SCALE_MARGIN.call }],
         #
         # Margin Block Start
         # @see https://tailwindcss.com/docs/margin
@@ -731,17 +731,17 @@ module TailwindMerge
         # Margin Right
         # @see https://tailwindcss.com/docs/margin
         ##
-        "mr" => [{ "mr" => SCALE_MARGIN.call  }],
+        "mr" => [{ "mr" => SCALE_MARGIN.call }],
         ##
         # Margin Bottom
         # @see https://tailwindcss.com/docs/margin
         ##
-        "mb" => [{ "mb" => SCALE_MARGIN.call  }],
+        "mb" => [{ "mb" => SCALE_MARGIN.call }],
         ##
         # Margin Left
         # @see https://tailwindcss.com/docs/margin
         ##
-        "ml" => [{ "ml" => SCALE_MARGIN.call  }],
+        "ml" => [{ "ml" => SCALE_MARGIN.call }],
         ##
         # Space Between X
         # @see https://tailwindcss.com/docs/margin#adding-space-between-children
@@ -849,7 +849,7 @@ module TailwindMerge
         # Max-Height
         # @see https://tailwindcss.com/docs/max-height
         ##
-        "max-h" => [{ "max-h" => ["screen", "lh", *SCALE_SIZING.call] }],
+        "max-h" => [{ "max-h" => ["screen", "lh", "none", *SCALE_SIZING.call] }],
 
         ############
         # Typography

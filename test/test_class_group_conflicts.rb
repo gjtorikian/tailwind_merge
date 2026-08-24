@@ -18,6 +18,15 @@ class TestClassGroupConflicts < Minitest::Test
     assert_equal("gap-px basis-3", @merger.merge("gap-2 gap-px basis-px basis-3"))
   end
 
+  def test_merges_none_values_in_sizing_groups_correctly
+    assert_equal("max-w-none", @merger.merge("max-w-lg max-w-none"))
+    assert_equal("max-w-lg", @merger.merge("max-w-none max-w-lg"))
+    assert_equal("max-h-none", @merger.merge("max-h-96 max-h-none"))
+    assert_equal("max-h-96", @merger.merge("max-h-none max-h-96"))
+    assert_equal("max-h-none", @merger.merge("max-h-[300px] max-h-none"))
+    assert_equal("max-h-screen", @merger.merge("max-h-none max-h-screen"))
+  end
+
   def test_merges_classes_from_font_variant_numeric_section_correctly
     assert_equal("lining-nums tabular-nums diagonal-fractions", @merger.merge("lining-nums tabular-nums diagonal-fractions"))
     assert_equal("tabular-nums diagonal-fractions", @merger.merge("normal-nums tabular-nums diagonal-fractions"))
