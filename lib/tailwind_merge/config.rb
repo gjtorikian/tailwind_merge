@@ -849,7 +849,7 @@ module TailwindMerge
         # Max-Height
         # @see https://tailwindcss.com/docs/max-height
         ##
-        "max-h" => [{ "max-h" => ["screen", "lh", *SCALE_SIZING.call] }],
+        "max-h" => [{ "max-h" => ["screen", "lh", "none", *SCALE_SIZING.call] }],
 
         ############
         # Typography
