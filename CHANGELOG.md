@@ -1,3 +1,11 @@
+## [1.5.6](https://github.com/gjtorikian/tailwind_merge/compare/v1.5.5...v1.5.6) (2026-09-13)
+
+### Bug Fixes
+
+* **validators:** don't classify color() and light-dark() as lengths ([#96](https://github.com/gjtorikian/tailwind_merge/pull/96))
+* **config:** keep leading-none in the leading class group ([#95](https://github.com/gjtorikian/tailwind_merge/pull/95))
+
+
 ## [1.5.5](https://github.com/gjtorikian/tailwind_merge/compare/v1.5.4...v1.5.5) (2026-08-24)
 
 ### Bug Fixes
