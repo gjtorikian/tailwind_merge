@@ -84,6 +84,8 @@ class TestValidators < Minitest::Test
     refute(IS_ARBITRARY_LENGTH.call("[12px"))
     refute(IS_ARBITRARY_LENGTH.call("12px]"))
     refute(IS_ARBITRARY_LENGTH.call("one"))
+    refute(IS_ARBITRARY_LENGTH.call("[color(display-p3_1_0_0/50%)]"))
+    refute(IS_ARBITRARY_LENGTH.call("[light-dark(white,rgb(0_0_0/50%))]"))
   end
 
   def test_is_arbitrary_number
